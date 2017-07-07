@@ -26,3 +26,7 @@
 
 config/secrets.yml
 config/database.yml
+
+.rspec
+capybara-*.html
+.DS_Store
