@@ -1,0 +1,11 @@
+language: ruby
+before_script:
+  - cp config/database.yml.example config/database.yml
+  - cp config/secrets.yml.example config/secrets.yml
+  - bundle exec rake db:reset
+  - bundle exec rake db:setup
+env:
+  - "DB_REQUIRED='true' RAILS_ENV=test TZ=Europe/London SUITE='rspec'"
+  - "SUITE=rubocop"
+script:
+  - "bundle exec $SUITE"
