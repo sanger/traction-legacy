@@ -45,6 +45,8 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'capybara'
+  gem 'launchy', require: false
 end
 
 group :development do
