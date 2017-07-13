@@ -1,6 +1,8 @@
-class Sample < ApplicationRecord
+# frozen_string_literal: true
 
-  enum qc_state: [:fail, :proceed_at_risk, :proceed]
+# A Sample
+class Sample < ApplicationRecord
+  enum qc_state: %i[fail proceed_at_risk proceed]
 
   validates :name, presence: true, uniqueness: true
 end

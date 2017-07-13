@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Sample, type: :model do
@@ -23,13 +25,12 @@ RSpec.describe Sample, type: :model do
     expect(sample.qc_state).to be_nil
 
     sample.fail!
-    expect(sample.qc_state).to eq("fail")
+    expect(sample.qc_state).to eq('fail')
 
     sample.proceed_at_risk!
-    expect(sample.qc_state).to eq("proceed_at_risk")
+    expect(sample.qc_state).to eq('proceed_at_risk')
 
     sample.proceed!
-    expect(sample.qc_state).to eq("proceed")
-
+    expect(sample.qc_state).to eq('proceed')
   end
 end

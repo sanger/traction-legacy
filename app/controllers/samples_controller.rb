@@ -1,5 +1,7 @@
-class SamplesController < ApplicationController
+# frozen_string_literal: true
 
+# Samples Controller
+class SamplesController < ApplicationController
   attr_reader :samples
 
   def index
@@ -30,5 +32,4 @@ class SamplesController < ApplicationController
   end
 
   helper_method :samples
-
 end

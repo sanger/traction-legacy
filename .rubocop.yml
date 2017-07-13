@@ -1,0 +1,16 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - db/seeds.rb
+    - db/migrate/*
+    - config/initializers/backtrace_silencers.rb
+    - config/environments/*
+    - config/application.rb
+    - bin/webpack-dev-server
+    - app/models/application_record.rb
+    - app/mailers/application_mailer.rb
+    - app/helpers/application_helper.rb
+    - app/controllers/application_controller.rb
+
+Metrics/LineLength:
+  Max: 100

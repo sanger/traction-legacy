@@ -1,7 +1,8 @@
-require "rails_helper"
+# frozen_string_literal: true
 
-RSpec.feature "Samples", type: :feature do 
+require 'rails_helper'
 
+RSpec.feature 'Samples', type: :feature do
   let!(:samples) { create_list(:sample, 5) }
 
   scenario 'List all samples' do
