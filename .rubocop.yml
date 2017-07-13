@@ -11,6 +11,7 @@ AllCops:
     - app/mailers/application_mailer.rb
     - app/helpers/application_helper.rb
     - app/controllers/application_controller.rb
+    - Gemfile
 
 Metrics/LineLength:
   Max: 100
