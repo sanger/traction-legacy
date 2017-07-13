@@ -1,5 +1,5 @@
 AllCops:
-  TargetRubyVersion: 2.4.1
+  TargetRubyVersion: 2.4
   Include:
     - Rakefile
     - config.ru
@@ -16,6 +16,7 @@ AllCops:
     - app/helpers/application_helper.rb
     - app/controllers/application_controller.rb
     - Gemfile
+    - vendor/**/*
 # The cop is meant to enforce conventions regarding variables containing numbers
 # However in 0.43.0 it is bugged. Both changed on master and disabled by default
 # The exclusions don't even get added to the rubocop_todo properly!
