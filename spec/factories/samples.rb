@@ -3,6 +3,7 @@
 FactoryGirl.define do
   factory :sample do
     sequence(:name) { |n| "SAMPLE-#{n}" }
+    tube
 
     factory :sample_after_qc do
       concentration 0.005

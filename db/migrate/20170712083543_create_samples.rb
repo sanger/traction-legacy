@@ -7,6 +7,7 @@ class CreateSamples < ActiveRecord::Migration[5.1]
       t.integer :fragment_size
       t.decimal :concentration, precision: 18, scale: 8
       t.integer :qc_state
+      t.references :tube, index: true, foreign_key: true
       t.timestamps
     end
   end
