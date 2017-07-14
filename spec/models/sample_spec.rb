@@ -6,7 +6,7 @@ RSpec.describe Sample, type: :model do
   it 'is not valid without a name' do
     expect(build(:sample, name: nil)).to_not be_valid
   end
-  
+
   it 'is not valid unless the name is unique' do
     sample = create(:sample)
     expect(build(:sample, name: sample.name)).to_not be_valid
