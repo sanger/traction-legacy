@@ -10,8 +10,7 @@ class SamplesController < ApplicationController
     @samples = Sample.all
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     sample = current_resource
