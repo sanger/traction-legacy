@@ -4,12 +4,13 @@
 class SamplesController < ApplicationController
   attr_reader :samples
 
+  before_action :set_sample, only: [:edit]
+
   def index
     @samples = Sample.all
   end
 
   def edit
-    @sample ||= current_resource
   end
 
   def update
@@ -22,6 +23,10 @@ class SamplesController < ApplicationController
   end
 
   protected
+
+  def set_sample
+    @sample ||= current_resource
+  end
 
   def current_resource
     @current_resource = Sample.find(params[:id]) if params[:id].present?
