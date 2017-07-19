@@ -1,0 +1,43 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Include:
+    - Rakefile
+    - config.ru
+    - lib/**/*.rake
+  Exclude:
+    - db/seeds.rb
+    - db/migrate/*
+    - config/initializers/backtrace_silencers.rb
+    - config/environments/*
+    - config/application.rb
+    - bin/webpack-dev-server
+    - app/models/application_record.rb
+    - app/mailers/application_mailer.rb
+    - app/helpers/application_helper.rb
+    - app/controllers/application_controller.rb
+    - Gemfile
+    - vendor/**/*
+# The cop is meant to enforce conventions regarding variables containing numbers
+# However in 0.43.0 it is bugged. Both changed on master and disabled by default
+# The exclusions don't even get added to the rubocop_todo properly!
+Style/VariableNumber:
+  Enabled: false
+# Enforces 1234565789 as 123_456_789: While nice when dealing with actual big
+# numbers, we're more likely to see it shout at us about barcodes.
+Style/NumericLiterals:
+  Enabled: false
+
+# Blocks are used to structure tests and are part of the shoulda dsl.
+# The standard BlockLength limits are too stringent for this purpose.
+# Block DSL is also used in routes
+Metrics/BlockLength:
+  Exclude:
+    - 'test/**/*'
+    - 'spec/**/*'
+    - 'config/routes.rb'
+
+Metrics/LineLength:
+  Max: 100
+
+Style/IndentArray:
+  EnforcedStyle: consistent
