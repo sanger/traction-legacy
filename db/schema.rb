@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170713142208) do
+ActiveRecord::Schema.define(version: 20170720084019) do
+
+  create_table "aliquots", force: :cascade do |t|
+    t.integer "fragment_size"
+    t.decimal "concentration", precision: 18, scale: 8
+    t.integer "qc_state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "samples", force: :cascade do |t|
     t.string "name"
@@ -20,6 +28,7 @@ ActiveRecord::Schema.define(version: 20170713142208) do
   end
 
   create_table "tubes", force: :cascade do |t|
+    t.string "barcode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
