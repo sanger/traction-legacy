@@ -1,13 +1,9 @@
-<%= form_for sample do |f| %>
+<%= form_for aliquot do |f| %>
   <fieldset>
     <legend>
-      Sample
+      Aliquot
     </legend>
     <ul>
-      <li>
-        Name:
-        <%= sample.name %>
-      </li>
       <li>
         <%= f.label :concentration %>
         <%= f.text_field :concentration %>
@@ -18,7 +14,7 @@
       </li>
       <li>
         <%= f.label :qc_state, 'QC state' %>
-        <%= f.select :qc_state, Sample.qc_states.keys %>
+        <%= f.select :qc_state, Aliquot.qc_states.keys %>
       </li>
     </ul>
     <%= f.submit %>

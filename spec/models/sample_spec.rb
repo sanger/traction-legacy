@@ -21,25 +21,9 @@ RSpec.describe Sample, type: :model do
     expect { sample.save }.to raise_error(ActiveRecord::ReadOnlyRecord)
   end
 
-  # it 'can have a concentration' do
-  #   expect(build(:sample, concentration: 0.003).concentration).to eq(0.003)
-  # end
+  it 'has an aliquot' do
+    sample = create(:sample)
+    expect(sample.aliquot).to_not be_nil
+  end
 
-  # it 'can have a fragment size' do
-  #   expect(build(:sample, fragment_size: 300).fragment_size).to eq(300)
-  # end
-
-  # it 'can have a qc state' do
-  #   sample = build(:sample)
-  #   expect(sample.qc_state).to be_nil
-
-  #   sample.fail!
-  #   expect(sample.qc_state).to eq('fail')
-
-  #   sample.proceed_at_risk!
-  #   expect(sample.qc_state).to eq('proceed_at_risk')
-
-  #   sample.proceed!
-  #   expect(sample.qc_state).to eq('proceed')
-  # end
 end

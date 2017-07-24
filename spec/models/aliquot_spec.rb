@@ -23,4 +23,16 @@ RSpec.describe Aliquot, type: :model do
     aliquot.proceed!
     expect(aliquot.qc_state).to eq('proceed')
   end
+
+  it 'must have a sample' do
+    expect(build(:aliquot, sample: nil)).to_not be_valid
+  end
+
+  it 'must have a tube' do
+    expect(build(:aliquot, tube: nil)).to_not be_valid
+  end
+
+  it 'can have a name' do
+    expect(build(:aliquot).name).to_not be_nil
+  end
 end

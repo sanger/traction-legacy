@@ -2,7 +2,6 @@
 
 # A tube
 class Tube < ApplicationRecord
-  has_one :sample
 
   after_create :generate_barcode
 

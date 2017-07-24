@@ -2,15 +2,15 @@
 
 require 'rails_helper'
 
-# RSpec.feature 'Samples', type: :feature do
-#   let!(:samples) { create_list(:sample, 5) }
+RSpec.feature 'Samples', type: :feature do
+  let!(:samples) { create_list(:sample, 5) }
 
-#   scenario 'List all samples' do
-#     visit samples_path
-#     samples.each do |sample|
-#       expect(page).to have_content(sample.name)
-#     end
-#   end
+  scenario 'List all samples' do
+    visit samples_path
+    samples.each do |sample|
+      expect(page).to have_content(sample.name)
+    end
+  end
 
 #   scenario 'QC a sample' do
 #     sample_info = build(:sample_after_qc)
@@ -29,4 +29,4 @@ require 'rails_helper'
 #     expect(page).to have_content('Sample successfully updated')
 #     expect(sample.reload).to be_proceed
 #   end
-# end
+end
