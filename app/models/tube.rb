@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-# A tube
+# A Tube
 class Tube < ApplicationRecord
 
+  has_one :library
+  
   after_create :generate_barcode
 
   private

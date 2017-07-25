@@ -1,0 +1,14 @@
+<%= form.fields_for :aliquot, work_order.aliquot do |aliquot| %>
+  <li>
+    <%= aliquot.label :concentration %>
+    <%= aliquot.text_field :concentration %>
+  </li>
+  <li>
+    <%= aliquot.label :fragment_size %>
+    <%= aliquot.text_field :fragment_size %>
+  </li>
+  <li>
+    <%= aliquot.label :qc_state, 'QC state' %>
+    <%= aliquot.select :qc_state, Aliquot.qc_states.keys %>
+  </li>
+<% end %>

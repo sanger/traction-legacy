@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :library do
-    aliquot
+    work_order
     
     sequence(:kit_number) { |n| "KIT-#{n}" }
     volume 0.03

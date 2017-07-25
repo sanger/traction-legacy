@@ -10,8 +10,12 @@ RSpec.describe Library, type: :model do
     expect(build(:library, volume: nil)).to_not be_valid
   end
 
-  it 'must have an aliquot' do
-    expect(build(:library, aliquot: nil)).to_not be_valid
+  it 'must have a work_order' do
+    expect(build(:library, work_order: nil)).to_not be_valid
+  end
+
+  it 'must have a tube' do
+    expect(build(:library).tube).to be_present
   end
   
 end

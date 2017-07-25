@@ -28,12 +28,12 @@ ActiveRecord::Schema.define(version: 20170721122554) do
     t.string "kit_number"
     t.string "ligase_batch_number"
     t.decimal "volume", precision: 18, scale: 8
-    t.integer "aliquot_id"
+    t.integer "work_order_id"
     t.integer "tube_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["aliquot_id"], name: "index_libraries_on_aliquot_id"
     t.index ["tube_id"], name: "index_libraries_on_tube_id"
+    t.index ["work_order_id"], name: "index_libraries_on_work_order_id"
   end
 
   create_table "samples", force: :cascade do |t|

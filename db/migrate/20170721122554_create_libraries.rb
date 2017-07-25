@@ -4,7 +4,7 @@ class CreateLibraries < ActiveRecord::Migration[5.1]
       t.string :kit_number
       t.string :ligase_batch_number
       t.decimal :volume, precision: 18, scale: 8
-      t.references :aliquot, index: true, foreign_key: true
+      t.references :work_order, index: true, foreign_key: true
       t.references :tube, index: true, foreign_key: true
       t.timestamps
     end

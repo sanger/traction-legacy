@@ -3,9 +3,13 @@
 # WorkOrders Controller
 class WorkOrdersController < ApplicationController
 
-  attr_reader :work_order
+  attr_reader :work_orders, :work_order
 
   before_action :set_work_order, only: [:edit, :show]
+
+  def index
+    @work_orders = WorkOrder.all
+  end
 
   def show; end
 
@@ -13,8 +17,8 @@ class WorkOrdersController < ApplicationController
 
   def update
     work_order = current_resource
-    binding.pry
     if work_order.update_attributes(work_order_params)
+      work_order.next_state!
       redirect_to work_order_path(work_order), notice: 'Work Order successfully updated'
     else
       render :edit
@@ -32,9 +36,9 @@ class WorkOrdersController < ApplicationController
   end
 
   def work_order_params
-    params.require(:work_order).permit(aliquot: [:concentration, :fragment_size, :qc_state] )
+    params.require(:work_order).permit(aliquot_attributes: [:id, :concentration, :fragment_size, :qc_state], library_attributes: [:volume, :kit_number, :ligase_batch_number] )
   end
 
-  helper_method :work_order
+  helper_method :work_orders, :work_order
 
 end

@@ -1,8 +1,0 @@
-<% samples.each do |sample| %>
-  <article id="<%= dom_id(sample) %>">
-    <div>
-      <%= sample.name %>
-      <%= link_to 'Edit', edit_sample_path(sample) %>
-    </div>
-  </article>
-<% end %>

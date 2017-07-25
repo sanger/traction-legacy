@@ -33,4 +33,36 @@ RSpec.describe WorkOrder, type: :model do
     work_order.update_attributes(uuid: SecureRandom.uuid)
     expect(work_order.reload.uuid).to eq(uuid)
   end
+
+  it '#next_state! will move work order to next state' do
+    work_order = create(:work_order)
+
+    work_order.next_state!
+    expect(work_order.reload).to be_qc
+
+    work_order.next_state!
+    expect(work_order.reload).to be_library_preparation
+
+    work_order.next_state!
+    expect(work_order.reload).to be_sequencing
+
+    work_order.next_state!
+    expect(work_order.reload).to be_completed
+
+    work_order.next_state!
+    expect(work_order.reload).to be_completed
+  end
+
+  it '#template will find current template for work order' do
+    work_order = create(:work_order)
+    expect(work_order.template).to eq(WorkOrder::TEMPLATES.first)
+
+    work_order.completed!
+    expect(work_order.template).to eq(WorkOrder::TEMPLATES.last)
+  end
+
+  it '#sample_name returns sample name' do
+    work_order = build(:work_order)
+    expect(work_order.sample_name).to eq(work_order.aliquot.sample.name)
+  end
 end
