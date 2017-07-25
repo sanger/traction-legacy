@@ -1,13 +1,25 @@
-<h2>Work Orders</h2>
-<table>
-  <th>Sample Name</th>
-  <th>State</th>
-  <th>&nbsp;</th>
-  <% work_orders.each do |work_order| %>
-    <tr id="<%= dom_id(work_order) %>">
-      <td><%= work_order.sample_name %></td>
-      <td><%= work_order.state %></td>
-      <td><%= link_to 'Edit', edit_work_order_path(work_order) %></td>
-    </tr>
-  <% end %>
-</table>
+<div class="title row">
+  <div class="col-md-12">
+    <h2>Work Orders</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <th>Sample Name</th>
+        <th>State</th>
+        <th>&nbsp;</th>
+      </thead>
+    <tbody>
+      <% work_orders.each do |work_order| %>
+        <tr id="<%= dom_id(work_order) %>">
+          <td><%= work_order.sample_name %></td>
+          <td><%= work_order.state %></td>
+          <td><%= link_to 'Edit', edit_work_order_path(work_order) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    </table>
+  </div>
+</div>

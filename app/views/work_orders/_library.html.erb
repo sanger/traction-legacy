@@ -1,14 +1,14 @@
 <%= form.fields_for :library, Library.new do |library| %>
-  <li>
+  <div class="form-group" >
     <%= library.label :volume %>
     <%= library.text_field :volume %>
-  </li>
-  <li>
+  </div>
+  <div class="form-group" >
     <%= library.label :kit_number %>
     <%= library.text_field :kit_number %>
-  </li>
-   <li>
+  </div>
+  <div class="form-group" >
     <%= library.label :ligase_batch_number %>
     <%= library.text_field :ligase_batch_number %>
-  </li>
+  </div>
 <% end %>

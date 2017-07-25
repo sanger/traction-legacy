@@ -3,10 +3,10 @@
     <legend>
       Work Order
     </legend>
-    <ul>
-      <div><%= work_order.sample_name %></div>
-      <%= render work_order.template, form: f %>
-    </ul>
-    <%= f.submit %>
+    <div><%= work_order.sample_name %></div>
+    <%= render work_order.template, form: f %>
+    <div class="form-group">
+      <%= f.submit class: 'btn btn-primary pull-right' %>
+    </div>
   </fieldset>
 <% end %>
