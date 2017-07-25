@@ -1,0 +1,30 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 50px;
+}
+
+header {
+  height: 50px;
+  margin-bottom: 20px;
+
+  a {
+    color: white;
+
+    &:hover, &:visited{
+      color: white;
+    }
+  }
+}
+
+.heading {
+  padding: 5px;
+}
+
+nav {
+  position: relative;
+  top: -30px;
+}

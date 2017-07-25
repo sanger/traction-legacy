@@ -13,9 +13,9 @@
     <%= render "header" %>
     <div class="top <%= ENV['RAILS_ENV'] %>"></div>
     <div class="main container">
-      <%= render "flashes" %>
+      <%= render 'flashes' %>
       <%= yield %>
     </div>
-    <%= render "footer" %>
+    <%= render 'footer' %>
   </body>
 </html>
