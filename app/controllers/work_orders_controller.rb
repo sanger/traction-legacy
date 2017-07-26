@@ -16,7 +16,7 @@ class WorkOrdersController < ApplicationController
   def edit; end
 
   def update
-    work_order = current_resource
+    @work_order = current_resource
     if work_order.update_attributes(work_order_params)
       work_order.next_state!
       redirect_to work_order_path(work_order), notice: 'Work Order successfully updated'

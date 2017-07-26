@@ -35,4 +35,5 @@ RSpec.describe Aliquot, type: :model do
   it 'can have a name' do
     expect(build(:aliquot).name).to_not be_nil
   end
+
 end

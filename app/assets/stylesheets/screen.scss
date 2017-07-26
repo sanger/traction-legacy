@@ -10,6 +10,7 @@ body {
 header {
   height: 50px;
   margin-bottom: 20px;
+  padding: 5px;
 
   a {
     color: white;
@@ -17,6 +18,16 @@ header {
     &:hover, &:visited{
       color: white;
     }
+  }
+}
+
+footer {
+  width: 100%;
+  padding: 5px;
+  border: {
+    color: black;
+    style: solid;
+    width: 1px 0 0 0;
   }
 }
 
