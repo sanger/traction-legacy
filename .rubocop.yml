@@ -17,6 +17,8 @@ AllCops:
     - app/controllers/application_controller.rb
     - Gemfile
     - vendor/**/*
+    - node_modules/**/*
+    
 # The cop is meant to enforce conventions regarding variables containing numbers
 # However in 0.43.0 it is bugged. Both changed on master and disabled by default
 # The exclusions don't even get added to the rubocop_todo properly!
