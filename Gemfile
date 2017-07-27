@@ -36,6 +36,17 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Required for bootstrap tooltips
+gem 'rails-assets-tether', '>= 1.1.0'
+# Bootstrap is a css framework
+gem 'bootstrap'
+
+# Use jquery as the JavaScript library
+gem 'jquery-rails'
+# We use the sortable component of jquery ui
+gem 'jquery-ui-rails'
+
+
 group :development, :test do
   gem 'sqlite3'
 

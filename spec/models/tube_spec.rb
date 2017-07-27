@@ -3,8 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Tube, type: :model do
-  it 'can have a sample' do
-    sample = build(:sample)
-    expect(build(:tube, sample: sample).sample).to eq(sample)
+  it 'must have a barcode' do
+    tube = create(:tube)
+    expect(tube.barcode).to eq("TRAC-#{tube.id}")
   end
 end

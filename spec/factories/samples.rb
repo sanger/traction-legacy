@@ -3,12 +3,10 @@
 FactoryGirl.define do
   factory :sample do
     sequence(:name) { |n| "SAMPLE-#{n}" }
-    tube
+    uuid { SecureRandom.uuid }
 
-    factory :sample_after_qc do
-      concentration 0.005
-      fragment_size 500
-      qc_state 'proceed'
+    after(:build) do |sample|
+      sample.aliquot ||= FactoryGirl.build(:aliquot, sample: sample)
     end
   end
 end

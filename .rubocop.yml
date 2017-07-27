@@ -6,6 +6,7 @@ AllCops:
     - lib/**/*.rake
   Exclude:
     - db/seeds.rb
+    - db/schema.rb
     - db/migrate/*
     - config/initializers/backtrace_silencers.rb
     - config/environments/*
