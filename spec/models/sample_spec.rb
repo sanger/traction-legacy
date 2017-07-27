@@ -25,5 +25,4 @@ RSpec.describe Sample, type: :model do
     sample = create(:sample)
     expect(sample.aliquot).to_not be_nil
   end
-
 end

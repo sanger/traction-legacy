@@ -2,7 +2,6 @@
 
 # A Sample
 class Sample < ApplicationRecord
-
   has_one :aliquot
 
   validates :name, presence: true, uniqueness: true

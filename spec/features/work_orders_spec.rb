@@ -3,7 +3,6 @@
 require 'rails_helper'
 
 RSpec.feature 'WorkOrders', type: :feature do
-
   let!(:work_orders)  { create_list(:work_order, 5) }
   let!(:work_order)   { work_orders.first }
 
@@ -13,7 +12,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     visit work_orders_path
 
     within("#work_order_#{work_order.id}") do
-      click_link "Edit"
+      click_link 'Edit'
     end
 
     visit edit_work_order_path(work_order)
@@ -35,7 +34,7 @@ RSpec.feature 'WorkOrders', type: :feature do
   #   visit work_orders_path
 
   #   save_and_open_page
-    
+
   #   within("#work_order_#{work_order.id}") do
   #     click_link "Edit"
   #   end
@@ -69,7 +68,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     expect(work_order).to be_library_preparation
   end
 
-   scenario 'Library preparation with invalid attributes' do
+  scenario 'Library preparation with invalid attributes' do
     work_order.qc!
     library = build(:library)
 
@@ -78,7 +77,6 @@ RSpec.feature 'WorkOrders', type: :feature do
     fill_in 'Volume', with: library.volume
     click_button 'Update Work order'
 
-    expect(page.text).to match("error prohibited this record from being saved")
-   
+    expect(page.text).to match('error prohibited this record from being saved')
   end
 end

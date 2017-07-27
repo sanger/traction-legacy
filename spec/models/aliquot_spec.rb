@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Aliquot, type: :model do
-
   it 'can have a concentration' do
     expect(build(:aliquot, concentration: 0.003).concentration).to eq(0.003)
   end
@@ -35,5 +36,4 @@ RSpec.describe Aliquot, type: :model do
   it 'can have a name' do
     expect(build(:aliquot).name).to_not be_nil
   end
-
 end

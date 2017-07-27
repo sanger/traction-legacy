@@ -8,6 +8,5 @@ FactoryGirl.define do
     after(:build) do |sample|
       sample.aliquot ||= FactoryGirl.build(:aliquot, sample: sample)
     end
-
   end
 end

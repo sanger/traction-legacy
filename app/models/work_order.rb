@@ -1,9 +1,11 @@
-class WorkOrder < ApplicationRecord
+# frozen_string_literal: true
 
+# WorkOrder
+class WorkOrder < ApplicationRecord
   belongs_to :aliquot
   has_one :library
 
-  TEMPLATES = ['aliquot', 'library', 'sequencing', 'completed', 'show']
+  TEMPLATES = %w[aliquot library sequencing completed show].freeze
 
   enum state: %i[started qc library_preparation sequencing completed]
 

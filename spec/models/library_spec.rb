@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Library, type: :model do
-
   it 'must have a kit number' do
     expect(build(:library, kit_number: nil)).to_not be_valid
   end
@@ -17,5 +18,4 @@ RSpec.describe Library, type: :model do
   it 'must have a tube' do
     expect(build(:library).tube).to be_present
   end
-  
 end

@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe WorkOrder, type: :model do
   it 'can have a state' do
-
     work_order = build(:work_order)
     expect(work_order).to be_started
 
