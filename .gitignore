@@ -30,3 +30,7 @@ config/database.yml
 .rspec
 capybara-*.html
 .DS_Store
+
+REVISION
+public/assets/
+release.tar.gz
