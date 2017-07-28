@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do
-
   it 'is not valid without a state from' do
     expect(build(:event, state_from: nil)).to_not be_valid
   end
@@ -13,5 +14,4 @@ RSpec.describe Event, type: :model do
   it 'is not valid without a work order' do
     expect(build(:event, work_order: nil)).to_not be_valid
   end
-
 end
