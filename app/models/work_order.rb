@@ -4,6 +4,7 @@
 class WorkOrder < ApplicationRecord
   belongs_to :aliquot
   has_one :library
+  has_many :events
 
   TEMPLATES = %w[aliquot library sequencing completed show].freeze
 
@@ -18,6 +19,8 @@ class WorkOrder < ApplicationRecord
   delegate :sample, to: :aliquot
   delegate :name, to: :sample, prefix: true
 
+  before_save :add_event
+
   def next_state!
     next_state = WorkOrder.states.key(WorkOrder.states[state] + 1)
     return unless next_state.present?
@@ -26,5 +29,12 @@ class WorkOrder < ApplicationRecord
 
   def template
     TEMPLATES[WorkOrder.states[state]]
+  end
+
+  private
+
+  def add_event
+    events.build(state_from: 'none', state_to: state) if new_record?
+    events.build(state_from: state_was, state_to: state) if state_changed?
   end
 end

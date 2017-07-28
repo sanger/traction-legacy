@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170721122554) do
+ActiveRecord::Schema.define(version: 20170728093046) do
 
   create_table "aliquots", force: :cascade do |t|
     t.integer "fragment_size"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 20170721122554) do
     t.datetime "updated_at", null: false
     t.index ["sample_id"], name: "index_aliquots_on_sample_id"
     t.index ["tube_id"], name: "index_aliquots_on_tube_id"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "state_from"
+    t.string "state_to"
+    t.integer "work_order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["work_order_id"], name: "index_events_on_work_order_id"
   end
 
   create_table "libraries", force: :cascade do |t|
