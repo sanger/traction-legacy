@@ -28,29 +28,25 @@ RSpec.feature 'WorkOrders', type: :feature do
     expect(work_order).to be_qc
   end
 
-  # scenario 'QC a work order with invalid attributes' do
-  #   aliquot = build(:aliquot_after_qc)
+  scenario 'QC a work order with invalid attributes' do
+    aliquot = build(:aliquot_after_qc)
 
-  #   visit work_orders_path
+    visit work_orders_path
 
-  #   save_and_open_page
+    save_and_open_page
 
-  #   within("#work_order_#{work_order.id}") do
-  #     click_link "Edit"
-  #   end
+    within("#work_order_#{work_order.id}") do
+      click_link "Edit"
+    end
 
-  #   visit edit_work_order_path(work_order)
+    visit edit_work_order_path(work_order)
 
-  #   fill_in 'Concentration', with: aliquot.concentration
-  #   fill_in 'Fragment size', with: aliquot.fragment_size
-  #   select aliquot.qc_state, from: 'QC state'
-  #   click_button 'Update Work order'
+    fill_in 'Concentration', with: aliquot.concentration
+    select aliquot.qc_state, from: 'QC state'
+    click_button 'Update Work order'
 
-  #   expect(page).to have_content('Work Order successfully updated')
-  #   work_order.reload
-  #   expect(work_order.aliquot).to be_proceed
-  #   expect(work_order).to be_qc
-  # end
+    expect(page.text).to match('error prohibited this record from being saved')
+  end
 
   scenario 'Successful Library preparation' do
     work_order.qc!
