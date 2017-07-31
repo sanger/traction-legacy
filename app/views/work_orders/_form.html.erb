@@ -5,6 +5,7 @@
     </legend>
     <%= render "error_messages", target: work_order %>
     <div><%= work_order.sample_name %></div>
+    <div><%= work_order.state %></div>
     <%= render work_order.template, form: f %>
     <div class="form-group">
       <%= f.submit class: 'btn btn-primary pull-right' %>

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-unless Rails.env.staging? || Rails.env.production?
+unless Rails.env.production?
   require 'factory_girl'
 
   namespace :work_orders do

@@ -5,10 +5,14 @@ FactoryGirl.define do
     sample
     tube
 
-    factory :aliquot_after_qc do
+    factory :aliquot_proceed do
       concentration 0.005
       fragment_size 500
       qc_state 'proceed'
+
+      factory :aliquot_fail do
+        qc_state 'fail'
+      end
     end
   end
 end
