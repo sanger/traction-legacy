@@ -54,14 +54,6 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.reload).to be_completed
   end
 
-  it '#template will find current template for work order' do
-    work_order = create(:work_order)
-    expect(work_order.template).to eq(WorkOrder::TEMPLATES.first)
-
-    work_order.completed!
-    expect(work_order.template).to eq(WorkOrder::TEMPLATES.last)
-  end
-
   it '#sample_name returns sample name' do
     work_order = build(:work_order)
     expect(work_order.sample_name).to eq(work_order.aliquot.sample.name)

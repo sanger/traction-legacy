@@ -23,17 +23,12 @@ RSpec.feature 'WorkOrders', type: :feature do
     click_button 'Update Work order'
 
     expect(page).to have_content('Work Order successfully updated')
-    work_order.reload
-    expect(work_order.aliquot).to be_proceed
-    expect(work_order).to be_qc
   end
 
   scenario 'QC a work order with invalid attributes' do
     aliquot = build(:aliquot_after_qc)
 
     visit work_orders_path
-
-    save_and_open_page
 
     within("#work_order_#{work_order.id}") do
       click_link "Edit"
@@ -59,9 +54,6 @@ RSpec.feature 'WorkOrders', type: :feature do
     click_button 'Update Work order'
 
     expect(page).to have_content('Work Order successfully updated')
-    work_order.reload
-    expect(work_order.library).to be_present
-    expect(work_order).to be_library_preparation
   end
 
   scenario 'Library preparation with invalid attributes' do

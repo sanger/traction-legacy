@@ -6,8 +6,6 @@ class WorkOrder < ApplicationRecord
   has_one :library
   has_many :events
 
-  TEMPLATES = %w[aliquot library sequencing completed show].freeze
-
   enum state: %i[started qc library_preparation sequencing completed]
 
   attr_readonly :uuid
@@ -25,10 +23,6 @@ class WorkOrder < ApplicationRecord
     next_state = WorkOrder.states.key(WorkOrder.states[state] + 1)
     return unless next_state.present?
     update_attributes(state: next_state)
-  end
-
-  def template
-    TEMPLATES[WorkOrder.states[state]]
   end
 
   private
