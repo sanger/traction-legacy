@@ -5,7 +5,7 @@ class WorkOrderForm
   attr_reader :work_order, :params
   delegate_missing_to :work_order
 
-  validate :check_form
+  validate :check_form, :check_qc
 
   PERMITTED_ATTRIBUTES =  { aliquot_attributes: %i[id concentration fragment_size qc_state],
                             library_attributes: %i[volume kit_number ligase_batch_number]
@@ -59,6 +59,12 @@ class WorkOrderForm
   def check_attributes(key)
     REQUIRED_ATTRIBUTES[key].each do |attribute|
       errors.add(key, "#{attribute.to_s.humanize} can't be blank") if params["#{key}_attributes"][attribute].blank?
+    end
+  end
+
+  def check_qc
+    if work_order.qc? && work_order.aliquot.fail?
+      errors.add(:library, "Can't be created if sample has failed qc")
     end
   end
 end

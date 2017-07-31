@@ -7,7 +7,7 @@ RSpec.feature 'WorkOrders', type: :feature do
   let!(:work_order)   { work_orders.first }
 
   scenario 'Successfully QC a work order' do
-    aliquot = build(:aliquot_after_qc)
+    aliquot = build(:aliquot_proceed)
 
     visit work_orders_path
 
@@ -26,7 +26,7 @@ RSpec.feature 'WorkOrders', type: :feature do
   end
 
   scenario 'QC a work order with invalid attributes' do
-    aliquot = build(:aliquot_after_qc)
+    aliquot = build(:aliquot_proceed)
 
     visit work_orders_path
 
@@ -56,7 +56,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     expect(page).to have_content('Work Order successfully updated')
   end
 
-  scenario 'Library preparation with invalid attributes' do
+  scenario 'Invalid Library preparation' do
     work_order.qc!
     library = build(:library)
 
@@ -67,4 +67,5 @@ RSpec.feature 'WorkOrders', type: :feature do
 
     expect(page.text).to match('error prohibited this record from being saved')
   end
+
 end

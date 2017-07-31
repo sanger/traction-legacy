@@ -15,7 +15,7 @@ RSpec.describe WorkOrderForm, type: :model do
   end
 
   it 'validates presence of aliquot attributes if work order is started' do
-    attributes = attributes_for(:aliquot_after_qc)
+    attributes = attributes_for(:aliquot_proceed)
     form = WorkOrderForm.new(work_order)
 
     expect(form.save(ActionController::Parameters.new(aliquot_attributes: attributes.except(:concentration)))).to be_falsey
@@ -29,7 +29,7 @@ RSpec.describe WorkOrderForm, type: :model do
   end
 
   it 'updates qliquot and changes state if work order is started and attributes present' do
-    attributes = attributes_for(:aliquot_after_qc).merge(id: work_order.aliquot.id)
+    attributes = attributes_for(:aliquot_proceed).merge(id: work_order.aliquot.id)
     form = WorkOrderForm.new(work_order)
     expect(form.save(ActionController::Parameters.new(aliquot_attributes: attributes))).to be_truthy
     aliquot = work_order.aliquot
@@ -57,5 +57,14 @@ RSpec.describe WorkOrderForm, type: :model do
     expect(library.kit_number).to eq(attributes[:kit_number])
     expect(library.volume).to eq(attributes[:volume])
     expect(work_order).to be_library_preparation
+  end
+
+  it 'fails library preparation is sample failed qc' do
+    attributes = attributes_for(:library)
+    work_order = create(:work_order_with_qc_fail)
+    work_order.qc!
+    form = WorkOrderForm.new(work_order)
+    expect(form.save(ActionController::Parameters.new(library_attributes: attributes))).to be_falsey
+    expect(form.errors).to_not be_empty
   end
 end

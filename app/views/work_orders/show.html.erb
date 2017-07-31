@@ -1,0 +1,15 @@
+<section>
+  <h2>Work Order</h2>
+  <div>sample: <%= work_order.sample_name %></div>
+  <div>state: <%= work_order.state %></div>
+  <div>tube: <%= work_order.aliquot.tube.barcode %></div>
+  <div>concentration: <%= work_order.aliquot.concentration %></div>
+  <div>fragment size: <%= work_order.aliquot.fragment_size %></div>
+  <div>qc state: <%= work_order.aliquot.qc_state %></div>
+  <% unless work_order.library.nil? %>
+    <h3>Library</h3>
+    <div>volume: <%= work_order.library.volume %></div>
+    <div>kit number: <%= work_order.library.kit_number %></div>
+    <div>ligase batch number: <%= work_order.library.ligase_batch_number %></div>
+  <% end %>
+</section>
