@@ -18,7 +18,7 @@ class WorkOrdersController < ApplicationController
 
   def update
     @work_order = WorkOrderForm.new(current_resource)
-    if work_order.save(params[:work_order])
+    if work_order.submit(params[:work_order])
       redirect_to work_order_path(work_order), notice: 'Work Order successfully updated'
     else
       render :edit

@@ -24,7 +24,7 @@ class WorkOrderForm
     return 'library' if work_order.qc?
   end
 
-  def save(params)
+  def submit(params)
     @params = params
     ActiveRecord::Base.transaction do
       if valid?
