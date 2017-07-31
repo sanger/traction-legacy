@@ -18,17 +18,17 @@ RSpec.describe WorkOrderForm, type: :model do
     form = WorkOrderForm.new(work_order)
 
     expect(form.submit(ActionController::Parameters.new(
-                       aliquot_attributes: attributes.except(:concentration)
+                         aliquot_attributes: attributes.except(:concentration)
     ))).to be_falsey
     expect(form.errors).to_not be_empty
 
     expect(form.submit(ActionController::Parameters.new(
-                       aliquot_attributes: attributes.except(:fragment_size)
+                         aliquot_attributes: attributes.except(:fragment_size)
     ))).to be_falsey
     expect(form.errors).to_not be_empty
 
     expect(form.submit(ActionController::Parameters.new(
-                       aliquot_attributes: attributes.except(:qc_state)
+                         aliquot_attributes: attributes.except(:qc_state)
     ))).to be_falsey
     expect(form.errors).to_not be_empty
   end
@@ -37,7 +37,7 @@ RSpec.describe WorkOrderForm, type: :model do
     attributes = attributes_for(:aliquot_proceed).merge(id: work_order.aliquot.id)
     form = WorkOrderForm.new(work_order)
     expect(form.submit(ActionController::Parameters.new(
-                       aliquot_attributes: attributes
+                         aliquot_attributes: attributes
     ))).to be_truthy
     aliquot = work_order.aliquot
     expect(aliquot.concentration).to eq(attributes[:concentration])
@@ -52,7 +52,7 @@ RSpec.describe WorkOrderForm, type: :model do
     form = WorkOrderForm.new(work_order)
 
     expect(form.submit(ActionController::Parameters.new(
-                       library_attributes: attributes.except(:kit_number)
+                         library_attributes: attributes.except(:kit_number)
     ))).to be_falsey
     expect(form.errors).to_not be_empty
   end
@@ -62,7 +62,7 @@ RSpec.describe WorkOrderForm, type: :model do
     work_order.qc!
     form = WorkOrderForm.new(work_order)
     expect(form.submit(ActionController::Parameters.new(
-                       library_attributes: attributes
+                         library_attributes: attributes
     ))).to be_truthy
     library = work_order.library
     expect(library.kit_number).to eq(attributes[:kit_number])
@@ -76,7 +76,7 @@ RSpec.describe WorkOrderForm, type: :model do
     work_order.qc!
     form = WorkOrderForm.new(work_order)
     expect(form.submit(ActionController::Parameters.new(
-                       library_attributes: attributes
+                         library_attributes: attributes
     ))).to be_falsey
     expect(form.errors).to_not be_empty
   end
