@@ -31,7 +31,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     visit work_orders_path
 
     within("#work_order_#{work_order.id}") do
-      click_link "Edit"
+      click_link 'Edit'
     end
 
     visit edit_work_order_path(work_order)
@@ -67,5 +67,4 @@ RSpec.feature 'WorkOrders', type: :feature do
 
     expect(page.text).to match('error prohibited this record from being saved')
   end
-
 end

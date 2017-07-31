@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
+# WorkOrderForm
 class WorkOrderForm
-  
   include ActiveModel::Model
 
   attr_reader :work_order, :params
@@ -8,20 +10,18 @@ class WorkOrderForm
   validate :check_form, :check_qc
 
   PERMITTED_ATTRIBUTES =  { aliquot_attributes: %i[id concentration fragment_size qc_state],
-                            library_attributes: %i[volume kit_number ligase_batch_number]
-                          }
+                            library_attributes: %i[volume kit_number ligase_batch_number] }.freeze
 
   REQUIRED_ATTRIBUTES = { aliquot: %i[concentration fragment_size qc_state],
-                          library: %i[volume kit_number]
-                        }.with_indifferent_access
+                          library: %i[volume kit_number] }.with_indifferent_access
 
   def initialize(work_order)
     @work_order = work_order
   end
 
   def template
-    return "aliquot" if work_order.started?
-    return "library" if work_order.qc?
+    return 'aliquot' if work_order.started?
+    return 'library' if work_order.qc?
   end
 
   def save(params)
@@ -58,13 +58,14 @@ class WorkOrderForm
 
   def check_attributes(key)
     REQUIRED_ATTRIBUTES[key].each do |attribute|
-      errors.add(key, "#{attribute.to_s.humanize} can't be blank") if params["#{key}_attributes"][attribute].blank?
+      if params["#{key}_attributes"][attribute].blank?
+        errors.add(key, "#{attribute.to_s.humanize} can't be blank")
+      end
     end
   end
 
   def check_qc
-    if work_order.qc? && work_order.aliquot.fail?
-      errors.add(:library, "Can't be created if sample has failed qc")
-    end
+    return unless work_order.qc? && work_order.aliquot.fail?
+    errors.add(:library, "Can't be created if sample has failed qc")
   end
 end
