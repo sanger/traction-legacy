@@ -5,17 +5,20 @@ class WorkOrder < ApplicationRecord
   belongs_to :aliquot
   has_one :library
   has_many :events
+  has_many :flowcells
 
   enum state: %i[started qc library_preparation sequencing completed]
 
-  attr_readonly :uuid
+  attr_readonly :uuid, :library_preparation_type, :file_type, :number_of_flowcells
 
-  validates_presence_of :uuid
+  validates_presence_of :uuid, :library_preparation_type, :file_type, :number_of_flowcells
 
   accepts_nested_attributes_for :aliquot, :library
 
   delegate :sample, to: :aliquot
   delegate :name, to: :sample, prefix: true
+
+  scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
 
   before_save :add_event
 

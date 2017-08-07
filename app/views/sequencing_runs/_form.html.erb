@@ -1,0 +1,42 @@
+<%= form_for sequencing_run do |f| %>
+  <fieldset>
+    <legend>
+      Sequencing Run
+    </legend>
+    <%= render "error_messages", target: sequencing_run %>
+    <div class="form-group" >
+      <%= f.label :instrument_name %>
+      <%= f.text_field :instrument_name, { class: 'form-control' } %>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+        <thead>
+          <th>Position</th>
+          <th>Flowcell ID</th>
+          <th>Sample</th>
+        </thead>
+        <tbody>
+        <% (1..5).each do |i| %>
+          <%= f.fields_for :flowcells, Flowcell.new do |flowcell| %>
+            <tr id="flowcell_<%= i %>">
+              <td><%= i %></td>
+              <td>
+                <div class="form-group" ><%= flowcell.text_field :flowcell_id %></div>
+              </td>
+              <td>
+                <div class="form-group" ><%= flowcell.select(:work_order_id, options_from_collection_for_select(WorkOrder.by_state(:library_preparation), 'id', 'sample_name'), {include_blank: 'Select sample...'}, class: 'select2' ) %></div>
+              </td>
+            </div>
+            <%= flowcell.hidden_field(:position, value: i) %>
+          <% end %>
+        <% end %>
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.submit class: 'btn btn-primary pull-right' %>
+    </div>
+  </fieldset>
+<% end %>
