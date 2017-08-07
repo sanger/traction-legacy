@@ -23,6 +23,7 @@ class WorkOrder < ApplicationRecord
     next_state = WorkOrder.states.key(WorkOrder.states[state] + 1)
     return unless next_state.present?
     update_attributes(state: next_state)
+    update_sqsc_state
   end
 
   private
@@ -30,5 +31,12 @@ class WorkOrder < ApplicationRecord
   def add_event
     events.build(state_from: 'none', state_to: state) if new_record?
     events.build(state_from: state_was, state_to: state) if state_changed?
+  end
+
+  # should it be moved somewhere?
+  def update_sqsc_state
+    # sqsc work order does not have uuid yet, so for now traction uuid id sequincescape id
+    sqsc_work_order = Sqsc::Api::WorkOrder.find_by_id(uuid)
+    sqsc_work_order.update_state_to(state)
   end
 end

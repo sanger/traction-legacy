@@ -6,14 +6,20 @@ module Sqsc
     class FakeWorkOrder
       include ActiveModel::Model
 
-      attr_accessor :id, :state, :name, :to_key, :model_name
+      attr_accessor :id, :state, :name, :to_key, :model_name, :sample_uuid
+
+      # mocking actual Sqsc::Api::WorkOrder methods
 
       def self.for_reception
-        test_work_orders.select {|work_order| work_order.state == 'pending'}
+        test_work_orders.select { |work_order| work_order.state == 'pending' }
       end
 
       def self.find_by_ids(ids)
-        test_work_orders.select {|work_order| ids.include?(work_order.id.to_s)}
+        test_work_orders.select { |work_order| ids.include?(work_order.id.to_s) }
+      end
+
+      def self.find_by_id(id)
+        test_work_orders.select { |work_order| work_order.id.to_s == id }.first || new(id: id)
       end
 
       def update_state_to(state)
@@ -21,14 +27,18 @@ module Sqsc
       end
 
       def sample_uuid
-        SecureRandom.uuid
+        @sample_uuid ||= SecureRandom.uuid
       end
+
+      # create and destroy test work orders for tests
 
       def self.test_work_orders
-        @@test_work_orders ||= create_test_work_orders
+        @@test_work_orders ||= create_test_work_orders #rubocop:disable all
       end
 
-      private
+      def self.destroy_test_work_orders
+        @@test_work_orders = nil #rubocop:disable all
+      end
 
       ModelName = Struct.new(:param_key)
 
@@ -38,12 +48,11 @@ module Sqsc
             list << new(id: i + 1,
                         state: 'pending',
                         name: "PLATE_WELL#{i + 1}",
-                        to_key: [(i+1).to_s],
+                        to_key: [(i + 1).to_s],
                         model_name: ModelName.new('sqsc_api_work_order'))
           end
         end
       end
-
     end
   end
 end
