@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # reception for work orders from sqsc
-class ReceptionsController < ApplicationController
+class ReceptionController < ApplicationController
   def index
     @work_orders = Sqsc::Api::WorkOrder.for_reception
   end

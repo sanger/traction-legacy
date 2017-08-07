@@ -2,7 +2,7 @@
 
 module Sqsc
   module Api
-  # creates WorkOrder objects based on json received from sqsc api
+    # creates WorkOrder objects based on json received from sqsc api
     class WorkOrder < Base
       has_many :samples
       has_one :source_receptacle
@@ -12,7 +12,7 @@ module Sqsc
       end
 
       def self.find_by_ids(ids)
-        where(id: ids.join(',')).all
+        includes(:samples, :source_receptacle).where(id: ids.join(',')).all
       end
 
       def self.find_by_id(id)
@@ -25,6 +25,10 @@ module Sqsc
 
       def name
         source_receptacle.name
+      end
+
+      def sample_uuid
+        samples.first.uuid
       end
     end
   end
