@@ -1,0 +1,25 @@
+<div class="title row">
+  <div class="col-md-12">
+    <h2>Work Orders</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <th>&nbsp;</th>
+        <th>Sample Name</th>
+        <th>State</th>
+      </thead>
+    <tbody>
+      <% @work_orders.each do |work_order| %>
+        <tr id="<%= dom_id(work_order) %>">
+          <td><%= check_box_tag 'work_orders_ids[]', work_order.id %></td>
+          <td><%= work_order.name %></td>
+          <td><%= work_order.state %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    </table>
+  </div>
+</div>
