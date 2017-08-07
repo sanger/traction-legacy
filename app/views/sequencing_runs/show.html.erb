@@ -12,11 +12,12 @@
           <th>Sample</th>
         </thead>
         <tbody>
-          <%= sequencing_run.flowcells.each do |flowcell| %>
+          <% sequencing_run.flowcells.each do |flowcell| %>
             <tr>
               <td><%= flowcell.position %></td>
               <td><%= flowcell.flowcell_id %></td>
               <td><%= flowcell.work_order.sample_name %></td>
+            </tr>
           <% end %>
         </tbody>
         </table>
