@@ -7,6 +7,8 @@ RSpec.feature 'SequencingRuns', type: :feature do
   let(:flowcells)       { build_list(:flowcell, 5) }
   let(:sequencing_run)  { build(:sequencing_run) }
 
+  # TODO: We are having to fill in using ids. This is bad and brittle but seems to be the
+  # only way as flowcells are added via a table where each field does not have a label.
   scenario 'successful' do
     visit new_sequencing_run_path
     fill_in 'Instrument name', with: sequencing_run.instrument_name
@@ -61,5 +63,17 @@ RSpec.feature 'SequencingRuns', type: :feature do
 
     click_button 'Create Sequencing run'
     expect(page.text).to match('error prohibited this record from being saved')
+  end
+
+  scenario 'successful update' do
+    sequencing_run = create(:sequencing_run)
+    visit sequencing_runs_path
+    within("#sequencing_run_#{sequencing_run.id}") do
+      click_link 'Edit'
+    end
+    select SequencingRun.states.keys.first, from: 'State'
+    click_button 'Update Sequencing run'
+    expect(page).to have_content('Sequencing run successfully updated')
+    expect(sequencing_run.reload.state).to be_present
   end
 end

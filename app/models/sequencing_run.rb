@@ -4,6 +4,8 @@
 class SequencingRun < ApplicationRecord
   has_many :flowcells
 
+  enum state: %i[completed user_terminated instrument_crashed]
+
   validates_presence_of :instrument_name
 
   accepts_nested_attributes_for :flowcells,

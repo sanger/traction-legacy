@@ -32,6 +32,7 @@ RSpec.describe SequencingRun, type: :model do
     create(:sequencing_run, flowcells: build_list(
       :flowcell, 2, work_order: work_order
     ))
+
     expect(build(:sequencing_run, flowcells: build_list(
       :flowcell, 3, work_order: work_order
     ))).to_not be_valid
@@ -42,5 +43,18 @@ RSpec.describe SequencingRun, type: :model do
     expect(build(:sequencing_run, flowcells: build_list(
       :flowcell, 3, work_order: work_order
     ))).to_not be_valid
+  end
+
+  it 'can have state' do
+    sequencing_run = create(:sequencing_run)
+
+    sequencing_run.completed!
+    expect(sequencing_run).to be_completed
+
+    sequencing_run.user_terminated!
+    expect(sequencing_run).to be_user_terminated
+
+    sequencing_run.instrument_crashed!
+    expect(sequencing_run).to be_instrument_crashed
   end
 end

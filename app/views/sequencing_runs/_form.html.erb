@@ -8,6 +8,10 @@
       <%= f.label :instrument_name %>
       <%= f.text_field :instrument_name, { class: 'form-control' } %>
     </div>
+    <div class="form-group" >
+      <%= f.label :state %>
+      <%= f.select :state, SequencingRun.states.keys, { allow_blank: true, class: 'form-control' } %>
+    </div>
     <div class="row">
       <div class="col-md-12">
         <table class="table">

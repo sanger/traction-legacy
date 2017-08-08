@@ -11,12 +11,14 @@
         <th>Experiment name</th>
         <th>Instrument name</th>
         <th>&nbsp;</th>
+        <th>&nbsp;</th>
       </thead>
     <tbody>
       <% sequencing_runs.each do |sequencing_run| %>
         <tr id="<%= dom_id(sequencing_run) %>">
           <td><%= sequencing_run.experiment_name %></td>
           <td><%= sequencing_run.instrument_name %></td>
+          <td><%= link_to 'Edit', edit_sequencing_run_path(sequencing_run) %></td>
           <td><%= link_to 'Show', sequencing_run_path(sequencing_run) %></td>
         </tr>
       <% end %>
