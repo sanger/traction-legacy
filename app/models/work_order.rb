@@ -22,8 +22,10 @@ class WorkOrder < ApplicationRecord
   def next_state!
     next_state = WorkOrder.states.key(WorkOrder.states[state] + 1)
     return unless next_state.present?
-    update_attributes(state: next_state)
-    update_sqsc_state
+    ActiveRecord::Base.transaction do
+      update_attributes(state: next_state)
+      update_sqsc_state
+    end
   end
 
   private
@@ -33,7 +35,7 @@ class WorkOrder < ApplicationRecord
     events.build(state_from: state_was, state_to: state) if state_changed?
   end
 
-  # should it be moved somewhere?
+  # should it be here?
   def update_sqsc_state
     # sqsc work order does not have uuid yet, so for now traction uuid id sequincescape id
     sqsc_work_order = Sqsc::Api::WorkOrder.find_by_id(uuid)

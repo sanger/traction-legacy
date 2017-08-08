@@ -26,12 +26,11 @@ module Sqsc
     def sqsc_work_orders_present?
       sqsc_work_orders.present?
     end
-    #rubocop:disable all
+
     def ready_for_upload
-      not_ready = sqsc_work_orders.select { |w| w.name.nil? || w.id.nil? || w.sample_uuid.nil? }
+      not_ready = sqsc_work_orders.select(&:not_ready_for_upload)
       names_or_ids = not_ready.map { |w| w.name || w.id }.join(', ')
       errors.add(:work_orders, "#{names_or_ids} are not ready to be uploaded") unless not_ready.empty? #rubocop:disable all
     end
-    #rubocop:enable all
   end
 end

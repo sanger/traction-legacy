@@ -30,6 +30,10 @@ module Sqsc
       def sample_uuid
         samples.first.uuid
       end
+
+      def not_ready_for_upload
+        name.nil? || id.nil? || sample_uuid.nil?
+      end
     end
   end
 end

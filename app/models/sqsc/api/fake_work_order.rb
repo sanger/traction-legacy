@@ -30,6 +30,10 @@ module Sqsc
         @sample_uuid ||= SecureRandom.uuid
       end
 
+      def not_ready_for_upload
+        name.nil? || id.nil? || sample_uuid.nil?
+      end
+
       # create and destroy test work orders for tests
 
       def self.test_work_orders
@@ -43,7 +47,7 @@ module Sqsc
       ModelName = Struct.new(:param_key)
 
       def self.create_test_work_orders
-        @test_work_orders = [].tap do |list|
+        [].tap do |list|
           5.times do |_i|
             rand = Random.rand(1000)
             list << new(id: rand,
