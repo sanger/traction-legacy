@@ -33,22 +33,23 @@ module Sqsc
       # create and destroy test work orders for tests
 
       def self.test_work_orders
-        @@test_work_orders ||= create_test_work_orders #rubocop:disable all
+        @test_work_orders ||= create_test_work_orders
       end
 
       def self.destroy_test_work_orders
-        @@test_work_orders = nil #rubocop:disable all
+        @test_work_orders = nil
       end
 
       ModelName = Struct.new(:param_key)
 
       def self.create_test_work_orders
-        [].tap do |list|
-          5.times do |i|
-            list << new(id: i + 1,
+        @test_work_orders = [].tap do |list|
+          5.times do |_i|
+            rand = Random.rand(1000)
+            list << new(id: rand,
                         state: 'pending',
-                        name: "PLATE_WELL#{i + 1}",
-                        to_key: [(i + 1).to_s],
+                        name: "PLATE_WELL#{rand}",
+                        to_key: [rand.to_s],
                         model_name: ModelName.new('sqsc_api_work_order'))
           end
         end

@@ -42,5 +42,7 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
-  Sqsc::Api::WorkOrder = Sqsc::Api::FakeWorkOrder
+  # Sequencescape api base
+  config.sqsc_api_base = 'http://localhost:3000/api/v2/'
+
 end

@@ -19,6 +19,7 @@ RSpec.feature 'Reception and upload', type: :feature do
     checkboxes[2].click
     click_on 'Upload'
     expect(page).to have_current_path(work_orders_path)
+    expect(page).to have_content('Work orders were successfully uploaded')
     expect(page).to have_selector('table tr', count: 2)
     page.find_all('table tr').each_with_index do |row, index|
       fields = row.find_all('td')
