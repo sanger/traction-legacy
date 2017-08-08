@@ -47,6 +47,7 @@ RSpec.describe SequencingRun, type: :model do
 
   it 'can have state' do
     sequencing_run = create(:sequencing_run)
+    expect(sequencing_run).to be_pending
 
     sequencing_run.completed!
     expect(sequencing_run).to be_completed

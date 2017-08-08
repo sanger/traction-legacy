@@ -65,7 +65,7 @@ ActiveRecord::Schema.define(version: 20170802071217) do
 
   create_table "sequencing_runs", force: :cascade do |t|
     t.string "instrument_name"
-    t.integer "state"
+    t.integer "state", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
