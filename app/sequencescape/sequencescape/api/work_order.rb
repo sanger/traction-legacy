@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Sqsc
+module Sequencescape
   module Api
-    # creates WorkOrder objects based on json received from sqsc api
+    # creates WorkOrder objects based on json received from sequencescape api
     class WorkOrder < Base
       has_many :samples
       has_one :source_receptacle
@@ -19,8 +19,9 @@ module Sqsc
         where(id: id).all.try(:first)
       end
 
-      def update_state_to(state)
-        update_attributes(state: state)
+      def self.update_state(work_order)
+        sequencescape_work_order = find_by_id(work_order.uuid)
+        sequencescape_work_order.update_attributes(state: work_order.state)
       end
 
       def name

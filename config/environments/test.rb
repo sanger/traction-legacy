@@ -43,6 +43,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Sequencescape api base
-  config.sqsc_api_base = 'http://localhost:3000/api/v2/'
+  config.sequencescape_api_base = 'http://localhost:3000/api/v2/'
 
 end

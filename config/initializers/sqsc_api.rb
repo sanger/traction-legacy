@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-Sqsc::Api::Base.site = Rails.configuration.sqsc_api_base
+Sequencescape::Api::Base.site = Rails.configuration.sequencescape_api_base
 
-Sqsc::Api::WorkOrder = Sqsc::Api::FakeWorkOrder if Rails.env.test?
+Sequencescape::Api::WorkOrder = Sequencescape::Api::FakeWorkOrder if Rails.env.test?

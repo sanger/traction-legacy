@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-module Sqsc
+module Sequencescape
   module Api
-    # creates FakeWorkOrder, that does not require connection to sqsc api
+    # creates FakeWorkOrder, that does not require connection to sequencescape api
     class FakeWorkOrder
       include ActiveModel::Model
 
       attr_accessor :id, :state, :name, :to_key, :model_name, :sample_uuid
 
-      # mocking actual Sqsc::Api::WorkOrder methods
+      # mocking actual Sequencescape::Api::WorkOrder methods
 
       def self.for_reception
         test_work_orders.select { |work_order| work_order.state == 'pending' }
@@ -22,8 +22,9 @@ module Sqsc
         test_work_orders.select { |work_order| work_order.id.to_s == id }.first || new(id: id)
       end
 
-      def update_state_to(state)
-        @state = state
+      def self.update_state(work_order)
+        sequencescape_work_order = find_by_id(work_order.uuid)
+        sequencescape_work_order.state = work_order.state
       end
 
       def sample_uuid
@@ -49,12 +50,12 @@ module Sqsc
       def self.create_test_work_orders
         [].tap do |list|
           5.times do |_i|
-            rand = Random.rand(1000)
-            list << new(id: rand,
+            id = Random.rand(1000)
+            list << new(id: id,
                         state: 'pending',
-                        name: "PLATE_WELL#{rand}",
-                        to_key: [rand.to_s],
-                        model_name: ModelName.new('sqsc_api_work_order'))
+                        name: "PLATE_WELL#{id}",
+                        to_key: [id.to_s],
+                        model_name: ModelName.new('sequencescape_api_work_order'))
           end
         end
       end

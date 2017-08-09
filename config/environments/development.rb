@@ -55,5 +55,5 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   # Sequencescape api base
-  config.sqsc_api_base = 'http://localhost:3000/api/v2/'
+  config.sequencescape_api_base = 'http://localhost:3000/api/v2/'
 end
