@@ -15,7 +15,7 @@
     <tbody>
       <% work_orders.each do |work_order| %>
         <tr id="<%= dom_id(work_order) %>">
-          <td><%= work_order.sample_name %></td>
+          <td><%= work_order.name %></td>
           <td><%= work_order.state %></td>
           <td><%= link_to 'Edit', edit_work_order_path(work_order) %></td>
           <td><%= link_to 'Show', work_order_path(work_order) %></td>

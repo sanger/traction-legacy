@@ -7,11 +7,5 @@ class Library < ApplicationRecord
 
   validates_presence_of :kit_number, :volume
 
-  after_initialize :build_tube
-
-  private
-
-  def build_tube
-    self.tube = Tube.new
-  end
+  include TubeBuilder
 end
