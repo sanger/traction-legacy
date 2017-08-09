@@ -59,6 +59,13 @@ module Sequencescape
           end
         end
       end
+
+      def self.create_invalid_test_work_orders
+        work_orders = create_test_work_orders
+        work_orders[0].id = nil
+        work_orders[1].name = nil
+        @test_work_orders = work_orders
+      end
     end
   end
 end
