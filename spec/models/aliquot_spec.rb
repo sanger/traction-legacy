@@ -30,10 +30,10 @@ RSpec.describe Aliquot, type: :model do
   end
 
   it 'must have a tube' do
-    expect(build(:aliquot, tube: nil)).to_not be_valid
+    expect(build(:aliquot).tube).to be_present
   end
 
-  it 'can have a name' do
-    expect(build(:aliquot).name).to_not be_nil
+  it 'is not valid without a name' do
+    expect(build(:aliquot, name: nil)).to_not be_valid
   end
 end

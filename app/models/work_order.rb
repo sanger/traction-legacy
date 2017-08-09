@@ -14,8 +14,7 @@ class WorkOrder < ApplicationRecord
 
   accepts_nested_attributes_for :aliquot, :library
 
-  delegate :sample, to: :aliquot
-  delegate :name, to: :sample, prefix: true
+  delegate :name, to: :aliquot
 
   before_save :add_event
 

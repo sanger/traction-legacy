@@ -2,7 +2,6 @@
 
 FactoryGirl.define do
   factory :sample do
-    sequence(:name) { |n| "SAMPLE-#{n}" }
     uuid { SecureRandom.uuid }
 
     after(:build) do |sample|
