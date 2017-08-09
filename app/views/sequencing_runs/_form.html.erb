@@ -21,18 +21,18 @@
           <th>Sample</th>
         </thead>
         <tbody>
-        <% (1..5).each do |i| %>
-          <%= f.fields_for :flowcells, Flowcell.new do |flowcell| %>
-            <tr id="flowcell_<%= i %>">
-              <td><%= i %></td>
+        <% sequencing_run.flowcells_by_position.each do |flowcell| %>
+          <%= f.fields_for :flowcells, flowcell do |fields_for_flowcell| %>
+            <tr id="flowcell_<%= flowcell.position %>">
+              <td><%= flowcell.position %></td>
               <td>
-                <div class="form-group" ><%= flowcell.text_field :flowcell_id %></div>
+                <div class="form-group" ><%= fields_for_flowcell.text_field :flowcell_id %></div>
               </td>
               <td>
-                <div class="form-group" ><%= flowcell.select(:work_order_id, options_from_collection_for_select(WorkOrder.by_state(:library_preparation), 'id', 'sample_name'), {include_blank: 'Select sample...'}, class: 'select2' ) %></div>
+                <div class="form-group" ><%= fields_for_flowcell.select(:work_order_id, options_from_collection_for_select(WorkOrder.by_state(:library_preparation), 'id', 'name'), {include_blank: 'Select sample...'}, class: 'select2' ) %></div>
               </td>
             </div>
-            <%= flowcell.hidden_field(:position, value: i) %>
+            <%= fields_for_flowcell.hidden_field(:position, value: flowcell.position) %>
           <% end %>
         <% end %>
         </tbody>

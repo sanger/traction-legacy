@@ -15,7 +15,7 @@ class MaximumFlowcellValidator < ActiveModel::Validator
             total_flowcell_count = work_order.flowcells.count + count
             next unless work_order.number_of_flowcells < total_flowcell_count
             record.errors.add(:work_order,
-                              "#{work_order.sample_name} has #{total_flowcell_count}
+                              "#{work_order.name} has #{total_flowcell_count}
                               flowcells which is more than was originally requested
                               (#{work_order.number_of_flowcells})")
           end
