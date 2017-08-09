@@ -54,11 +54,6 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.reload).to be_completed
   end
 
-  it '#sample_name returns sample name' do
-    work_order = build(:work_order)
-    expect(work_order.sample_name).to eq(work_order.aliquot.sample.name)
-  end
-
   it 'creates an event when saved' do
     work_order = create(:work_order)
     expect(work_order.events.count).to eq(1)

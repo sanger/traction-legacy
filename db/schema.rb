@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 20170802071217) do
 
   create_table "aliquots", force: :cascade do |t|
+    t.string "name"
     t.integer "fragment_size"
     t.decimal "concentration", precision: 18, scale: 8
     t.integer "qc_state"
@@ -57,7 +58,6 @@ ActiveRecord::Schema.define(version: 20170802071217) do
   end
 
   create_table "samples", force: :cascade do |t|
-    t.string "name"
     t.string "uuid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

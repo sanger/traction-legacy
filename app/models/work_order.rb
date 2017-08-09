@@ -15,8 +15,7 @@ class WorkOrder < ApplicationRecord
 
   accepts_nested_attributes_for :aliquot, :library
 
-  delegate :sample, to: :aliquot
-  delegate :name, to: :sample, prefix: true
+  delegate :name, to: :aliquot
 
   scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
 
