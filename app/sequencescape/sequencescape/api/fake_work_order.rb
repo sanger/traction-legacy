@@ -63,6 +63,7 @@ module Sequencescape
 
       ModelName = Struct.new(:param_key)
 
+      #rubocop:disable all
       def self.create_test_work_orders
         [].tap do |list|
           5.times do |_i|
@@ -72,10 +73,11 @@ module Sequencescape
                         name: "PLATE_WELL#{id}",
                         to_key: [id.to_s],
                         model_name: ModelName.new('sequencescape_api_work_order'),
-                        options: {library_type: 'rapid', file_type: 'fast5', number_of_flowcells: 3})
+                        options: { library_type: 'rapid', file_type: 'fast5', number_of_flowcells: 3 })
           end
         end
       end
+      #rubocop:enable all
 
       def self.create_invalid_test_work_orders
         work_orders = create_test_work_orders
