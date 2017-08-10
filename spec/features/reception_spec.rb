@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Reception and upload', type: :feature do
+RSpec.feature 'Reception', type: :feature do
   scenario 'new sequencescape workorders should be on the reception page' do
     work_orders = Sequencescape::Api::WorkOrder.test_work_orders
     visit root_path

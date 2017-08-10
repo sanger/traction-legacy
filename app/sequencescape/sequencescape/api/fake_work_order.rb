@@ -6,7 +6,7 @@ module Sequencescape
     class FakeWorkOrder
       include ActiveModel::Model
 
-      attr_accessor :id, :state, :name, :to_key, :model_name, :sample_uuid
+      attr_accessor :id, :state, :name, :to_key, :model_name, :sample_uuid, :options
 
       # mocking actual Sequencescape::Api::WorkOrder methods
 
@@ -32,7 +32,23 @@ module Sequencescape
       end
 
       def not_ready_for_upload
-        name.nil? || id.nil? || sample_uuid.nil?
+        name.nil? || id.nil? || sample_uuid.nil? || required_option_missing
+      end
+
+      def library_preparation_type
+        options[:library_type]
+      end
+
+      def file_type
+        options[:file_type]
+      end
+
+      def number_of_flowcells
+        options[:number_of_flowcells]
+      end
+
+      def required_option_missing
+        !(library_preparation_type && file_type && number_of_flowcells)
       end
 
       # create and destroy test work orders for tests
@@ -55,7 +71,8 @@ module Sequencescape
                         state: 'pending',
                         name: "PLATE_WELL#{id}",
                         to_key: [id.to_s],
-                        model_name: ModelName.new('sequencescape_api_work_order'))
+                        model_name: ModelName.new('sequencescape_api_work_order'),
+                        options: {library_type: 'rapid', file_type: 'fast5', number_of_flowcells: 3})
           end
         end
       end

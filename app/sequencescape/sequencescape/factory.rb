@@ -14,10 +14,14 @@ module Sequencescape
     def create!
       sequencescape_work_orders.each do |sequencescape_work_order|
         ActiveRecord::Base.transaction do
-          sample = Sample.find_or_create_by(uuid: sequencescape_work_order.sample_uuid)
+          sample = Sample.find_or_create_by!(uuid: sequencescape_work_order.sample_uuid)
           aliquot = Aliquot.new(sample: sample, name: sequencescape_work_order.name)
           # sequencescape work orders do nit have uuids for now, do I use id as unique identifier
-          work_order = WorkOrder.create(aliquot: aliquot, uuid: sequencescape_work_order.id)
+          work_order = WorkOrder.create!(aliquot: aliquot,
+                                          uuid: sequencescape_work_order.id,
+                                          library_preparation_type: sequencescape_work_order.library_preparation_type,
+                                          file_type: sequencescape_work_order.file_type,
+                                          number_of_flowcells: sequencescape_work_order.number_of_flowcells)
           # should it be here? it feels right it fails if sequencescape is not updated
           Sequencescape::Api::WorkOrder.update_state(work_order)
         end

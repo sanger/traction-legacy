@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Reception and upload', type: :feature do
+RSpec.feature 'Upload', type: :feature do
   scenario 'new sequencescape workorders can be uploaded if valid' do
     work_orders = Sequencescape::Api::WorkOrder.create_invalid_test_work_orders
     visit root_path

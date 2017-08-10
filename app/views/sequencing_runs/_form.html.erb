@@ -1,0 +1,46 @@
+<%= form_for sequencing_run do |f| %>
+  <fieldset class="container">
+    <legend>
+      Sequencing Run
+    </legend>
+    <%= render "error_messages", target: sequencing_run %>
+    <div class="form-group" >
+      <%= f.label :instrument_name %>
+      <%= f.text_field :instrument_name, { class: 'form-control' } %>
+    </div>
+    <div class="form-group" >
+      <%= f.label :state %>
+      <%= f.select :state, SequencingRun.states.keys, { allow_blank: true, class: 'form-control' } %>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table">
+        <thead>
+          <th>Position</th>
+          <th>Flowcell ID</th>
+          <th>Sample</th>
+        </thead>
+        <tbody>
+        <% sequencing_run.flowcells_by_position.each do |flowcell| %>
+          <%= f.fields_for :flowcells, flowcell do |fields_for_flowcell| %>
+            <tr id="flowcell_<%= flowcell.position %>">
+              <td><%= flowcell.position %></td>
+              <td>
+                <div class="form-group" ><%= fields_for_flowcell.text_field :flowcell_id %></div>
+              </td>
+              <td>
+                <div class="form-group" ><%= fields_for_flowcell.select(:work_order_id, options_from_collection_for_select(WorkOrder.by_state(:library_preparation), 'id', 'name', flowcell.work_order_id), {include_blank: 'Select sample...'}, class: 'select2' ) %></div>
+              </td>
+            </div>
+            <%= fields_for_flowcell.hidden_field(:position, value: flowcell.position) %>
+          <% end %>
+        <% end %>
+        </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.submit class: 'btn btn-primary pull-right' %>
+    </div>
+  </fieldset>
+<% end %>

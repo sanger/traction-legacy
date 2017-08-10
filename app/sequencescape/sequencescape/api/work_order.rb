@@ -32,8 +32,25 @@ module Sequencescape
         samples.first.uuid
       end
 
+      def library_preparation_type
+        options[:library_type]
+      end
+
+      def file_type
+        options[:file_type]
+      end
+
+      def number_of_flowcells
+        # now Sequencescape does not have this option, so 1 is default
+        options[:number_of_flowcells] || 1
+      end
+
       def not_ready_for_upload
-        name.nil? || id.nil? || sample_uuid.nil?
+        name.nil? || id.nil? || sample_uuid.nil? || required_options || required_option_missing
+      end
+
+      def required_option_missing
+        !(library_preparation_type && file_type && number_of_flowcells)
       end
     end
   end
