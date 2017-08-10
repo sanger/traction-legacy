@@ -46,6 +46,7 @@ gem 'jquery-rails'
 # We use the sortable component of jquery ui
 gem 'jquery-ui-rails'
 
+gem 'select2-rails'
 
 group :development, :test do
   gem 'sqlite3'

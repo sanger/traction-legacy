@@ -1,0 +1,28 @@
+<div class="title row">
+  <div class="col-md-12">
+    <h2>Sequencing Runs</h2>
+    <div><%= link_to 'New Sequencing Run', new_sequencing_run_path %></div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped">
+      <thead>
+        <th>Experiment name</th>
+        <th>Instrument name</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+      </thead>
+    <tbody>
+      <% sequencing_runs.each do |sequencing_run| %>
+        <tr id="<%= dom_id(sequencing_run) %>">
+          <td><%= sequencing_run.experiment_name %></td>
+          <td><%= sequencing_run.instrument_name %></td>
+          <td><%= link_to 'Edit', edit_sequencing_run_path(sequencing_run) %></td>
+          <td><%= link_to 'Show', sequencing_run_path(sequencing_run) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+    </table>
+  </div>
+</div>

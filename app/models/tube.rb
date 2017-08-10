@@ -2,8 +2,6 @@
 
 # A Tube
 class Tube < ApplicationRecord
-  has_one :library
-
   after_create :generate_barcode
 
   private

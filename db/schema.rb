@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170728093046) do
+ActiveRecord::Schema.define(version: 20170802071217) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 20170728093046) do
     t.index ["work_order_id"], name: "index_events_on_work_order_id"
   end
 
+  create_table "flowcells", force: :cascade do |t|
+    t.string "flowcell_id"
+    t.integer "position"
+    t.integer "sequencing_run_id"
+    t.integer "work_order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sequencing_run_id"], name: "index_flowcells_on_sequencing_run_id"
+    t.index ["work_order_id"], name: "index_flowcells_on_work_order_id"
+  end
+
   create_table "libraries", force: :cascade do |t|
     t.string "kit_number"
     t.string "ligase_batch_number"
@@ -52,6 +63,13 @@ ActiveRecord::Schema.define(version: 20170728093046) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sequencing_runs", force: :cascade do |t|
+    t.string "instrument_name"
+    t.integer "state", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tubes", force: :cascade do |t|
     t.string "barcode"
     t.datetime "created_at", null: false
@@ -61,6 +79,9 @@ ActiveRecord::Schema.define(version: 20170728093046) do
   create_table "work_orders", force: :cascade do |t|
     t.integer "state", default: 0
     t.string "uuid"
+    t.integer "number_of_flowcells"
+    t.string "library_preparation_type"
+    t.string "file_type"
     t.integer "aliquot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

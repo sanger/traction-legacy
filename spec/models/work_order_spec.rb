@@ -68,4 +68,43 @@ RSpec.describe WorkOrder, type: :model do
     expect(event.state_from).to eq(state)
     expect(event.state_to).to eq(work_order.state)
   end
+
+  it 'must have a number of flowcells' do
+    expect(build(:work_order, number_of_flowcells: nil)).to_not be_valid
+  end
+
+  it 'number of flowcells cannot be updated' do
+    work_order = create(:work_order)
+    number_of_flowcells = work_order.number_of_flowcells
+    work_order.update_attributes(number_of_flowcells: 999)
+    expect(work_order.reload.number_of_flowcells).to eq(number_of_flowcells)
+  end
+
+  it 'must have a library preparation type' do
+    expect(build(:work_order, library_preparation_type: nil)).to_not be_valid
+  end
+
+  it 'library preparation type cannot be updated' do
+    work_order = create(:work_order)
+    library_preparation_type = work_order.library_preparation_type
+    work_order.update_attributes(library_preparation_type: 'any')
+    expect(work_order.reload.library_preparation_type).to eq(library_preparation_type)
+  end
+
+  it 'must have a file type' do
+    expect(build(:work_order, file_type: nil)).to_not be_valid
+  end
+
+  it 'file type cannot be updated' do
+    work_order = create(:work_order)
+    file_type = work_order.file_type
+    work_order.update_attributes(file_type: 'excel')
+    expect(work_order.reload.file_type).to eq(file_type)
+  end
+
+  it '#by_state returns all work orders by requested state' do
+    create_list(:work_order, 5)
+    create_list(:work_order_for_sequencing, 5)
+    expect(WorkOrder.by_state(:library_preparation).count).to eq(5)
+  end
 end
