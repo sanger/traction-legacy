@@ -57,13 +57,16 @@ RSpec.describe SequencingRun, type: :model do
 
     sequencing_run.instrument_crashed!
     expect(sequencing_run).to be_instrument_crashed
+
+    sequencing_run.restart!
+    expect(sequencing_run).to be_restart
   end
 
-  it '#flowcells_by_position will return the correct flowcells in the correct order for each sequencing run' do
+  it '#flowcells_by_position will return the flowcells in the correct order' do
     sequencing_run = build(:sequencing_run)
     flowcells = sequencing_run.flowcells_by_position
     expect(flowcells.count).to eq(SequencingRun::MAX_FLOWCELLS)
-    expect(flowcells.all? { |f| f.new_record? }).to be_truthy
+    expect(flowcells.all?(&:new_record?)).to be_truthy
 
     flowcell_1 = create(:flowcell, position: 1)
     flowcell_5 = create(:flowcell, position: 5)

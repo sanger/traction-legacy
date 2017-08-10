@@ -2,12 +2,11 @@
 
 # SequencingRun
 class SequencingRun < ApplicationRecord
-
   MAX_FLOWCELLS = 5
 
   has_many :flowcells
 
-  enum state: %i[pending completed user_terminated instrument_crashed]
+  enum state: %i[pending completed user_terminated instrument_crashed restart]
 
   validates_presence_of :instrument_name
 
@@ -35,7 +34,7 @@ class SequencingRun < ApplicationRecord
   def flowcells_by_position
     [].tap do |f|
       (1..MAX_FLOWCELLS).each do |i|
-        f << (flowcells.detect { |f| f.position == i } || Flowcell.new(position: i))
+        f << (flowcells.detect { |o| o.position == i } || Flowcell.new(position: i))
       end
     end
   end

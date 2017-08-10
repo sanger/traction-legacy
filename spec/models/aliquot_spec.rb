@@ -30,7 +30,13 @@ RSpec.describe Aliquot, type: :model do
   end
 
   it 'must have a tube' do
-    expect(build(:aliquot).tube).to be_present
+    aliquot = create(:aliquot)
+    tube = aliquot.tube
+    expect(aliquot.tube).to be_present
+    expect(aliquot.tube.barcode).to be_present
+
+    found_aliquot = Aliquot.find(aliquot.id)
+    expect(found_aliquot.tube).to eq(tube)
   end
 
   it 'is not valid without a name' do

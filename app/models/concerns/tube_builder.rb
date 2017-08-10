@@ -5,7 +5,7 @@ module TubeBuilder
   extend ActiveSupport::Concern
 
   included do
-    after_initialize :build_tube
+    after_initialize :build_tube, if: :new_record?
   end
 
   private

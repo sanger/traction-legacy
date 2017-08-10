@@ -16,6 +16,12 @@ RSpec.describe Library, type: :model do
   end
 
   it 'must have a tube' do
-    expect(build(:library).tube).to be_present
+    library = create(:library)
+    tube = library.tube
+    expect(library.tube).to be_present
+    expect(library.tube.barcode).to be_present
+
+    found_library = Library.find(library.id)
+    expect(found_library.tube).to eq(tube)
   end
 end
