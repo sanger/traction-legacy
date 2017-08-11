@@ -3,10 +3,13 @@
 require 'rails_helper'
 
 RSpec.feature 'WorkOrders', type: :feature do
+  include WebmockHelpers
+
   let!(:work_orders)  { create_list(:work_order, 5) }
   let!(:work_order)   { work_orders.first }
 
   scenario 'Successfully QC a work order' do
+    stub_updates
     aliquot = build(:aliquot_proceed)
 
     visit work_orders_path
@@ -44,6 +47,8 @@ RSpec.feature 'WorkOrders', type: :feature do
   end
 
   scenario 'Successful Library preparation' do
+    stub_updates
+
     work_order.qc!
     library = build(:library)
 

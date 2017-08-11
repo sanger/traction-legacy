@@ -3,6 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe WorkOrderForm, type: :model do
+  include WebmockHelpers
+
   let!(:work_order) { create(:work_order) }
 
   it 'has the correct template based on the state of the work order' do
@@ -34,6 +36,8 @@ RSpec.describe WorkOrderForm, type: :model do
   end
 
   it 'updates qliquot and changes state if work order is started and attributes present' do
+    stub_updates
+
     attributes = attributes_for(:aliquot_proceed).merge(id: work_order.aliquot.id)
     form = WorkOrderForm.new(work_order)
     expect(form.submit(ActionController::Parameters.new(
@@ -58,6 +62,7 @@ RSpec.describe WorkOrderForm, type: :model do
   end
 
   it 'updates library and changes state if work order is qc and attributes present' do
+    stub_updates
     attributes = attributes_for(:library)
     work_order.qc!
     form = WorkOrderForm.new(work_order)

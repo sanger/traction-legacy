@@ -2,7 +2,7 @@ class CreateWorkOrders < ActiveRecord::Migration[5.1]
   def change
     create_table :work_orders do |t|
       t.integer :state, default: 0
-      t.string :uuid
+      t.string :sequencescape_id
       t.integer :number_of_flowcells
       t.string :library_preparation_type
       t.string :file_type

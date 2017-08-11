@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :work_order do
     aliquot
 
-    uuid { SecureRandom.uuid }
+    sequence(:sequencescape_id)
     library_preparation_type 'rapid'
     file_type 'fast5'
     number_of_flowcells 3
