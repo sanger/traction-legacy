@@ -53,4 +53,7 @@ Rails.application.configure do
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Sequencescape api base
+  config.sequencescape_api_base = 'http://localhost:3000/api/v2/'
 end
