@@ -54,6 +54,5 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # Sequencescape api base
-  config.sequencescape_api_base = 'http://localhost:3000/api/v2/'
+ 
 end
