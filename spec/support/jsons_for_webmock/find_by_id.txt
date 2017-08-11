@@ -1,0 +1,50 @@
+{
+  "data": [
+    {
+      "id": "6",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/6"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Ligation",
+          "file_type": "FASTQ"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/6/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/6/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/6/source_receptacle"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/6/samples"
+          }
+        }
+      }
+    }
+  ],
+  "links": {
+    "first": "http://localhost:3000/api/v2/work_orders?filter%5Bid%5D=6&page%5Bnumber%5D=1&page%5Bsize%5D=100",
+    "last": "http://localhost:3000/api/v2/work_orders?filter%5Bid%5D=6&page%5Bnumber%5D=1&page%5Bsize%5D=100"
+  }
+}

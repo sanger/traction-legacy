@@ -3,8 +3,11 @@
 require 'rails_helper'
 
 RSpec.feature 'Reception', type: :feature do
+  include WebmockHelpers
+
   scenario 'new sequencescape workorders should be on the reception page' do
-    work_orders = Sequencescape::Api::WorkOrder.test_work_orders
+    stub :reception
+    work_orders = Sequencescape::Api::WorkOrder.for_reception
     visit root_path
     click_on 'Reception'
     expect(page).to have_current_path(reception_path)
@@ -14,9 +17,5 @@ RSpec.feature 'Reception', type: :feature do
       expect(fields[1].text).to eq work_orders[index].name
       expect(fields[2].text).to eq work_orders[index].state
     end
-  end
-
-  after do
-    Sequencescape::Api::WorkOrder.destroy_test_work_orders
   end
 end

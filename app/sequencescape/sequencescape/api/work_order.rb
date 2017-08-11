@@ -46,7 +46,7 @@ module Sequencescape
       end
 
       def not_ready_for_upload
-        name.nil? || id.nil? || sample_uuid.nil? || required_options || required_option_missing
+        name.nil? || id.nil? || sample_uuid.nil? || required_option_missing
       end
 
       def required_option_missing
