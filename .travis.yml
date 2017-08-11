@@ -1,0 +1,41 @@
+language: ruby
+rvm:
+- 2.4.1
+dist: trusty
+bundler_args: "--deployment"
+sudo: false
+cache:
+  bundler: true
+  directories:
+  - node_modules
+  yarn: true
+node_js:
+- '7'
+install:
+- nvm install node
+- node -v
+- npm i -g yarn
+- yarn
+- bundle install
+before_script:
+- cp config/database.yml.example config/database.yml
+- cp config/secrets.yml.example config/secrets.yml
+- bundle exec rake db:reset
+- bundle exec rake db:setup
+- bundle exec rails webpacker:verify_install
+- RAILS_ENV=test bundle exec rake assets:precompile
+env:
+- DB_REQUIRED='true' RAILS_ENV=test TZ=Europe/London SUITE='rspec'
+- SUITE=rubocop
+script:
+- bundle exec $SUITE
+before_deploy: ./compile-build
+deploy:
+  skip_cleanup: true
+  provider: releases
+  file_glob: true
+  file: 'release.tar.gz'
+  on:
+    tags: true
+  api_key:
+    secure: JyyIfYgL8PwCNuMZU1tTeVJ3oou0sLf4wK691V2HowZlLUH+iE9dK4MIp0j4G+puIb/MEULBIXtyu7AcWGNBZMII/JkKRznChZ81dY8+daR4/3dRlJz+ORyilxv0AwUFHB21j9s/aKyLvsEJ+h++Ge7XiVLBY8/Zt2XNFgpkRijro5z2WMZpa6y0KltIxud3BqLsjx6I27gkKxiaTDhI/BFc9yeqc1r3O8sLz6oCZwlEAX7uWGR7zYmKS/rxrtt5JzDXCQ+wy/D+xqXBVdMttN1mslrijRvo/oPt+aMpWnm0Sa61ORjMm4X1Hqzhvl5fUQ3zv+3eWdtOWrNDhjzjViko4JFIaBSMm8sIR7dgDD7xtFqWAp9Wjlpk/sc9jCYGgFvTji+Ye1Wb0mb2u6ZQe/+bKtU0hufei+3aDUaR+zNIQjxY5ZV3jdnzyECiiyMLQSleXcNYoCjDqcRvt7ljdk5NeswRteoJbw75INEjoiwXe0jIx/8Cw2PpP5LvqP/D9P/K6o0uxmsP+rcUnRQzWwRh8m+ViA+w6QLUPPQh4JQiFCFIaVLrsKCa00GW/ecPvtI1ZVClQpwR7KhzDV+ts/JSi9Bx9J8lExaBbtnUml5GZDpus1GpiyXDN+HiEdulmvenj4XRAPrvN7R1Qv7pCjxxvUTFA/iWiGsGCg/9Nvs=

@@ -1,0 +1,7 @@
+<div class="flash">
+  <% flash.each do |key, value| %>
+    <div title="<%= key.to_s.humanize %>" class="<%= key %> alert alert-success">
+      <p class="text-center"><%= value %></p>
+    </div>
+  <% end %>
+</div>
