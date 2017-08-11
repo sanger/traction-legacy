@@ -46,8 +46,6 @@ gem 'jquery-rails'
 # We use the sortable component of jquery ui
 gem 'jquery-ui-rails'
 
-gem 'json_api_client', '~> 1.1'
-
 gem 'select2-rails'
 
 group :development, :test do
