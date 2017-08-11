@@ -27,5 +27,4 @@ RSpec.feature 'Upload', type: :feature do
       expect(fields[1].text).to eq 'started'
     end
   end
-
 end

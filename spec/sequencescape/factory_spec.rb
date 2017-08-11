@@ -21,5 +21,4 @@ RSpec.describe Sequencescape::Factory, type: :model do
     expect(Aliquot.count).to eq count
     expect(a_request(:patch, //)).to have_been_made.times(count)
   end
-
 end

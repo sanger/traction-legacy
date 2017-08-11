@@ -18,5 +18,4 @@ RSpec.feature 'Reception', type: :feature do
       expect(fields[2].text).to eq work_orders[index].state
     end
   end
-
 end
