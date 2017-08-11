@@ -9,11 +9,7 @@ RSpec.describe Sequencescape::Factory, type: :model do
     stub :reception
     stub_updates
     sequencescape_work_orders = Sequencescape::Api::WorkOrder.for_reception
-    sequencescape_work_orders_ids = sequencescape_work_orders.map { |w| w.id.to_s }
-    factory = Sequencescape::Factory.new(sequencescape_work_orders: sequencescape_work_orders,
-                                         sequencescape_work_orders_ids: sequencescape_work_orders_ids) #rubocop:disable all
-    expect(factory.valid?).to be true
-    factory.create!
+    Sequencescape::Factory.create!(sequencescape_work_orders)
     count = sequencescape_work_orders.count
     expect(WorkOrder.count).to eq count
     expect(Tube.count).to eq count

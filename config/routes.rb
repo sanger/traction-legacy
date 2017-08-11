@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :work_orders, :sequencing_runs
 
   get 'reception', to: 'reception#index'
-  post '/upload/create', to: 'upload#create'
+  post 'reception/upload', to: 'reception#upload'
 
   root 'work_orders#index'
 end
