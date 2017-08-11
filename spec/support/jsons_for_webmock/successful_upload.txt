@@ -13,6 +13,10 @@
           "library_type": "Ligation",
           "file_type": "FASTQ"
         },
+        "quantity": {
+          "number": 2,
+          "unit_of_measurement": "flowcells"
+        },
         "at_risk": null
       },
       "relationships": {
@@ -64,6 +68,10 @@
         "options": {
           "library_type": "Ligation",
           "file_type": "FASTQ"
+        },
+        "quantity": {
+          "number": 2,
+          "unit_of_measurement": "flowcells"
         },
         "at_risk": null
       },

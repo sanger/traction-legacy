@@ -26,14 +26,19 @@ class WorkOrderForm
 
   def submit(params)
     @params = params
+    if valid?
+      update_work_order
+    else
+      false
+    end
+  end
+
+  def update_work_order
     ActiveRecord::Base.transaction do
-      if valid?
-        work_order.update_attributes(work_order_params)
-        work_order.next_state!
-        true
-      else
-        false
-      end
+      work_order.update_attributes(work_order_params)
+      work_order.next_state!
+      Sequencescape::Api::WorkOrder.update_state(work_order)
+      true
     end
   end
 
