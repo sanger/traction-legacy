@@ -20,7 +20,7 @@ module Sequencescape
       end
 
       def self.update_state(work_order)
-        sequencescape_work_order = find_by_id(work_order.uuid)
+        sequencescape_work_order = find_by_id(work_order.sequencescape_id)
         sequencescape_work_order.update_attributes(state: work_order.state)
       end
 
@@ -41,16 +41,7 @@ module Sequencescape
       end
 
       def number_of_flowcells
-        # now Sequencescape does not have this option, so 1 is default
-        options[:number_of_flowcells] || 1
-      end
-
-      def not_ready_for_upload
-        name.nil? || id.nil? || sample_uuid.nil? || required_options || required_option_missing
-      end
-
-      def required_option_missing
-        !(library_preparation_type && file_type && number_of_flowcells)
+        quantity[:number]
       end
     end
   end

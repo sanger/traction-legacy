@@ -1,0 +1,222 @@
+{
+  "data": [
+    {
+      "id": "6",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/6"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Ligation",
+          "file_type": "FASTQ"
+        },
+        "quantity": {
+          "number": 2,
+          "unit_of_measurement": "flowcells"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/6/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/6/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/6/source_receptacle"
+          },
+          "data": {
+            "type": "wells",
+            "id": "30"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/6/samples"
+          },
+          "data": [
+            {
+              "type": "samples",
+              "id": "30"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/7"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Ligation",
+          "file_type": "FASTQ"
+        },
+        "quantity": {
+          "number": 2,
+          "unit_of_measurement": "flowcells"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/7/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/7/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/7/source_receptacle"
+          },
+          "data": {
+            "type": "wells",
+            "id": "31"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/7/samples"
+          },
+          "data": [
+            {
+              "type": "samples",
+              "id": "31"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "30",
+      "type": "wells",
+      "links": {
+        "self": "http://localhost:3000/api/v2/wells/30"
+      },
+      "attributes": {
+        "uuid": "71ff594a-7db6-11e7-80f3-acbc32c8582d",
+        "name": "DN1S:C1",
+        "position": {
+          "name": "C1"
+        },
+        "labware_barcode": {
+          "ean13_barcode": "1220000001831",
+          "sanger_human_barcode": "DN1S"
+        }
+      },
+      "relationships": {
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/30/relationships/samples",
+            "related": "http://localhost:3000/api/v2/wells/30/samples"
+          }
+        },
+        "studies": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/30/relationships/studies",
+            "related": "http://localhost:3000/api/v2/wells/30/studies"
+          }
+        },
+        "projects": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/30/relationships/projects",
+            "related": "http://localhost:3000/api/v2/wells/30/projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "31",
+      "type": "wells",
+      "links": {
+        "self": "http://localhost:3000/api/v2/wells/31"
+      },
+      "attributes": {
+        "uuid": "7200525a-7db6-11e7-80f3-acbc32c8582d",
+        "name": "DN1S:C2",
+        "position": {
+          "name": "C2"
+        },
+        "labware_barcode": {
+          "ean13_barcode": "1220000001831",
+          "sanger_human_barcode": "DN1S"
+        }
+      },
+      "relationships": {
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/31/relationships/samples",
+            "related": "http://localhost:3000/api/v2/wells/31/samples"
+          }
+        },
+        "studies": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/31/relationships/studies",
+            "related": "http://localhost:3000/api/v2/wells/31/studies"
+          }
+        },
+        "projects": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/31/relationships/projects",
+            "related": "http://localhost:3000/api/v2/wells/31/projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "30",
+      "type": "samples",
+      "links": {
+        "self": "http://localhost:3000/api/v2/samples/30"
+      },
+      "attributes": {
+        "name": "sample_in_stock_well_C1",
+        "sanger_sample_id": null,
+        "uuid": "729bac32-7db6-11e7-80f3-acbc32c8582d"
+      }
+    },
+    {
+      "id": "31",
+      "type": "samples",
+      "links": {
+        "self": "http://localhost:3000/api/v2/samples/31"
+      },
+      "attributes": {
+        "name": "sample_in_stock_well_C2",
+        "sanger_sample_id": null,
+        "uuid": "729e9f32-7db6-11e7-80f3-acbc32c8582d"
+      }
+    }
+  ],
+  "links": {
+    "first": "http://localhost:3000/api/v2/work_orders?filter%5Bid%5D=6%2C7&include=samples%2Csource_receptacle&page%5Bnumber%5D=1&page%5Bsize%5D=100",
+    "last": "http://localhost:3000/api/v2/work_orders?filter%5Bid%5D=6%2C7&include=samples%2Csource_receptacle&page%5Bnumber%5D=1&page%5Bsize%5D=100"
+  }
+}

@@ -25,14 +25,14 @@ RSpec.describe WorkOrder, type: :model do
   end
 
   it 'must have a uuid' do
-    expect(build(:work_order, uuid: nil)).to_not be_valid
+    expect(build(:work_order, sequencescape_id: nil)).to_not be_valid
   end
 
   it 'uuid cannot be updated' do
     work_order = create(:work_order)
-    uuid = work_order.uuid
-    work_order.update_attributes(uuid: SecureRandom.uuid)
-    expect(work_order.reload.uuid).to eq(uuid)
+    sequencescape_id = work_order.sequencescape_id
+    work_order.update_attributes(sequencescape_id: 999)
+    expect(work_order.reload.sequencescape_id).to eq(sequencescape_id)
   end
 
   it '#next_state! will move work order to next state' do
