@@ -1,0 +1,11 @@
+development: &DEV
+  api_base: http://localhost:3000/api/v2
+
+staging:
+  <<: *DEV
+
+test:
+  <<: *DEV
+
+production:
+  <<: *DEV
