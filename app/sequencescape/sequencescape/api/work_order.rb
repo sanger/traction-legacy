@@ -8,7 +8,9 @@ module Sequencescape
       has_one :source_receptacle
 
       def self.for_reception
-        includes(:samples, :source_receptacle).where(state: 'pending').all
+        includes(:samples, :source_receptacle)
+          .where(order_type: 'traction_grid_ion', state: 'pending')
+          .all
       end
 
       def self.find_by_ids(ids)
