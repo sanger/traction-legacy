@@ -50,6 +50,8 @@ gem 'json_api_client', '~> 1.1'
 
 gem 'select2-rails'
 
+gem 'aasm'
+
 group :development, :test do
   gem 'sqlite3'
 
