@@ -11,7 +11,7 @@
         "state": "pending",
         "options": {
           "library_type": "Ligation",
-          "file_type": "FASTQ"
+          "data_type": "basecalls"
         },
         "quantity": {
           "number": 2,
@@ -67,7 +67,7 @@
         "state": "pending",
         "options": {
           "library_type": "Ligation",
-          "file_type": "FASTQ"
+          "data_type": "basecalls"
         },
         "quantity": {
           "number": 2,

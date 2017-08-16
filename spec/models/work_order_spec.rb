@@ -92,14 +92,14 @@ RSpec.describe WorkOrder, type: :model do
   end
 
   it 'must have a file type' do
-    expect(build(:work_order, file_type: nil)).to_not be_valid
+    expect(build(:work_order, data_type: nil)).to_not be_valid
   end
 
   it 'file type cannot be updated' do
     work_order = create(:work_order)
-    file_type = work_order.file_type
-    work_order.update_attributes(file_type: 'excel')
-    expect(work_order.reload.file_type).to eq(file_type)
+    data_type = work_order.data_type
+    work_order.update_attributes(data_type: 'excel')
+    expect(work_order.reload.data_type).to eq(data_type)
   end
 
   it '#by_state returns all work orders by requested state' do

@@ -9,10 +9,10 @@ class WorkOrder < ApplicationRecord
 
   enum state: %i[started qc library_preparation sequencing completed]
 
-  attr_readonly :sequencescape_id, :library_preparation_type, :file_type, :number_of_flowcells
+  attr_readonly :sequencescape_id, :library_preparation_type, :data_type, :number_of_flowcells
 
   validates_presence_of :sequencescape_id, :library_preparation_type,
-                        :file_type, :number_of_flowcells
+                        :data_type, :number_of_flowcells
 
   accepts_nested_attributes_for :aliquot, :library
 

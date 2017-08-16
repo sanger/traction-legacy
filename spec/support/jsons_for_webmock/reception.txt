@@ -11,7 +11,7 @@
         "state": "pending",
         "options": {
           "library_type": "Rapid",
-          "file_type": "FAST5"
+          "data_type": "basecalls and raw data"
         },
         "quantity": {
           "number": 1,
@@ -67,7 +67,7 @@
         "state": "pending",
         "options": {
           "library_type": "Rapid",
-          "file_type": "FAST5"
+          "data_type": "basecalls and raw data"
         },
         "quantity": {
           "number": 2,
@@ -123,7 +123,7 @@
         "state": "pending",
         "options": {
           "library_type": "Ligation",
-          "file_type": "FASTQ"
+          "data_type": "basecalls"
         },
         "quantity": {
           "number": 3,
@@ -179,7 +179,7 @@
         "state": "pending",
         "options": {
           "library_type": "Ligation",
-          "file_type": "FASTQ"
+          "data_type": "basecalls"
         },
         "quantity": {
           "number": 4,
@@ -235,7 +235,7 @@
         "state": "pending",
         "options": {
           "library_type": "Ligation",
-          "file_type": "FASTQ"
+          "data_type": "basecalls"
         },
         "quantity": {
           "number": 5,
