@@ -14,6 +14,8 @@ FactoryGirl.define do
     end
 
     factory :work_order_for_sequencing do
+      aliquot { create(:aliquot_proceed) }
+      library
       after(:create, &:library_preparation!)
     end
   end

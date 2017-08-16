@@ -3,9 +3,15 @@
 require 'rails_helper'
 
 RSpec.feature 'SequencingRuns', type: :feature do
+  include WebmockHelpers
+
   let!(:work_orders)    { create_list(:work_order_for_sequencing, 2, number_of_flowcells: 3) }
   let(:flowcells)       { build_list(:flowcell, 5) }
   let(:sequencing_run)  { build(:sequencing_run) }
+
+  before(:each) do
+    stub_updates
+  end
 
   # TODO: We are having to fill in using ids. This is bad and brittle but seems to be the
   # only way as flowcells are added via a table where each field does not have a label.

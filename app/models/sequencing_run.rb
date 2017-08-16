@@ -15,7 +15,7 @@ class SequencingRun < ApplicationRecord
 
   with_options if: :flowcells_present? do
     validates_with MaximumFlowcellValidator
-    validates_with WorkOrderStateValidator, state: :library_preparation
+    validates_with WorkOrderLibraryValidator
   end
 
   def experiment_name
@@ -23,19 +23,11 @@ class SequencingRun < ApplicationRecord
   end
 
   def work_orders
-    return unless flowcells_present?
+    return [] unless flowcells_present?
     flowcells.collect(&:work_order)
   end
 
   def flowcells_present?
     flowcells.present?
-  end
-
-  def flowcells_by_position
-    [].tap do |f|
-      (1..MAX_FLOWCELLS).each do |i|
-        f << (flowcells.detect { |o| o.position == i } || Flowcell.new(position: i))
-      end
-    end
   end
 end
