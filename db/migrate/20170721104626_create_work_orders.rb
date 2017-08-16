@@ -6,6 +6,7 @@ class CreateWorkOrders < ActiveRecord::Migration[5.1]
       t.integer :number_of_flowcells
       t.string :library_preparation_type
       t.string :data_type
+      t.string :study_uuid, length: 36
       t.references :aliquot, index: true, foreign_key: true
       t.timestamps
     end
