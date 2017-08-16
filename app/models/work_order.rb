@@ -28,6 +28,10 @@ class WorkOrder < ApplicationRecord
     update_attributes(state: next_state)
   end
 
+  def library?
+    library.present?
+  end
+
   private
 
   def add_event
