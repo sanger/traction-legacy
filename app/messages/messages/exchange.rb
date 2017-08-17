@@ -4,18 +4,8 @@ module Messages
   # The exchange handled the broadcast of messages
   # to a bunny exchange
   class Exchange
-    # A simple logger replacement for a channel
-    class Logger
-      def topic(*args)
-        Rails.logger.info "Configuring topic exchange with: #{args}"
-      end
-
-      def publish(message, routing_key:)
-        Rails.logger.info "Published: #{message} with routing key: #{routing_key}"
-      end
-    end
-
     class << self
+      # Configure a global exchange
       def configure(channel:, exchange:)
         @connection = new(channel: channel, exchange: exchange)
       end

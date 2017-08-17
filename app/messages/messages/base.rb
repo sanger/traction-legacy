@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_dependency 'messages'
 # See ../messages.rb
 module Messages
   # Base message class. Inherited subclasses should set a key
