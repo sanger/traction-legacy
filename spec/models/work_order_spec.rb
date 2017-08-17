@@ -35,25 +35,6 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.reload.sequencescape_id).to eq(sequencescape_id)
   end
 
-  it '#next_state! will move work order to next state' do
-    work_order = create(:work_order)
-
-    work_order.next_state!
-    expect(work_order.reload).to be_qc
-
-    work_order.next_state!
-    expect(work_order.reload).to be_library_preparation
-
-    work_order.next_state!
-    expect(work_order.reload).to be_sequencing
-
-    work_order.next_state!
-    expect(work_order.reload).to be_completed
-
-    work_order.next_state!
-    expect(work_order.reload).to be_completed
-  end
-
   it 'creates an event when saved' do
     work_order = create(:work_order)
     expect(work_order.events.count).to eq(1)
@@ -62,7 +43,7 @@ RSpec.describe WorkOrder, type: :model do
     expect(event.state_to).to eq(work_order.state)
 
     state = work_order.state
-    work_order.next_state!
+    work_order.qc!
     expect(work_order.events.count).to eq(2)
     event = work_order.events.last
     expect(event.state_from).to eq(state)
@@ -106,5 +87,38 @@ RSpec.describe WorkOrder, type: :model do
     create_list(:work_order, 5)
     create_list(:work_order_for_sequencing, 5)
     expect(WorkOrder.by_state(:library_preparation).count).to eq(5)
+  end
+
+  it '#assign_state will change state' do
+    work_order = create(:work_order)
+
+    work_order.assign_state(:qc)
+    expect(WorkOrder.find(work_order.id)).to_not be_qc
+    work_order.save
+    expect(work_order).to be_qc
+
+    work_order.assign_state(:completed)
+    expect(WorkOrder.find(work_order.id)).to_not be_completed
+    work_order.save
+    expect(work_order).to be_completed
+  end
+
+  it '#editable? will check whether work order can be edited in its own right' do
+    work_order = create(:work_order)
+    expect(work_order).to be_editable
+
+    work_order.qc!
+    expect(work_order).to be_editable
+
+    work_order.library_preparation!
+    expect(work_order).to_not be_editable
+  end
+
+  it '#next_state will return next state of work order' do
+    work_order = create(:work_order)
+    expect(work_order.next_state).to eq('qc')
+
+    work_order.qc!
+    expect(work_order.next_state).to eq('library_preparation')
   end
 end
