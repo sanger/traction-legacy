@@ -52,6 +52,9 @@ gem 'select2-rails'
 
 gem 'aasm'
 
+# Bunny talks to RabbitMQ and is used to broadcast messages
+gem 'bunny'
+
 group :development, :test do
   gem 'sqlite3'
 
