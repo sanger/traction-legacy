@@ -38,8 +38,8 @@ module Sequencescape
         options[:library_type]
       end
 
-      def file_type
-        options[:file_type]
+      def data_type
+        options[:data_type]
       end
 
       def number_of_flowcells

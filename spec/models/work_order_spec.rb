@@ -24,11 +24,11 @@ RSpec.describe WorkOrder, type: :model do
     expect(build(:work_order, aliquot: nil)).to_not be_valid
   end
 
-  it 'must have a uuid' do
+  it 'must have a sequencescape_id' do
     expect(build(:work_order, sequencescape_id: nil)).to_not be_valid
   end
 
-  it 'uuid cannot be updated' do
+  it 'sequencescape_id cannot be updated' do
     work_order = create(:work_order)
     sequencescape_id = work_order.sequencescape_id
     work_order.update_attributes(sequencescape_id: 999)
@@ -73,20 +73,32 @@ RSpec.describe WorkOrder, type: :model do
   end
 
   it 'must have a file type' do
-    expect(build(:work_order, file_type: nil)).to_not be_valid
+    expect(build(:work_order, data_type: nil)).to_not be_valid
   end
 
   it 'file type cannot be updated' do
     work_order = create(:work_order)
-    file_type = work_order.file_type
-    work_order.update_attributes(file_type: 'excel')
-    expect(work_order.reload.file_type).to eq(file_type)
+    data_type = work_order.data_type
+    work_order.update_attributes(data_type: 'excel')
+    expect(work_order.reload.data_type).to eq(data_type)
   end
 
   it '#by_state returns all work orders by requested state' do
     create_list(:work_order, 5)
     create_list(:work_order_for_sequencing, 5)
     expect(WorkOrder.by_state(:library_preparation).count).to eq(5)
+  end
+
+  it 'must have a study uuid' do
+    pending 'completed study uuid support'
+    expect(build(:work_order, study_uuid: nil)).to_not be_valid
+  end
+
+  it 'study uuid cannot be updated' do
+    work_order = create(:work_order)
+    study_uuid = work_order.study_uuid
+    work_order.update_attributes(study_uuid: SecureRandom.uuid)
+    expect(work_order.reload.study_uuid).to eq(study_uuid)
   end
 
   it '#assign_state will change state' do

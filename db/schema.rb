@@ -81,7 +81,8 @@ ActiveRecord::Schema.define(version: 20170802071217) do
     t.string "sequencescape_id"
     t.integer "number_of_flowcells"
     t.string "library_preparation_type"
-    t.string "file_type"
+    t.string "data_type"
+    t.string "study_uuid"
     t.integer "aliquot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -6,8 +6,9 @@ FactoryGirl.define do
 
     sequence(:sequencescape_id)
     library_preparation_type 'rapid'
-    file_type 'fast5'
+    data_type 'basecalls'
     number_of_flowcells 3
+    study_uuid { SecureRandom.uuid }
 
     factory :work_order_with_qc_fail do
       aliquot { build(:aliquot_fail) }

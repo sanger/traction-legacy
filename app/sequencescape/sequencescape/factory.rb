@@ -30,7 +30,7 @@ module Sequencescape
       WorkOrder.create!(aliquot: aliquot,
                         sequencescape_id: work_order.id,
                         library_preparation_type: work_order.library_preparation_type,
-                        file_type: work_order.file_type,
+                        data_type: work_order.data_type,
                         number_of_flowcells: work_order.number_of_flowcells)
     end
   end
