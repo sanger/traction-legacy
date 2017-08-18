@@ -12,6 +12,12 @@ FactoryGirl.define do
 
     factory :work_order_with_qc_fail do
       aliquot { build(:aliquot_fail) }
+      after(:create, &:qc!)
+    end
+
+    factory :work_order_for_library_preparation do
+      aliquot { build(:aliquot_proceed) }
+      after(:create, &:qc!)
     end
 
     factory :work_order_for_sequencing do

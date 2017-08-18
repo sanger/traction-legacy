@@ -1,5 +1,11 @@
-
-  <%= form.fields_for :aliquot, work_order.aliquot do |aliquot| %>
+<%= form_for work_order, url: qc_path(work_order) do |f| %>
+  <fieldset class="container">
+    <legend>
+      Work Order - QC
+    </legend>
+    <%= render "error_messages", target: work_order %>
+    <div><%= work_order.name %></div>
+    <%= f.fields_for :aliquot, work_order.aliquot do |aliquot| %>
     <div class="form-group" >
       <%= aliquot.label :concentration %>
       <%= aliquot.text_field :concentration, { class: 'form-control' } %>
@@ -18,3 +24,8 @@
       </div>
     </div>
   <% end %>
+    <div class="form-group">
+      <%= f.submit class: 'btn btn-primary pull-right' %>
+    </div>
+  </fieldset>
+<% end %>

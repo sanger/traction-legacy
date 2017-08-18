@@ -2,8 +2,6 @@
 
 # SequencingRun
 class SequencingRun < ApplicationRecord
-  MAX_FLOWCELLS = 5
-
   has_many :flowcells
 
   enum state: %i[pending completed user_terminated instrument_crashed restart]

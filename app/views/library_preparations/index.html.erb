@@ -1,6 +1,6 @@
 <div class="title row">
   <div class="col-md-12">
-    <h2>Work Orders</h2>
+    <h2>Work Orders - Library Preparation</h2>
   </div>
 </div>
 <div class="row">
@@ -17,12 +17,8 @@
         <tr id="<%= dom_id(work_order) %>">
           <td><%= work_order.name %></td>
           <td><%= work_order.state %></td>
+          <td><%= link_to 'Edit', edit_library_preparation_path(work_order) %></td>
           <td><%= link_to 'Show', work_order_path(work_order) %></td>
-          <% if work_order.editable? %>
-            <td><%= link_to work_order.next_state.to_s.humanize.downcase, editable_work_order_path(work_order) %></td>
-          <% else %>
-            <td>&nbsp;</td>
-          <% end %>
         </tr>
       <% end %>
     </tbody>

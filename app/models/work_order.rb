@@ -27,14 +27,20 @@ class WorkOrder < ApplicationRecord
 
   before_save :add_event
 
-  def next_state!
-    next_state = WorkOrder.states.key(WorkOrder.states[state] + 1)
-    return unless next_state.present?
-    update_attributes(state: next_state)
+  def next_state
+    WorkOrder.states.key(WorkOrder.states[state] + 1)
   end
 
   def library?
     library.present?
+  end
+
+  def editable?
+    started? || qc?
+  end
+
+  def assign_state(state)
+    assign_attributes(state: WorkOrder.states[state.to_s])
   end
 
   private
