@@ -24,6 +24,10 @@
           "links": {
             "self": "http://localhost:3000/api/v2/work_orders/2/relationships/study",
             "related": "http://localhost:3000/api/v2/work_orders/2/study"
+          },
+          "data": {
+            "type": "studies",
+            "id": "4628"
           }
         },
         "project": {
@@ -80,6 +84,10 @@
           "links": {
             "self": "http://localhost:3000/api/v2/work_orders/5/relationships/study",
             "related": "http://localhost:3000/api/v2/work_orders/5/study"
+          },
+          "data": {
+            "type": "studies",
+            "id": "4628"
           }
         },
         "project": {
@@ -136,6 +144,10 @@
           "links": {
             "self": "http://localhost:3000/api/v2/work_orders/6/relationships/study",
             "related": "http://localhost:3000/api/v2/work_orders/6/study"
+          },
+          "data": {
+            "type": "studies",
+            "id": "4628"
           }
         },
         "project": {
@@ -192,6 +204,10 @@
           "links": {
             "self": "http://localhost:3000/api/v2/work_orders/7/relationships/study",
             "related": "http://localhost:3000/api/v2/work_orders/7/study"
+          },
+          "data": {
+            "type": "studies",
+            "id": "4628"
           }
         },
         "project": {
@@ -248,6 +264,10 @@
           "links": {
             "self": "http://localhost:3000/api/v2/work_orders/8/relationships/study",
             "related": "http://localhost:3000/api/v2/work_orders/8/study"
+          },
+          "data": {
+            "type": "studies",
+            "id": "4628"
           }
         },
         "project": {
@@ -282,6 +302,17 @@
     }
   ],
   "included": [
+     {
+      "id": "4628",
+      "type": "studies",
+      "links": {
+        "self": "http://dev.psd.sanger.ac.uk:6630/api/v2/studies/4628"
+      },
+      "attributes": {
+        "name": "test_for_accessioning",
+        "uuid": "b9b06460-f778-11e6-ab6f-68b59977951e"
+      }
+    },
     {
       "id": "7",
       "type": "wells",

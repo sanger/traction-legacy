@@ -9,15 +9,14 @@ class WorkOrder < ApplicationRecord
 
   has_one :sample, through: :aliquot
 
-  delegate :uuid, to: :sample, prefix: true
-
   enum state: %i[started qc library_preparation sequencing completed]
 
   attr_readonly :sequencescape_id, :library_preparation_type, :data_type,
-                :number_of_flowcells, :study_uuid
+                :number_of_flowcells, :study_uuid, :sample_uuid
 
   validates_presence_of :sequencescape_id, :library_preparation_type,
-                        :data_type, :number_of_flowcells
+                        :data_type, :number_of_flowcells,
+                        :study_uuid, :sample_uuid
 
   accepts_nested_attributes_for :aliquot, :library
 

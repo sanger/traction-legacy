@@ -21,5 +21,8 @@ module Sequencescape
 
     class Well < Base
     end
+
+    class Study < Base
+    end
   end
 end

@@ -13,7 +13,6 @@ RSpec.describe Sequencescape::Factory, type: :model do
     count = sequencescape_work_orders.count
     expect(WorkOrder.count).to eq count
     expect(Tube.count).to eq count
-    expect(Sample.count).to eq count
     expect(Aliquot.count).to eq count
     expect(a_request(:patch, //)).to have_been_made.times(count)
   end
