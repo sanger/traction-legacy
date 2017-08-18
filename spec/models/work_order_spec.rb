@@ -100,7 +100,7 @@ RSpec.describe WorkOrder, type: :model do
     work_order.update_attributes(study_uuid: SecureRandom.uuid)
     expect(work_order.reload.study_uuid).to eq(study_uuid)
   end
-  
+
   it '#assign_state will change state' do
     work_order = create(:work_order)
 
