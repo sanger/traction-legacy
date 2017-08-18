@@ -7,8 +7,6 @@ class WorkOrder < ApplicationRecord
   has_many :events
   has_many :flowcells
 
-  has_one :sample, through: :aliquot
-
   enum state: %i[started qc library_preparation sequencing completed]
 
   attr_readonly :sequencescape_id, :library_preparation_type, :data_type,
