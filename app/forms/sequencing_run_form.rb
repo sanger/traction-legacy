@@ -47,7 +47,7 @@ class SequencingRunForm
 
   private
 
-  # TODO: code smell. State changes and consequences should be manged centralluy
+  # TODO: code smell. State changes and their consequences should be manged centrally
   # within a workflow.
   def update_work_orders
     sequencing_run.work_orders.each do |work_order|

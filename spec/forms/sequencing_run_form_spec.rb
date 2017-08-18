@@ -10,7 +10,7 @@ RSpec.describe SequencingRunForm, type: :model do
 
     it '#flowcells_by_position will return the flowcells in the correct order' do
       flowcells = subject.flowcells_by_position
-      expect(flowcells.count).to eq(SequencingRun::MAX_FLOWCELLS)
+      expect(flowcells.count).to eq(SequencingRunForm::MAX_FLOWCELLS)
       expect(flowcells.all?(&:new_record?)).to be_truthy
     end
 
