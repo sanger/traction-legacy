@@ -10,6 +10,7 @@ RSpec.describe LabelPrinter::TubeLabelFactory, type: :model do
     labels.each_with_index do |list, id|
       expect(list[:main_label][:top_line]).to eq aliquots[id].source_plate_barcode
       expect(list[:main_label][:middle_line]).to eq aliquots[id].source_well_position
+      expect(list[:main_label][:round_label_top_line]).to eq aliquots[id].source_well_position
     end
   end
 end

@@ -25,4 +25,8 @@ class Aliquot < ApplicationRecord
   def source_well_position
     name.split('-').last
   end
+
+  def short_source_plate_barcode
+    source_plate_barcode.split(//).last(4).join
+  end
 end

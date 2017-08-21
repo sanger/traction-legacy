@@ -23,9 +23,9 @@ module LabelPrinter
       aliquots.map do |aliquot|
         { main_label: { top_line: aliquot.source_plate_barcode,
                         middle_line: aliquot.source_well_position,
-                        bottom_line: '',
-                        round_label_top_line: '',
-                        round_label_bottom_line: '',
+                        bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                        round_label_top_line: aliquot.source_well_position,
+                        round_label_bottom_line: aliquot.short_source_plate_barcode,
                         barcode: aliquot.tube_barcode } }
       end
     end

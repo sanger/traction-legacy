@@ -14,7 +14,9 @@ RSpec.describe LabelPrinter::PrintJob, type: :model do
         .with('traction_tube_label_template') { label_template }
   end
 
-  let(:aliquots) { create_list(:aliquot, 2) }
+  let!(:aliquot1) { create :aliquot, name: '123456-B12' }
+  let!(:aliquot2) { create :aliquot, name: '56789-H3' }
+  let(:aliquots) { [aliquot1, aliquot2] }
 
   it 'has printer_name' do
     print_job = LabelPrinter::PrintJob.new(printer_name: 'name')
@@ -31,18 +33,18 @@ RSpec.describe LabelPrinter::PrintJob, type: :model do
     labels =  { body:
                 [
                   { main_label:
-                    { top_line: aliquots[0].source_plate_barcode,
-                      middle_line: aliquots[0].source_well_position,
-                      bottom_line: '',
-                      round_label_top_line: '',
-                      round_label_bottom_line: '',
-                      barcode: aliquots[0].tube_barcode } },
+                    { top_line: '123456',
+                      middle_line: 'B12',
+                      bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                      round_label_top_line: 'B12',
+                      round_label_bottom_line: '3456',
+                      barcode: aliquot1.tube_barcode } },
                   { main_label:
-                    { top_line: aliquots[1].source_plate_barcode,
-                      middle_line: aliquots[1].source_well_position,
-                      bottom_line: '',
-                      round_label_top_line: '',
-                      round_label_bottom_line: '',
+                    { top_line: '56789',
+                      middle_line: 'H3',
+                      bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                      round_label_top_line: 'H3',
+                      round_label_bottom_line: '6789',
                       barcode: aliquots[1].tube_barcode } }
                 ] }
     expect(print_job.labels).to eq labels
@@ -62,18 +64,18 @@ RSpec.describe LabelPrinter::PrintJob, type: :model do
                    labels: { body:
                     [
                       { main_label:
-                        { top_line: aliquots[0].source_plate_barcode,
-                          middle_line: aliquots[0].source_well_position,
-                          bottom_line: '',
-                          round_label_top_line: '',
-                          round_label_bottom_line: '',
-                          barcode: aliquots[0].tube_barcode } },
+                        { top_line: '123456',
+                          middle_line: 'B12',
+                          bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                          round_label_top_line: 'B12',
+                          round_label_bottom_line: '3456',
+                          barcode: aliquot1.tube_barcode } },
                       { main_label:
-                        { top_line: aliquots[1].source_plate_barcode,
-                          middle_line: aliquots[1].source_well_position,
-                          bottom_line: '',
-                          round_label_top_line: '',
-                          round_label_bottom_line: '',
+                        { top_line: '56789',
+                          middle_line: 'H3',
+                          bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                          round_label_top_line: 'H3',
+                          round_label_bottom_line: '6789',
                           barcode: aliquots[1].tube_barcode } }
                     ] } }
     expect(print_job.valid?).to be true

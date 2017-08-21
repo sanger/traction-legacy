@@ -4,9 +4,11 @@ require 'rails_helper'
 
 RSpec.feature 'Reception', type: :feature do
   include SequencescapeWebmockStubs
+  include PrintMyBarcodeRspecStubs
 
   scenario 'new sequencescape workorders should be on the reception page' do
     stub :reception
+    stub_printers
     work_orders = Sequencescape::Api::WorkOrder.for_reception
     visit root_path
     click_on 'Reception'
@@ -23,6 +25,7 @@ RSpec.feature 'Reception', type: :feature do
     stub :reception
     stub :successful_upload
     stub_updates
+    stub_printers
     Sequencescape::Api::WorkOrder.for_reception
     visit root_path
     click_on 'Reception'
@@ -39,6 +42,7 @@ RSpec.feature 'Reception', type: :feature do
   scenario 'upload raises an error if there is an invalid work order' do
     allow(Sequencescape::Api::WorkOrder).to receive(:find_by_ids).and_raise(StandardError)
     stub :reception
+    stub_printers
     visit root_path
     click_on 'Reception'
     checkboxes = page.find_all('input')
@@ -49,6 +53,7 @@ RSpec.feature 'Reception', type: :feature do
 
   scenario 'does nothing if no work orders are selected' do
     stub :reception
+    stub_printers
     visit root_path
     click_on 'Reception'
     click_on 'Upload'
