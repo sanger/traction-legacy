@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.feature 'Reception', type: :feature do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   scenario 'new sequencescape workorders should be on the reception page' do
     stub :reception

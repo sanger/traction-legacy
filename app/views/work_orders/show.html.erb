@@ -12,4 +12,14 @@
     <div>kit number: <%= work_order.library.kit_number %></div>
     <div>ligase batch number: <%= work_order.library.ligase_batch_number %></div>
   <% end %>
+
+  <%= form_tag(print_jobs_path) do %>
+    <div class="form-group">
+      <%= label_tag :printer, 'Printer', class: 'h6' %>
+      <%= select_tag(:printer_name, options_for_select(@printers_names)) %>
+      <%= hidden_field_tag :work_order_id, work_order.id %>
+      <%= submit_tag "Print label", class: "btn btn-secondary btn-sm" %>
+    </div>
+  <% end %>
+
 </section>

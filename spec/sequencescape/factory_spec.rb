@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Sequencescape::Factory, type: :model do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   it 'if valid, should create correct traction objects and update sequencescape state' do
     stub :reception

@@ -10,7 +10,9 @@ class WorkOrdersController < ApplicationController
     @work_orders = WorkOrder.all
   end
 
-  def show; end
+  def show
+    @printers_names = LabelPrinter::PrintMyBarcodeApi::Printer.names
+  end
 
   protected
 
