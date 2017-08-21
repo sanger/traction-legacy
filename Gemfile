@@ -48,6 +48,9 @@ gem 'jquery-ui-rails'
 
 gem 'json_api_client', '~> 1.1'
 
+#Print my barcode client
+gem 'pmb-client', '0.1.0', :github => 'sanger/pmb-client'
+
 gem 'select2-rails'
 
 gem 'aasm'
