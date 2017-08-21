@@ -7,7 +7,7 @@ class WorkOrdersController < ApplicationController
   before_action :set_work_order, only: %i[show]
 
   def index
-    @work_orders = WorkOrder.all
+    @work_orders = WorkOrder.by_date
   end
 
   def show; end

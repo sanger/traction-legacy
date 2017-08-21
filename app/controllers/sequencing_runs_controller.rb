@@ -40,7 +40,7 @@ class SequencingRunsController < ApplicationController
   protected
 
   def sequencing_runs
-    @sequencing_runs = SequencingRun.all
+    @sequencing_runs = SequencingRun.by_date
   end
 
   def set_sequencing_run

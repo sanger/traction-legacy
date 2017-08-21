@@ -1,15 +1,40 @@
 <section>
-  <h2>Work Order</h2>
-  <div>sample: <%= work_order.name %></div>
-  <div>state: <%= work_order.state %></div>
-  <div>tube: <%= work_order.aliquot.tube.barcode %></div>
-  <div>concentration: <%= work_order.aliquot.concentration %></div>
-  <div>fragment size: <%= work_order.aliquot.fragment_size %></div>
-  <div>qc state: <%= work_order.aliquot.qc_state %></div>
+  <h2>Work Order - <%= work_order.name %></h2>
+  <ul>
+    <li>
+      <strong>created at: </strong><%= work_order.created_at.to_s(:default) %>
+    </li>
+    <li>
+      <strong>state: </strong><%= work_order.state %>
+    </li>
+    <li>
+      <strong>barcode: </strong><%= work_order.aliquot.tube.barcode %>
+    </li>
+  </ul>
+  <h4>QC</h4>
+  <ul>
+    <li>
+      <strong>concentration: </strong><%= work_order.aliquot.concentration %>
+    </li>
+    <li>
+      <strong>fragment size: </strong><%= work_order.aliquot.fragment_size %>
+    </li>
+    <li>
+      <strong>state: </strong><%= work_order.aliquot.qc_state %>
+    </li>
+  </ul>
   <% unless work_order.library.nil? %>
-    <h3>Library</h3>
-    <div>volume: <%= work_order.library.volume %></div>
-    <div>kit number: <%= work_order.library.kit_number %></div>
-    <div>ligase batch number: <%= work_order.library.ligase_batch_number %></div>
+    <h4>Library</h4>
+    <ul>
+      <li>
+        <strong>volume: </strong><%= work_order.library.volume %>
+      </li>
+      <li>
+        <strong>kit number: </strong><%= work_order.library.kit_number %>
+      </li>
+      <li>
+        <strong>ligase batch number: </strong><%= work_order.library.ligase_batch_number %>
+      </li>
+    </ul>
   <% end %>
 </section>

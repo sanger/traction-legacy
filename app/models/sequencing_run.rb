@@ -11,6 +11,8 @@ class SequencingRun < ApplicationRecord
   accepts_nested_attributes_for :flowcells,
                                 reject_if: proc { |attributes| attributes['work_order_id'].blank? }
 
+  scope :by_date, (-> { order(created_at: :desc) })
+
   with_options if: :flowcells_present? do
     validates_with MaximumFlowcellValidator
     validates_with WorkOrderLibraryValidator

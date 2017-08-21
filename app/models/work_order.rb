@@ -21,6 +21,7 @@ class WorkOrder < ApplicationRecord
   delegate :name, to: :aliquot
 
   scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
+  scope :by_date, (-> { order(created_at: :desc) })
 
   before_save :add_event
 
