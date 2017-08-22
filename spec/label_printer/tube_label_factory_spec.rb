@@ -8,7 +8,7 @@ RSpec.describe LabelPrinter::TubeLabelFactory, type: :model do
     aliquot2 = create :aliquot, name: '56789-H3'
     aliquot3 = create :aliquot, name: '456789-H12'
     aliquots = [aliquot1, aliquot2, aliquot3]
-    labels =  { body:
+    labels = { body:
                 [
                   { main_label:
                     { top_line: '123456',
