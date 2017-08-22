@@ -12,15 +12,16 @@ RSpec.feature 'Print labels', type: :feature do
     stub_printers
     stub_label_template
     aliquot = work_order.aliquot
-    aliquot.name = '12345-A1'
+    aliquot.name = '12345:A1'
     aliquot.save
     attributes = { printer_name: 'abc',
                    label_template_id: '1',
                    labels: { body:
                     [{ main_label:
-                      { top_line: '12345',
-                        middle_line: 'A1',
-                        bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                      { first_line: 'ONT',
+                        second_line: '12345',
+                        third_line: 'A1',
+                        fourth_line: Date.today.strftime('%e-%^b-%Y'),
                         round_label_top_line: 'A1',
                         round_label_bottom_line: '2345',
                         barcode: aliquot.tube_barcode.to_s } }] } }

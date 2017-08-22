@@ -18,11 +18,11 @@ class Aliquot < ApplicationRecord
   end
 
   def source_plate_barcode
-    name.split('-').first
+    name.split(':').first
   end
 
   def source_well_position
-    name.split('-').last
+    name.split(':').last
   end
 
   def short_source_plate_barcode

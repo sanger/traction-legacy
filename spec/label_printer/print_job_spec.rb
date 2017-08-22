@@ -14,8 +14,8 @@ RSpec.describe LabelPrinter::PrintJob, type: :model do
         .with('traction_tube_label_template') { label_template }
   end
 
-  let!(:aliquot1) { create :aliquot, name: '123456-B12' }
-  let!(:aliquot2) { create :aliquot, name: '56789-H3' }
+  let!(:aliquot1) { create :aliquot, name: '123456:B12' }
+  let!(:aliquot2) { create :aliquot, name: '56789:H3' }
   let(:aliquots) { [aliquot1, aliquot2] }
 
   it 'has printer_name' do
@@ -47,16 +47,18 @@ RSpec.describe LabelPrinter::PrintJob, type: :model do
                    labels: { body:
                     [
                       { main_label:
-                        { top_line: '123456',
-                          middle_line: 'B12',
-                          bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                        { first_line: 'ONT',
+                          second_line: '123456',
+                          third_line: 'B12',
+                          fourth_line: Date.today.strftime('%e-%^b-%Y'),
                           round_label_top_line: 'B12',
                           round_label_bottom_line: '3456',
                           barcode: aliquot1.tube_barcode } },
                       { main_label:
-                        { top_line: '56789',
-                          middle_line: 'H3',
-                          bottom_line: Date.today.strftime('%e-%^b-%Y'),
+                        { first_line: 'ONT',
+                          second_line: '56789',
+                          third_line: 'H3',
+                          fourth_line: Date.today.strftime('%e-%^b-%Y'),
                           round_label_top_line: 'H3',
                           round_label_bottom_line: '6789',
                           barcode: aliquot2.tube_barcode } }
