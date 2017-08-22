@@ -89,8 +89,18 @@ RSpec.describe WorkOrder, type: :model do
     expect(WorkOrder.by_state(:library_preparation).count).to eq(5)
   end
 
+  it 'must have a sample uuid' do
+    expect(build(:work_order, sample_uuid: nil)).to_not be_valid
+  end
+
+  it 'sample uuid cannot be updated' do
+    work_order = create(:work_order)
+    sample_uuid = work_order.sample_uuid
+    work_order.update_attributes(sample_uuid: SecureRandom.uuid)
+    expect(work_order.reload.sample_uuid).to eq(sample_uuid)
+  end
+
   it 'must have a study uuid' do
-    pending 'completed study uuid support'
     expect(build(:work_order, study_uuid: nil)).to_not be_valid
   end
 

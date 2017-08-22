@@ -2,7 +2,6 @@
 
 # Aliquot
 class Aliquot < ApplicationRecord
-  belongs_to :sample
   belongs_to :tube
   has_one :work_order
 

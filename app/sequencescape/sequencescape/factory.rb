@@ -18,8 +18,7 @@ module Sequencescape
     def create!
       sequencescape_work_orders.each do |sequencescape_work_order|
         ActiveRecord::Base.transaction do
-          sample = Sample.find_or_create_by!(uuid: sequencescape_work_order.sample_uuid)
-          aliquot = Aliquot.new(sample: sample, name: sequencescape_work_order.name)
+          aliquot = Aliquot.new(name: sequencescape_work_order.name)
           work_order = create_work_order(sequencescape_work_order, aliquot)
           Sequencescape::Api::WorkOrder.update_state(work_order)
         end
@@ -31,7 +30,9 @@ module Sequencescape
                         sequencescape_id: work_order.id,
                         library_preparation_type: work_order.library_preparation_type,
                         data_type: work_order.data_type,
-                        number_of_flowcells: work_order.number_of_flowcells)
+                        number_of_flowcells: work_order.number_of_flowcells,
+                        sample_uuid: work_order.sample_uuid,
+                        study_uuid: work_order.study_uuid)
     end
   end
 end

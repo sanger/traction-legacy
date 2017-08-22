@@ -6,15 +6,16 @@ module Sequencescape
     class WorkOrder < Base
       has_many :samples
       has_one :source_receptacle
+      has_one :study
 
       def self.for_reception
-        includes(:samples, :source_receptacle)
+        includes(:samples, :source_receptacle, :study)
           .where(order_type: 'traction_grid_ion', state: 'pending')
           .all
       end
 
       def self.find_by_ids(ids)
-        includes(:samples, :source_receptacle).where(id: ids.join(',')).all
+        includes(:samples, :source_receptacle, :study).where(id: ids.join(',')).all
       end
 
       def self.find_by_id(id)
@@ -32,6 +33,10 @@ module Sequencescape
 
       def sample_uuid
         samples.first.uuid
+      end
+
+      def study_uuid
+        study.uuid
       end
 
       def library_preparation_type

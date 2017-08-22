@@ -3,7 +3,6 @@
 FactoryGirl.define do
   factory :aliquot do
     sequence(:name) { |n| "SAMPLE-#{n}" }
-    sample
 
     factory :aliquot_proceed do
       concentration 0.005
