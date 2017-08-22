@@ -30,24 +30,7 @@ RSpec.describe LabelPrinter::PrintJob, type: :model do
 
   it 'has correct labels' do
     print_job = LabelPrinter::PrintJob.new(printer_name: 'name', aliquots: aliquots)
-    labels =  { body:
-                [
-                  { main_label:
-                    { top_line: '123456',
-                      middle_line: 'B12',
-                      bottom_line: Date.today.strftime('%e-%^b-%Y'),
-                      round_label_top_line: 'B12',
-                      round_label_bottom_line: '3456',
-                      barcode: aliquot1.tube_barcode } },
-                  { main_label:
-                    { top_line: '56789',
-                      middle_line: 'H3',
-                      bottom_line: Date.today.strftime('%e-%^b-%Y'),
-                      round_label_top_line: 'H3',
-                      round_label_bottom_line: '6789',
-                      barcode: aliquots[1].tube_barcode } }
-                ] }
-    expect(print_job.labels).to eq labels
+    expect(print_job.labels[:body].count).to eq 2
   end
 
   it 'is not valid, if it does not have aliquots, label template or printer name' do
@@ -76,7 +59,7 @@ RSpec.describe LabelPrinter::PrintJob, type: :model do
                           bottom_line: Date.today.strftime('%e-%^b-%Y'),
                           round_label_top_line: 'H3',
                           round_label_bottom_line: '6789',
-                          barcode: aliquots[1].tube_barcode } }
+                          barcode: aliquot2.tube_barcode } }
                     ] } }
     expect(print_job.valid?).to be true
     expect(LabelPrinter::PrintMyBarcodeApi::PrintJob).to receive(:create).with(attributes)
