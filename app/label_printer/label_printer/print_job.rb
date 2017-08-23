@@ -16,6 +16,9 @@ module LabelPrinter
 
     def execute
       LabelPrinter::PrintMyBarcodeApi::PrintJob.create(attributes) if valid?
+    rescue JsonApiClient::Errors::ConnectionError
+      errors.add(:printmybarcode, 'is down')
+      false
     end
 
     private
@@ -37,6 +40,9 @@ module LabelPrinter
 
     def find_label_template(_label_template_name)
       LabelPrinter::PrintMyBarcodeApi::LabelTemplate.where(name: tube_label_template_name).first
+    rescue JsonApiClient::Errors::ConnectionError
+      errors.add(:printmybarcode, 'is down')
+      nil
     end
   end
 end

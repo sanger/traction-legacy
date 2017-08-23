@@ -30,9 +30,7 @@
           <% end %>
         </tbody>
       </table>
-      <%= label_tag :printer, 'Printer', class: 'h6' %>
-      <%= select_tag(:printer_name, options_for_select(@printers_names)) %>
-      <%= submit_tag "Print labels", class: "btn btn-secondary btn-sm" , data: { disable_with: "Please wait..." }%>
+      <%= render "print", printers_names: @printers_names%>
     <%end%>
   </div>
 </div>

@@ -38,6 +38,8 @@ module LabelPrinter
     class Printer < Base
       def self.names
         all.map(&:name)
+      rescue JsonApiClient::Errors::ConnectionError
+        []
       end
     end
   end

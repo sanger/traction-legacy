@@ -33,15 +33,6 @@ RSpec.feature 'Print labels', type: :feature do
     expect(page).to have_content('Your label(s) have been sent to printer abc')
   end
 
-  scenario 'Shows error if print job not valid' do
-    stub_label_template
-    allow(LabelPrinter::PrintMyBarcodeApi::Printer).to receive(:names) { [] }
-
-    visit work_order_path(work_order)
-    click_on 'Print label'
-    expect(page).to have_content("Printer name can't be blank")
-  end
-
   scenario 'Can print several tube labels from work orders index page' do
     stub_print_my_barcode
     visit work_orders_path
@@ -51,5 +42,22 @@ RSpec.feature 'Print labels', type: :feature do
     select 'abc', from: :printer_name
     click_on 'Print labels'
     expect(page).to have_content('Your label(s) have been sent to printer abc')
+  end
+
+  scenario 'If print my barcode has not returned any printers, print button is disabled' do
+    stub_label_template
+    allow(LabelPrinter::PrintMyBarcodeApi::Printer).to receive(:names) { [] }
+    visit work_order_path(work_order)
+    expect(page).to have_button('Print labels', disabled: true)
+    visit work_orders_path
+    expect(page).to have_button('Print labels', disabled: true)
+  end
+
+  scenario 'Shows error if print job is not valid' do
+    stub_print_my_barcode
+    visit work_orders_path
+    select 'abc', from: :printer_name
+    click_on 'Print labels'
+    expect(page).to have_content("Aliquots can't be blank")
   end
 end
