@@ -45,9 +45,15 @@ class SequencingRunForm
     sequencing_run.id?
   end
 
+  def available_work_orders
+    work_orders = WorkOrder.by_state(:library_preparation)
+    return work_orders if sequencing_run.new_record?
+    (work_orders.to_a << sequencing_run.work_orders).flatten.uniq
+  end
+
   private
 
-  # TODO: code smell. State changes and their consequences should be manged centrally
+  # TODO: code smell. State changes and their consequences should be managed centrally
   # within a workflow.
   def update_work_orders
     sequencing_run.work_orders.each do |work_order|

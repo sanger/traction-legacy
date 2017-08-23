@@ -82,4 +82,14 @@ RSpec.feature 'SequencingRuns', type: :feature do
     expect(page).to have_content('Sequencing run successfully updated')
     expect(sequencing_run.reload.state).to be_present
   end
+
+  scenario 'editing includes existing flowcell work orders' do
+    flowcell = create(:flowcell_in_sequencing_run, position: 1)
+    sequencing_run = create(:sequencing_run, flowcells: [flowcell])
+    visit edit_sequencing_run_path(sequencing_run)
+
+    within('#flowcell_1') do
+      expect(page).to have_content(flowcell.work_order.name)
+    end
+  end
 end

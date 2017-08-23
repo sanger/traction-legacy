@@ -29,7 +29,7 @@
                 <div class="form-group" ><%= fields_for_flowcell.text_field :flowcell_id %></div>
               </td>
               <td>
-                <div class="form-group" ><%= fields_for_flowcell.select(:work_order_id, options_from_collection_for_select(WorkOrder.by_state(:library_preparation), 'id', 'name', flowcell.work_order_id), {include_blank: 'Select sample...'}, class: 'select2' ) %></div>
+                <div class="form-group" ><%= fields_for_flowcell.select(:work_order_id, options_from_collection_for_select(sequencing_run.available_work_orders, 'id', 'name', flowcell.work_order_id), {include_blank: 'Select sample...'}, class: 'select2' ) %></div>
               </td>
             </div>
             <%= fields_for_flowcell.hidden_field(:position, value: flowcell.position) %>
