@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe SequencingRunForm, type: :model do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   context 'new' do
     subject { SequencingRunForm.new }

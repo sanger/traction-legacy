@@ -28,6 +28,7 @@
 config/secrets.yml
 config/database.yml
 config/sequencescape.yml
+config/print_my_barcode.yml
 
 .rspec
 capybara-*.html

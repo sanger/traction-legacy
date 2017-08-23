@@ -1,0 +1,540 @@
+{
+  "data": [
+    {
+      "id": "2",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/2"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Rapid",
+          "data_type": "basecalls and raw data"
+        },
+        "quantity": {
+          "number": 1,
+          "unit_of_measurement": "flowcells"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/2/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/2/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/2/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/2/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/2/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/2/source_receptacle"
+          },
+          "data": {
+            "type": "wells",
+            "id": "7"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/2/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/2/samples"
+          },
+          "data": [
+            {
+              "type": "samples",
+              "id": "7"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "5",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/5"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Rapid",
+          "data_type": "basecalls and raw data"
+        },
+        "quantity": {
+          "number": 2,
+          "unit_of_measurement": "flowcells"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/5/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/5/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/5/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/5/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/5/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/5/source_receptacle"
+          },
+          "data": {
+            "type": "wells",
+            "id": "19"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/5/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/5/samples"
+          },
+          "data": [
+            {
+              "type": "samples",
+              "id": "19"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "6",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/6"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Ligation",
+          "data_type": "basecalls"
+        },
+        "quantity": {
+          "number": 3,
+          "unit_of_measurement": "flowcells"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/6/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/6/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/6/source_receptacle"
+          },
+          "data": {
+            "type": "wells",
+            "id": "30"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/6/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/6/samples"
+          },
+          "data": [
+            {
+              "type": "samples",
+              "id": "30"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/7"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Ligation",
+          "data_type": "basecalls"
+        },
+        "quantity": {
+          "number": 4,
+          "unit_of_measurement": "flowcells"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/7/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/7/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/7/source_receptacle"
+          },
+          "data": {
+            "type": "wells",
+            "id": "31"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/7/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/7/samples"
+          },
+          "data": [
+            {
+              "type": "samples",
+              "id": "31"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8",
+      "type": "work_orders",
+      "links": {
+        "self": "http://localhost:3000/api/v2/work_orders/8"
+      },
+      "attributes": {
+        "order_type": "traction_grid_ion",
+        "state": "pending",
+        "options": {
+          "library_type": "Ligation",
+          "data_type": "basecalls"
+        },
+        "quantity": {
+          "number": 5,
+          "unit_of_measurement": "flowcells"
+        },
+        "at_risk": null
+      },
+      "relationships": {
+        "study": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/8/relationships/study",
+            "related": "http://localhost:3000/api/v2/work_orders/8/study"
+          }
+        },
+        "project": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/8/relationships/project",
+            "related": "http://localhost:3000/api/v2/work_orders/8/project"
+          }
+        },
+        "source_receptacle": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/8/relationships/source_receptacle",
+            "related": "http://localhost:3000/api/v2/work_orders/8/source_receptacle"
+          },
+          "data": {
+            "type": "wells",
+            "id": "32"
+          }
+        },
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/work_orders/8/relationships/samples",
+            "related": "http://localhost:3000/api/v2/work_orders/8/samples"
+          },
+          "data": [
+            {
+              "type": "samples",
+              "id": "32"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "included": [
+    {
+      "id": "7",
+      "type": "wells",
+      "links": {
+        "self": "http://localhost:3000/api/v2/wells/7"
+      },
+      "attributes": {
+        "uuid": "71e8934a-7db6-11e7-80f3-acbc32c8582d",
+        "name": "DN1S:A2",
+        "position": {
+          "name": "A2"
+        },
+        "labware_barcode": {
+          "ean13_barcode": "1220000001831",
+          "sanger_human_barcode": "DN1S"
+        }
+      },
+      "relationships": {
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/7/relationships/samples",
+            "related": "http://localhost:3000/api/v2/wells/7/samples"
+          }
+        },
+        "studies": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/7/relationships/studies",
+            "related": "http://localhost:3000/api/v2/wells/7/studies"
+          }
+        },
+        "projects": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/7/relationships/projects",
+            "related": "http://localhost:3000/api/v2/wells/7/projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "19",
+      "type": "wells",
+      "links": {
+        "self": "http://localhost:3000/api/v2/wells/19"
+      },
+      "attributes": {
+        "uuid": "71f45b58-7db6-11e7-80f3-acbc32c8582d",
+        "name": "DN1S:B2",
+        "position": {
+          "name": "B2"
+        },
+        "labware_barcode": {
+          "ean13_barcode": "1220000001831",
+          "sanger_human_barcode": "DN1S"
+        }
+      },
+      "relationships": {
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/19/relationships/samples",
+            "related": "http://localhost:3000/api/v2/wells/19/samples"
+          }
+        },
+        "studies": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/19/relationships/studies",
+            "related": "http://localhost:3000/api/v2/wells/19/studies"
+          }
+        },
+        "projects": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/19/relationships/projects",
+            "related": "http://localhost:3000/api/v2/wells/19/projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "30",
+      "type": "wells",
+      "links": {
+        "self": "http://localhost:3000/api/v2/wells/30"
+      },
+      "attributes": {
+        "uuid": "71ff594a-7db6-11e7-80f3-acbc32c8582d",
+        "name": "DN1S:C1",
+        "position": {
+          "name": "C1"
+        },
+        "labware_barcode": {
+          "ean13_barcode": "1220000001831",
+          "sanger_human_barcode": "DN1S"
+        }
+      },
+      "relationships": {
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/30/relationships/samples",
+            "related": "http://localhost:3000/api/v2/wells/30/samples"
+          }
+        },
+        "studies": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/30/relationships/studies",
+            "related": "http://localhost:3000/api/v2/wells/30/studies"
+          }
+        },
+        "projects": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/30/relationships/projects",
+            "related": "http://localhost:3000/api/v2/wells/30/projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "31",
+      "type": "wells",
+      "links": {
+        "self": "http://localhost:3000/api/v2/wells/31"
+      },
+      "attributes": {
+        "uuid": "7200525a-7db6-11e7-80f3-acbc32c8582d",
+        "name": "DN1S:C2",
+        "position": {
+          "name": "C2"
+        },
+        "labware_barcode": {
+          "ean13_barcode": "1220000001831",
+          "sanger_human_barcode": "DN1S"
+        }
+      },
+      "relationships": {
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/31/relationships/samples",
+            "related": "http://localhost:3000/api/v2/wells/31/samples"
+          }
+        },
+        "studies": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/31/relationships/studies",
+            "related": "http://localhost:3000/api/v2/wells/31/studies"
+          }
+        },
+        "projects": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/31/relationships/projects",
+            "related": "http://localhost:3000/api/v2/wells/31/projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "32",
+      "type": "wells",
+      "links": {
+        "self": "http://localhost:3000/api/v2/wells/32"
+      },
+      "attributes": {
+        "uuid": "72014cdc-7db6-11e7-80f3-acbc32c8582d",
+        "name": "DN1S:C3",
+        "position": {
+          "name": "C3"
+        },
+        "labware_barcode": {
+          "ean13_barcode": "1220000001831",
+          "sanger_human_barcode": "DN1S"
+        }
+      },
+      "relationships": {
+        "samples": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/32/relationships/samples",
+            "related": "http://localhost:3000/api/v2/wells/32/samples"
+          }
+        },
+        "studies": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/32/relationships/studies",
+            "related": "http://localhost:3000/api/v2/wells/32/studies"
+          }
+        },
+        "projects": {
+          "links": {
+            "self": "http://localhost:3000/api/v2/wells/32/relationships/projects",
+            "related": "http://localhost:3000/api/v2/wells/32/projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "7",
+      "type": "samples",
+      "links": {
+        "self": "http://localhost:3000/api/v2/samples/7"
+      },
+      "attributes": {
+        "name": "sample_in_stock_well_A2",
+        "sanger_sample_id": null,
+        "uuid": "7254e5cc-7db6-11e7-80f3-acbc32c8582d"
+      }
+    },
+    {
+      "id": "19",
+      "type": "samples",
+      "links": {
+        "self": "http://localhost:3000/api/v2/samples/19"
+      },
+      "attributes": {
+        "name": "sample_in_stock_well_B2",
+        "sanger_sample_id": null,
+        "uuid": "727ab28e-7db6-11e7-80f3-acbc32c8582d"
+      }
+    },
+    {
+      "id": "30",
+      "type": "samples",
+      "links": {
+        "self": "http://localhost:3000/api/v2/samples/30"
+      },
+      "attributes": {
+        "name": "sample_in_stock_well_C1",
+        "sanger_sample_id": null,
+        "uuid": "729bac32-7db6-11e7-80f3-acbc32c8582d"
+      }
+    },
+    {
+      "id": "31",
+      "type": "samples",
+      "links": {
+        "self": "http://localhost:3000/api/v2/samples/31"
+      },
+      "attributes": {
+        "name": "sample_in_stock_well_C2",
+        "sanger_sample_id": null,
+        "uuid": "729e9f32-7db6-11e7-80f3-acbc32c8582d"
+      }
+    },
+    {
+      "id": "32",
+      "type": "samples",
+      "links": {
+        "self": "http://localhost:3000/api/v2/samples/32"
+      },
+      "attributes": {
+        "name": "sample_in_stock_well_C3",
+        "sanger_sample_id": null,
+        "uuid": "72a1a2c2-7db6-11e7-80f3-acbc32c8582d"
+      }
+    }
+  ],
+  "links": {
+    "first": "http://localhost:3000/api/v2/work_orders?filter%5Bstate%5D=pending&include=samples%2Csource_receptacle&page%5Bnumber%5D=1&page%5Bsize%5D=100",
+    "last": "http://localhost:3000/api/v2/work_orders?filter%5Bstate%5D=pending&include=samples%2Csource_receptacle&page%5Bnumber%5D=1&page%5Bsize%5D=100"
+  }
+}

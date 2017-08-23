@@ -1,0 +1,3 @@
+<%= label_tag :printer, 'Printer', class: 'h6' %>
+<%= select_tag(:printer_name, options_for_select(printers_names)) %>
+<%= submit_tag "Print labels", class: "btn btn-secondary btn-sm" , disabled: printers_names.empty?, data: { disable_with: "Please wait..." }%>

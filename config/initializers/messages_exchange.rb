@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_dependency 'messages/exchange/logger'
-require_dependency 'messages/exchange'
+require 'messages/exchange/logger'
+require 'messages/exchange'
 
 module Messages
   # Build exchanges easily
