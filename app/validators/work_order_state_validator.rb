@@ -8,8 +8,8 @@ class WorkOrderStateValidator < ActiveModel::Validator
       required_state = options[:state].to_s
       next unless work_order.state != required_state
       record.errors.add(:work_order,
-                        "#{work_order.name} has not gone through" \
-                        " #{required_state.to_s.humanize}")
+                        "#{work_order.name} has not gone through
+                        #{required_state.to_s.humanize}")
     end
   end
 end

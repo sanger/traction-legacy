@@ -1,0 +1,14 @@
+<%= form_for work_order do |f| %>
+  <fieldset class="container">
+    <legend>
+      Work Order
+    </legend>
+    <%= render "error_messages", target: work_order %>
+    <div><%= work_order.name %></div>
+    <div><%= work_order.state %></div>
+    <%= render work_order.template, form: f %>
+    <div class="form-group">
+      <%= f.submit class: 'btn btn-primary pull-right' %>
+    </div>
+  </fieldset>
+<% end %>

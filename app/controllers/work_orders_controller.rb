@@ -7,10 +7,23 @@ class WorkOrdersController < ApplicationController
   before_action :set_work_order, only: %i[show]
 
   def index
-    @work_orders = WorkOrder.by_date
+    @work_orders = WorkOrder.all
   end
 
   def show; end
+
+  def edit
+    @work_order = WorkOrderForm.new(current_resource)
+  end
+
+  def update
+    @work_order = WorkOrderForm.new(current_resource)
+    if work_order.submit(params[:work_order])
+      redirect_to work_order_path(work_order), notice: 'Work Order successfully updated'
+    else
+      render :edit
+    end
+  end
 
   protected
 

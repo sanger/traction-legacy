@@ -25,6 +25,10 @@ RSpec.describe Aliquot, type: :model do
     expect(aliquot.qc_state).to eq('proceed')
   end
 
+  it 'must have a sample' do
+    expect(build(:aliquot, sample: nil)).to_not be_valid
+  end
+
   it 'must have a tube' do
     aliquot = create(:aliquot)
     tube = aliquot.tube

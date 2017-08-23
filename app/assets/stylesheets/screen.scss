@@ -8,9 +8,9 @@ body {
 }
 
 header {
-  height: 55px;
+  height: 50px;
   margin-bottom: 20px;
-  padding: 10px 5px 5px 5px;
+  padding: 5px;
 
   a {
     color: white;
@@ -19,18 +19,20 @@ header {
       color: white;
     }
   }
-
 }
 
 footer {
   width: 100%;
   padding: 5px;
-  margin-top: 10px;
   border: {
     color: black;
     style: solid;
     width: 1px 0 0 0;
   }
+}
+
+.heading {
+  padding: 5px;
 }
 
 nav {
@@ -45,18 +47,5 @@ nav {
         display: block;
       }
     }
-  }
-}
-
-.btn-primary {
-  &:hover {
-    background-color: $brand-primary;
-    cursor: pointer;
-  }
-}
-
-form{
-  label {
-    font-weight: bold;
   }
 }

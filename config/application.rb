@@ -29,10 +29,5 @@ module Traction
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-
-     # Sequencescape api base
-    config.sequencescape_api_base = config_for(:sequencescape)["api_base"]
-    # RabbitMQ config
-    config.bunny = config_for(:bunny)
   end
 end

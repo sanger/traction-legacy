@@ -4,31 +4,29 @@
 class SequencingRunsController < ApplicationController
   attr_reader :sequencing_runs, :sequencing_run
 
-  before_action :set_sequencing_run, only: %i[show]
+  before_action :set_sequencing_run, only: %i[show edit]
   before_action :sequencing_runs, only: %i[index]
 
   def index; end
 
   def new
-    @sequencing_run = SequencingRunForm.new
+    @sequencing_run = SequencingRun.new
   end
 
   def create
-    @sequencing_run = SequencingRunForm.new
-    if sequencing_run.submit(sequencing_run_params)
+    @sequencing_run = SequencingRun.new(sequencing_run_params)
+    if sequencing_run.save
       redirect_to sequencing_run_path(sequencing_run), notice: 'Sequencing run successfully created'
     else
       render :new
     end
   end
 
-  def edit
-    @sequencing_run = SequencingRunForm.new(current_resource)
-  end
+  def edit; end
 
   def update
-    @sequencing_run = SequencingRunForm.new(current_resource)
-    if sequencing_run.submit(sequencing_run_params)
+    @sequencing_run = SequencingRun.find(params[:id])
+    if sequencing_run.update_attributes(sequencing_run_params)
       redirect_to sequencing_run_path(sequencing_run), notice: 'Sequencing run successfully updated'
     else
       render :edit
@@ -40,7 +38,7 @@ class SequencingRunsController < ApplicationController
   protected
 
   def sequencing_runs
-    @sequencing_runs = SequencingRun.by_date
+    @sequencing_runs = SequencingRun.all
   end
 
   def set_sequencing_run
@@ -54,7 +52,7 @@ class SequencingRunsController < ApplicationController
   def sequencing_run_params
     params.require(:sequencing_run).permit(:instrument_name, :state,
                                            flowcells_attributes:
-                                           %i[id flowcell_id position work_order_id])
+                                           %i[flowcell_id position work_order_id])
   end
 
   helper_method :sequencing_runs, :sequencing_run

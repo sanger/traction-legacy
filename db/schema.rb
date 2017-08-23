@@ -17,9 +17,11 @@ ActiveRecord::Schema.define(version: 20170802071217) do
     t.integer "fragment_size"
     t.decimal "concentration", precision: 18, scale: 8
     t.integer "qc_state"
+    t.integer "sample_id"
     t.integer "tube_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["sample_id"], name: "index_aliquots_on_sample_id"
     t.index ["tube_id"], name: "index_aliquots_on_tube_id"
   end
 
@@ -55,6 +57,12 @@ ActiveRecord::Schema.define(version: 20170802071217) do
     t.index ["work_order_id"], name: "index_libraries_on_work_order_id"
   end
 
+  create_table "samples", force: :cascade do |t|
+    t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "sequencing_runs", force: :cascade do |t|
     t.string "instrument_name"
     t.integer "state", default: 0
@@ -70,12 +78,10 @@ ActiveRecord::Schema.define(version: 20170802071217) do
 
   create_table "work_orders", force: :cascade do |t|
     t.integer "state", default: 0
-    t.string "sequencescape_id"
+    t.string "uuid"
     t.integer "number_of_flowcells"
     t.string "library_preparation_type"
-    t.string "data_type"
-    t.string "study_uuid"
-    t.string "sample_uuid"
+    t.string "file_type"
     t.integer "aliquot_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

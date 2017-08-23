@@ -50,13 +50,6 @@ gem 'json_api_client', '~> 1.1'
 
 gem 'select2-rails'
 
-gem "font-awesome-rails"
-
-gem 'aasm'
-
-# Bunny talks to RabbitMQ and is used to broadcast messages
-gem 'bunny'
-
 group :development, :test do
   gem 'sqlite3'
 
@@ -64,7 +57,6 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
   gem 'rspec-rails', '~> 3.5'
-  gem 'webmock'
 end
 
 group :development, :test, :staging do

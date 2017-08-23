@@ -27,7 +27,6 @@
 
 config/secrets.yml
 config/database.yml
-config/sequencescape.yml
 
 .rspec
 capybara-*.html

@@ -20,7 +20,6 @@ install:
 before_script:
 - cp config/database.yml.example config/database.yml
 - cp config/secrets.yml.example config/secrets.yml
-- cp config/sequencescape.yml.example config/sequencescape.yml
 - bundle exec rake db:reset
 - bundle exec rake db:setup
 - bundle exec rails webpacker:verify_install
