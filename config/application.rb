@@ -32,6 +32,8 @@ module Traction
 
      # Sequencescape api base
     config.sequencescape_api_base = config_for(:sequencescape)["api_base"]
+
+    config.sequencescape_disabled = config_for(:sequencescape)["disabled"]
     # RabbitMQ config
     config.bunny = config_for(:bunny)
   end

@@ -1,11 +1,15 @@
 development: &DEV
   api_base: http://localhost:3000/api/v2
+  disabled: true
 
 staging:
   <<: *DEV
+  disabled: false
 
 test:
   <<: *DEV
+  disabled: false
 
 production:
   <<: *DEV
+  disabled: false
