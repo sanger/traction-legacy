@@ -1,7 +1,13 @@
 <section>
   <h2>Sequencing Run</h2>
-  <div>experiment name: <%= sequencing_run.experiment_name %></div>
-  <div>instrument name: <%= sequencing_run.instrument_name %></div>
+  <ul>
+    <li>
+      <strong>experiment name: </strong><%= sequencing_run.experiment_name %>
+    </li>
+    <li>
+      <strong>instrument name: </strong><%= sequencing_run.instrument_name %>
+    </li>
+  </ul>
   <h3>Flowcells</h3>
   <div class="row">
     <div class="col-md-12">

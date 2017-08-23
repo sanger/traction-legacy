@@ -1,10 +1,9 @@
 <%= form_for work_order, url: qc_path(work_order) do |f| %>
   <fieldset class="container">
     <legend>
-      Work Order - QC
+      Work Order - QC: <%= work_order.name %>
     </legend>
     <%= render "error_messages", target: work_order %>
-    <div><%= work_order.name %></div>
     <%= f.fields_for :aliquot, work_order.aliquot do |aliquot| %>
     <div class="form-group" >
       <%= aliquot.label :concentration %>
@@ -16,12 +15,7 @@
     </div>
     <div class="form-group">
       <%= aliquot.label :qc_state, 'QC state' %>
-
-       <div class="row">
-        <div class="col-md-11">
-          <%= aliquot.select :qc_state, Aliquot.qc_states.keys, { class: 'form-control' } %>
-        </div>
-      </div>
+      <%= aliquot.select :qc_state, Aliquot.qc_states.keys, {}, { class: 'form-control' } %>
     </div>
   <% end %>
     <div class="form-group">

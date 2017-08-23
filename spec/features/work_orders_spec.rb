@@ -16,7 +16,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     visit qcs_path
 
     within("#work_order_#{work_order.id}") do
-      click_link 'Edit'
+      click_link 'qc'
     end
 
     fill_in 'Concentration', with: aliquot.concentration
@@ -52,7 +52,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     visit library_preparations_path
 
     within("#work_order_#{work_order.id}") do
-      click_link 'Edit'
+      click_link 'library preparation'
     end
 
     fill_in 'Volume', with: library.volume

@@ -50,6 +50,8 @@ gem 'json_api_client', '~> 1.1'
 
 gem 'select2-rails'
 
+gem "font-awesome-rails"
+
 gem 'aasm'
 
 # Bunny talks to RabbitMQ and is used to broadcast messages

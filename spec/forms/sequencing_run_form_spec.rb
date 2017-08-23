@@ -72,8 +72,8 @@ RSpec.describe SequencingRunForm, type: :model do
   end
 
   context 'update' do
-    let!(:flowcell_1)       { create(:flowcell, position: 1) }
-    let!(:flowcell_5)       { create(:flowcell, position: 5) }
+    let!(:flowcell_1)       { create(:flowcell_in_sequencing_run, position: 1) }
+    let!(:flowcell_5)       { create(:flowcell_in_sequencing_run, position: 5) }
     let!(:sequencing_run)   { create(:sequencing_run, flowcells: [flowcell_1, flowcell_5]) }
 
     it '#flowcell_by_position will return the flowcells in the correct order' do
@@ -84,6 +84,12 @@ RSpec.describe SequencingRunForm, type: :model do
       expect(flowcells[2]).to be_new_record
       expect(flowcells[3]).to be_new_record
       expect(flowcells.last).to eq(flowcell_5)
+    end
+
+    it '#available work orders should include work orders already added to sequencing run' do
+      sequencing_run_form = SequencingRunForm.new(sequencing_run)
+      expect(sequencing_run_form.available_work_orders).to include(flowcell_1.work_order)
+      expect(sequencing_run_form.available_work_orders).to include(flowcell_5.work_order)
     end
 
     context 'completed' do
