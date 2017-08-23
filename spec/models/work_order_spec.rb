@@ -24,34 +24,15 @@ RSpec.describe WorkOrder, type: :model do
     expect(build(:work_order, aliquot: nil)).to_not be_valid
   end
 
-  it 'must have a uuid' do
-    expect(build(:work_order, uuid: nil)).to_not be_valid
+  it 'must have a sequencescape_id' do
+    expect(build(:work_order, sequencescape_id: nil)).to_not be_valid
   end
 
-  it 'uuid cannot be updated' do
+  it 'sequencescape_id cannot be updated' do
     work_order = create(:work_order)
-    uuid = work_order.uuid
-    work_order.update_attributes(uuid: SecureRandom.uuid)
-    expect(work_order.reload.uuid).to eq(uuid)
-  end
-
-  it '#next_state! will move work order to next state' do
-    work_order = create(:work_order)
-
-    work_order.next_state!
-    expect(work_order.reload).to be_qc
-
-    work_order.next_state!
-    expect(work_order.reload).to be_library_preparation
-
-    work_order.next_state!
-    expect(work_order.reload).to be_sequencing
-
-    work_order.next_state!
-    expect(work_order.reload).to be_completed
-
-    work_order.next_state!
-    expect(work_order.reload).to be_completed
+    sequencescape_id = work_order.sequencescape_id
+    work_order.update_attributes(sequencescape_id: 999)
+    expect(work_order.reload.sequencescape_id).to eq(sequencescape_id)
   end
 
   it 'creates an event when saved' do
@@ -62,7 +43,7 @@ RSpec.describe WorkOrder, type: :model do
     expect(event.state_to).to eq(work_order.state)
 
     state = work_order.state
-    work_order.next_state!
+    work_order.qc!
     expect(work_order.events.count).to eq(2)
     event = work_order.events.last
     expect(event.state_from).to eq(state)
@@ -92,19 +73,88 @@ RSpec.describe WorkOrder, type: :model do
   end
 
   it 'must have a file type' do
-    expect(build(:work_order, file_type: nil)).to_not be_valid
+    expect(build(:work_order, data_type: nil)).to_not be_valid
   end
 
   it 'file type cannot be updated' do
     work_order = create(:work_order)
-    file_type = work_order.file_type
-    work_order.update_attributes(file_type: 'excel')
-    expect(work_order.reload.file_type).to eq(file_type)
+    data_type = work_order.data_type
+    work_order.update_attributes(data_type: 'excel')
+    expect(work_order.reload.data_type).to eq(data_type)
   end
 
   it '#by_state returns all work orders by requested state' do
     create_list(:work_order, 5)
     create_list(:work_order_for_sequencing, 5)
     expect(WorkOrder.by_state(:library_preparation).count).to eq(5)
+  end
+
+  it 'must have a sample uuid' do
+    expect(build(:work_order, sample_uuid: nil)).to_not be_valid
+  end
+
+  it 'sample uuid cannot be updated' do
+    work_order = create(:work_order)
+    sample_uuid = work_order.sample_uuid
+    work_order.update_attributes(sample_uuid: SecureRandom.uuid)
+    expect(work_order.reload.sample_uuid).to eq(sample_uuid)
+  end
+
+  it 'must have a study uuid' do
+    expect(build(:work_order, study_uuid: nil)).to_not be_valid
+  end
+
+  it 'study uuid cannot be updated' do
+    work_order = create(:work_order)
+    study_uuid = work_order.study_uuid
+    work_order.update_attributes(study_uuid: SecureRandom.uuid)
+    expect(work_order.reload.study_uuid).to eq(study_uuid)
+  end
+
+  it '#assign_state will change state' do
+    work_order = create(:work_order)
+
+    work_order.assign_state(:qc)
+    expect(WorkOrder.find(work_order.id)).to_not be_qc
+    work_order.save
+    expect(work_order).to be_qc
+
+    work_order.assign_state(:completed)
+    expect(WorkOrder.find(work_order.id)).to_not be_completed
+    work_order.save
+    expect(work_order).to be_completed
+  end
+
+  it '#editable? will check whether work order can be edited in its own right' do
+    work_order = create(:work_order)
+    expect(work_order).to be_editable
+
+    work_order.qc!
+    expect(work_order).to be_editable
+
+    work_order.library_preparation!
+    expect(work_order).to_not be_editable
+  end
+
+  it '#next_state will return next state of work order' do
+    work_order = create(:work_order)
+    expect(work_order.next_state).to eq('qc')
+
+    work_order.qc!
+    expect(work_order.next_state).to eq('library_preparation')
+  end
+
+  it 'does not tolerate more flowcells than requested' do
+    expect(build(:work_order, number_of_flowcells: 5,
+                              flowcells: build_list(:flowcell, 3))).to be_valid
+
+    expect(build(:work_order, number_of_flowcells: 5,
+                              flowcells: build_list(:flowcell, 5))).to be_valid
+
+    expect(build(:work_order, number_of_flowcells: 5,
+                              flowcells: build_list(:flowcell, 6))).to_not be_valid
+
+    expect(build(:work_order, number_of_flowcells: 5,
+                              flowcells: build_list(:flowcell, 10))).to_not be_valid
   end
 end

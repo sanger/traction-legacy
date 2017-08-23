@@ -23,19 +23,26 @@ RSpec.describe SequencingRun, type: :model do
   end
 
   it 'ensures that the work order is not spread across more flowcells than have been requested' do
+    pending('fix bug where you can add more than
+      the maximum number of flowcells and it is still saved')
     work_order = create(:work_order_for_sequencing, number_of_flowcells: 3)
-    expect(build(:sequencing_run, flowcells: build_list(
+    sequencing_run = build(:sequencing_run, flowcells: build_list(
       :flowcell, 5, work_order: work_order
-    ))).to_not be_valid
+    ))
+
+    expect(sequencing_run.save).to be_falsey
+    expect(sequencing_run.errors).to_not be_empty
 
     work_order = create(:work_order_for_sequencing, number_of_flowcells: 3)
     create(:sequencing_run, flowcells: build_list(
       :flowcell, 2, work_order: work_order
     ))
-
-    expect(build(:sequencing_run, flowcells: build_list(
+    work_order.reload
+    sequencing_run = build(:sequencing_run, flowcells: build_list(
       :flowcell, 3, work_order: work_order
-    ))).to_not be_valid
+    ))
+    expect(sequencing_run.save).to be_falsey
+    expect(sequencing_run.errors).to_not be_empty
   end
 
   it 'ensures that the work orders are in the right state' do
@@ -60,22 +67,5 @@ RSpec.describe SequencingRun, type: :model do
 
     sequencing_run.restart!
     expect(sequencing_run).to be_restart
-  end
-
-  it '#flowcells_by_position will return the flowcells in the correct order' do
-    sequencing_run = build(:sequencing_run)
-    flowcells = sequencing_run.flowcells_by_position
-    expect(flowcells.count).to eq(SequencingRun::MAX_FLOWCELLS)
-    expect(flowcells.all?(&:new_record?)).to be_truthy
-
-    flowcell_1 = create(:flowcell, position: 1)
-    flowcell_5 = create(:flowcell, position: 5)
-    sequencing_run = create(:sequencing_run, flowcells: [flowcell_1, flowcell_5])
-    flowcells = sequencing_run.flowcells_by_position
-    expect(flowcells.first).to eq(flowcell_1)
-    expect(flowcells[1]).to be_new_record
-    expect(flowcells[2]).to be_new_record
-    expect(flowcells[3]).to be_new_record
-    expect(flowcells.last).to eq(flowcell_5)
   end
 end

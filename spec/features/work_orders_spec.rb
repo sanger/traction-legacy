@@ -3,19 +3,21 @@
 require 'rails_helper'
 
 RSpec.feature 'WorkOrders', type: :feature do
+  include WebmockHelpers
+
   let!(:work_orders)  { create_list(:work_order, 5) }
   let!(:work_order)   { work_orders.first }
 
   scenario 'Successfully QC a work order' do
+    stub_updates
+
     aliquot = build(:aliquot_proceed)
 
-    visit work_orders_path
+    visit qcs_path
 
     within("#work_order_#{work_order.id}") do
-      click_link 'Edit'
+      click_link 'qc'
     end
-
-    visit edit_work_order_path(work_order)
 
     fill_in 'Concentration', with: aliquot.concentration
     fill_in 'Fragment size', with: aliquot.fragment_size
@@ -31,10 +33,8 @@ RSpec.feature 'WorkOrders', type: :feature do
     visit work_orders_path
 
     within("#work_order_#{work_order.id}") do
-      click_link 'Edit'
+      click_link 'qc'
     end
-
-    visit edit_work_order_path(work_order)
 
     fill_in 'Concentration', with: aliquot.concentration
     select aliquot.qc_state, from: 'QC state'
@@ -44,10 +44,16 @@ RSpec.feature 'WorkOrders', type: :feature do
   end
 
   scenario 'Successful Library preparation' do
+    stub_updates
+
     work_order.qc!
     library = build(:library)
 
-    visit edit_work_order_path(work_order)
+    visit library_preparations_path
+
+    within("#work_order_#{work_order.id}") do
+      click_link 'library preparation'
+    end
 
     fill_in 'Volume', with: library.volume
     fill_in 'Kit number', with: library.kit_number
@@ -60,7 +66,11 @@ RSpec.feature 'WorkOrders', type: :feature do
     work_order.qc!
     library = build(:library)
 
-    visit edit_work_order_path(work_order)
+    visit work_orders_path
+
+    within("#work_order_#{work_order.id}") do
+      click_link 'library preparation'
+    end
 
     fill_in 'Volume', with: library.volume
     click_button 'Update Work order'
