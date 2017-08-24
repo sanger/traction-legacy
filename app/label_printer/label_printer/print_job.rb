@@ -3,21 +3,37 @@
 module LabelPrinter
   # generates print job and sends it to Print my barcode
   class PrintJob
-    include ActiveModel::Model
-    attr_accessor :aliquots, :printer_name, :labels, :label_template_id
 
-    validates :printer_name, :label_template_id, :aliquots, presence: true
+    include ActiveModel::Model
+
+    attr_accessor :printer_name, :label_template_id, :work_orders
+
+    attr_reader :labels
 
     def initialize(attributes = {})
       super
-      @labels = TubeLabelFactory.generate_labels(aliquots)
+      @labels = Labels.new(work_orders)
     end
 
-    def execute
-      PMB::PrintJob.execute(attributes) if valid?
-    rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::UnexpectedStatus => e
-      errors.add(:printmybarcode, 'is down')
-      false
+    def work_orders=(work_orders)
+      @work_orders = WorkOrder.find(work_orders)
+    end
+
+    def message
+      response_ok? ? I18n.t("printing.success") : I18n.t("printing.failure")
+    end
+
+    def post
+      begin
+        PMB::PrintJob.execute(attributes)
+        @response_ok = true
+      rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::UnexpectedStatus => e
+        @response_ok = false
+      end
+    end
+
+    def response_ok?
+      @response_ok ||= false
     end
 
     private
@@ -25,7 +41,7 @@ module LabelPrinter
     def attributes
       { printer_name: printer_name,
         label_template_id: label_template_id,
-        labels: labels }
+        labels: labels.to_h }
     end
 
   end
