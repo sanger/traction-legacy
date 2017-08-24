@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.feature 'WorkOrders', type: :feature do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   let!(:work_orders)  { create_list(:work_order, 5) }
   let!(:work_order)   { work_orders.first }
@@ -28,6 +28,7 @@ RSpec.feature 'WorkOrders', type: :feature do
   end
 
   scenario 'QC a work order with invalid attributes' do
+
     aliquot = build(:aliquot_proceed)
 
     visit work_orders_path
@@ -63,6 +64,7 @@ RSpec.feature 'WorkOrders', type: :feature do
   end
 
   scenario 'Invalid Library preparation' do
+
     work_order.qc!
     library = build(:library)
 

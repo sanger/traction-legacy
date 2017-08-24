@@ -20,7 +20,7 @@ class WorkOrder < ApplicationRecord
 
   accepts_nested_attributes_for :aliquot, :library
 
-  delegate :name, to: :aliquot
+  delegate :name, :source_plate_barcode, :tube_barcode, to: :aliquot
 
   scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
   scope :by_date, (-> { order(created_at: :desc) })
