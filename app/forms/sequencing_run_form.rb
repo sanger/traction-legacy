@@ -14,18 +14,24 @@ class SequencingRunForm
 
   def initialize(sequencing_run = nil)
     @sequencing_run = sequencing_run || SequencingRun.new
+    @created = self.sequencing_run.new_record?
   end
 
   def submit(params)
     sequencing_run.assign_attributes(params)
     if valid?
-      ActiveRecord::Base.transaction do
-        sequencing_run.save
-        update_work_orders
-      end
+      persist_sequencing_run
+      send_bunny_messages if created?
       true
     else
       false
+    end
+  end
+
+  def persist_sequencing_run
+    ActiveRecord::Base.transaction do
+      sequencing_run.save
+      update_work_orders
     end
   end
 
@@ -49,6 +55,16 @@ class SequencingRunForm
     work_orders = WorkOrder.by_state(:library_preparation)
     return work_orders if sequencing_run.new_record?
     (work_orders.to_a << sequencing_run.work_orders).flatten.uniq
+  end
+
+  def created?
+    @created
+  end
+
+  def send_bunny_messages
+    sequencing_run.flowcells.each do |flowcell|
+      Messages::Exchange.connection << Messages::OseqFlowcell.new(flowcell)
+    end
   end
 
   private
