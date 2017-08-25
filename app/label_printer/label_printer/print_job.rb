@@ -3,7 +3,6 @@
 module LabelPrinter
   # generates print job and sends it to Print my barcode
   class PrintJob
-
     include ActiveModel::Model
 
     attr_accessor :printer_name, :label_template_id, :work_orders
@@ -16,20 +15,18 @@ module LabelPrinter
     end
 
     def work_orders=(work_orders)
-      @work_orders = WorkOrder.find(work_orders)
+      @work_orders = WorkOrder.includes(:aliquot).find(work_orders)
     end
 
     def message
-      response_ok? ? I18n.t("printing.success") : I18n.t("printing.failure")
+      response_ok? ? I18n.t('printing.success') : I18n.t('printing.failure')
     end
 
     def post
-      begin
-        PMB::PrintJob.execute(attributes)
-        @response_ok = true
-      rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::UnexpectedStatus => e
-        @response_ok = false
-      end
+      PMB::PrintJob.execute(attributes)
+      @response_ok = true
+    rescue JsonApiClient::Errors::ServerError, JsonApiClient::Errors::UnexpectedStatus
+      @response_ok = false
     end
 
     def response_ok?
@@ -43,6 +40,5 @@ module LabelPrinter
         label_template_id: label_template_id,
         labels: labels.to_h }
     end
-
   end
 end

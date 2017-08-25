@@ -3,12 +3,11 @@
 require 'rails_helper'
 
 RSpec.describe LabelPrinter::Labels, type: :model do
-
   let!(:work_orders)  { create_list(:work_order, 2) }
   let(:labels)        { LabelPrinter::Labels.new(work_orders) }
 
   before(:each) do
-    allow(Date).to receive(:today).and_return(Date.parse("Thu, 24 Aug 2017"))
+    allow(Date).to receive(:today).and_return(Date.parse('Thu, 24 Aug 2017'))
   end
 
   it 'must have two labels' do

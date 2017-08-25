@@ -28,7 +28,6 @@ RSpec.feature 'WorkOrders', type: :feature do
   end
 
   scenario 'QC a work order with invalid attributes' do
-
     aliquot = build(:aliquot_proceed)
 
     visit work_orders_path
@@ -64,7 +63,6 @@ RSpec.feature 'WorkOrders', type: :feature do
   end
 
   scenario 'Invalid Library preparation' do
-
     work_order.qc!
     library = build(:library)
 

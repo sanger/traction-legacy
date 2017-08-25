@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :aliquot do
-    sequence(:name) { |n| "DN4914#{n}A:A#{n}"}
+    sequence(:name) { |n| "DN4914#{n}A:A#{n}" }
 
     factory :aliquot_proceed do
       concentration 0.005
