@@ -14,6 +14,10 @@ RSpec.describe SequencingRunForm, type: :model do
       expect(flowcells.all?(&:new_record?)).to be_truthy
     end
 
+    it '#created? is true' do
+      expect(subject).to be_created
+    end
+
     context 'valid' do
       let(:attributes) do
         attributes_for(:sequencing_run).merge(flowcells_attributes: build_nested_attributes_for(
@@ -44,6 +48,13 @@ RSpec.describe SequencingRunForm, type: :model do
         expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(3).times
         subject.submit(attributes)
       end
+
+      # TODO: find a better way to test this.
+      it 'sends bunny messages' do
+        stub_updates
+        expect(Messages::Exchange.connection).to receive(:<<).exactly(3).times
+        subject.submit(attributes)
+      end
     end
 
     context 'invalid' do
@@ -66,6 +77,11 @@ RSpec.describe SequencingRunForm, type: :model do
 
       it 'does not update the state of all of the work orders in sequencescape' do
         expect(Sequencescape::Api::WorkOrder).to_not receive(:update_state)
+        subject.submit(attributes)
+      end
+
+      it 'does not send bunny messages' do
+        expect(Messages::Exchange.connection).to_not receive(:<<)
         subject.submit(attributes)
       end
     end
@@ -92,6 +108,11 @@ RSpec.describe SequencingRunForm, type: :model do
       expect(sequencing_run_form.available_work_orders).to include(flowcell_5.work_order)
     end
 
+    it '#created? is false' do
+      sequencing_run_form = SequencingRunForm.new(sequencing_run)
+      expect(sequencing_run_form).to_not be_created
+    end
+
     context 'completed' do
       let(:attributes)        { { state: SequencingRun.states[:completed] } }
       subject                 { SequencingRunForm.new(sequencing_run) }
@@ -111,6 +132,12 @@ RSpec.describe SequencingRunForm, type: :model do
 
       it 'updates state of all of the work orders in sequencscape' do
         expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(2).times
+        subject.submit(attributes)
+      end
+
+      it 'does not send bunny messages' do
+        stub_updates
+        expect(Messages::Exchange.connection).to_not receive(:<<)
         subject.submit(attributes)
       end
     end
