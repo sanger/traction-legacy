@@ -36,5 +36,8 @@ module Traction
     config.bunny = config_for(:bunny)
     # Print my barcode api base
     config.print_my_barcode = config_for(:print_my_barcode)
+
+    #mailer
+    config.mailer = config_for(:mailer)
   end
 end
