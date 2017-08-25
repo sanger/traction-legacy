@@ -52,10 +52,10 @@ gem 'select2-rails'
 
 gem "font-awesome-rails"
 
-gem 'aasm'
-
 # Bunny talks to RabbitMQ and is used to broadcast messages
 gem 'bunny'
+
+gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
 
 group :development, :test do
   gem 'sqlite3'

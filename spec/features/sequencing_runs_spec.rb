@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.feature 'SequencingRuns', type: :feature do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   let!(:work_orders)    { create_list(:work_order_for_sequencing, 2, number_of_flowcells: 3) }
   let(:flowcells)       { build_list(:flowcell, 5) }

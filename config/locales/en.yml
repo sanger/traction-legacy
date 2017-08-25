@@ -31,3 +31,8 @@
 
 en:
   hello: "Hello world"
+
+  printing:
+    success: "Barcodes were successfully printed"
+    failure: "Unable to print barcodes"
+    unavailable: "Printer is unavailable"

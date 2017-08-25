@@ -9,5 +9,7 @@ Rails.application.routes.draw do
   get 'reception', to: 'reception#index'
   post 'reception/upload', to: 'reception#upload'
 
+  resources :print_jobs, only: %i[create]
+
   root 'work_orders#index'
 end

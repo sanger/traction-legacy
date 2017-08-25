@@ -1,28 +1,31 @@
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-striped">
-      <thead>
-        <th>Sample Name</th>
-        <th>State</th>
-        <th>Created</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-      </thead>
-    <tbody>
-      <% work_orders.each do |work_order| %>
-        <tr id="<%= dom_id(work_order) %>">
-          <td><%= work_order.name %></td>
-          <td><%= work_order.state %></td>
-          <td><%= work_order.created_at.to_date.to_s(:default) %></td>
-          <td><%= link_to 'Show', work_order_path(work_order) %></td>
-          <% if work_order.editable? %>
-            <td><%= link_to work_order.next_state.to_s.humanize.downcase, editable_work_order_path(work_order) %></td>
-          <% else %>
-            <td>&nbsp;</td>
+    <%= form_tag print_jobs_path do %>
+      <%= render "print" %>
+      <table class="table table-striped">
+        <thead>
+          <th>Print Label</th>
+          <th>Sample Name</th>
+          <th>State</th>
+          <th>&nbsp;</th>
+          <th>&nbsp;</th>
+        </thead>
+        <tbody>
+          <% work_orders.each do |work_order| %>
+            <tr id="<%= dom_id(work_order) %>">
+              <td><%= check_box_tag 'work_order_ids[]', work_order.id%></td>
+              <td><%= work_order.name %></td>
+              <td><%= work_order.state %></td>
+              <td><%= link_to 'Show', work_order_path(work_order) %></td>
+              <% if work_order.editable? %>
+                <td><%= link_to work_order.next_state.to_s.humanize.downcase, editable_work_order_path(work_order) %></td>
+              <% else %>
+                <td>&nbsp;</td>
+              <% end %>
+            </tr>
           <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-    </table>
+        </tbody>
+      </table>
+    <% end %>
   </div>
 </div>

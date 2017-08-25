@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.feature 'WorkOrders', type: :feature do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   let!(:work_orders)  { create_list(:work_order, 5) }
   let!(:work_order)   { work_orders.first }

@@ -15,7 +15,7 @@ class QcsController < ApplicationController
   def update
     @work_order = WorkOrderForm::Qc.new(current_resource)
     if work_order.submit(work_order_params)
-      redirect_to work_order_path(work_order), notice: 'Work Order successfully updated'
+      redirect_to work_orders_path, notice: 'Work Order successfully updated'
     else
       render :edit
     end
