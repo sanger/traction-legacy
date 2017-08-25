@@ -22,4 +22,5 @@ RSpec.describe Messages::Exchange, type: :model do
 
     it { is_expected.to be_a Messages::Exchange }
   end
+
 end

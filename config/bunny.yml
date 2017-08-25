@@ -1,13 +1,18 @@
 development:
-  # type: logger
-  # amqp_url: 'amqp://guest:guest@127.0.0.1:5672'
-  # exchange: psd.sequencescape
-  type: bunny
-  amqp_url: amqp://psdd:psdd@psd2c.internal.sanger.ac.uk:5672/testing
-  exchange: psd.sequencescape
-staging:
   type: logger
   amqp_url: 'amqp://guest:guest@127.0.0.1:5672'
   exchange: psd.sequencescape
+  # type: bunny
+  # user: psdd
+  # pass: psdd
+  # host: psd2c.internal.sanger.ac.uk
+  # vhost: testing
+  # port: 5672
+  # heartbeat: 10
+staging:
+  type: logger
+  exchange: psd.sequencescape
 test:
   type: logger
+
+
