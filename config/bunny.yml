@@ -1,6 +1,9 @@
 development:
-  type: logger
-  amqp_url: 'amqp://guest:guest@127.0.0.1:5672'
+  # type: logger
+  # amqp_url: 'amqp://guest:guest@127.0.0.1:5672'
+  # exchange: psd.sequencescape
+  type: bunny
+  amqp_url: amqp://psdd:psdd@psd2c.internal.sanger.ac.uk:5672/testing
   exchange: psd.sequencescape
 staging:
   type: logger
