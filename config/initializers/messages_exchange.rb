@@ -33,7 +33,7 @@ module Messages
     end
 
     def bunny_channel
-      bunny = Bunny.new(@config.except('amqp_url','exchange','type').symbolize_keys)
+      bunny = Bunny.new(@config.except('amqp_url', 'exchange', 'type').symbolize_keys)
       bunny.start
       bunny.create_channel
     end
