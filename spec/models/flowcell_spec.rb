@@ -52,5 +52,4 @@ RSpec.describe Flowcell, type: :model do
     subject { flowcell.data_type }
     it { is_expected.to be_a String }
   end
-
 end
