@@ -7,4 +7,11 @@ $(document).on('turbolinks:load', function() {
   });
 
   $(".alert-success").fadeOut(15000);
+
+  $("form").on("keypress", function (e) {
+    if (e.keyCode == 13) {
+      event.preventDefault();
+      return false;
+    }
+  });
 });
