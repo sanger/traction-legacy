@@ -53,8 +53,4 @@ RSpec.describe Flowcell, type: :model do
     it { is_expected.to be_a String }
   end
 
-  it 'must ensure that the work order does not exceed the maximum number of flowcells' do
-    work_order = create(:work_order, number_of_flowcells: 3, flowcells: create_list(:flowcell, 3))
-    expect(build(:flowcell, work_order: work_order)).to_not be_valid
-  end
 end

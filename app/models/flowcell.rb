@@ -11,10 +11,6 @@ class Flowcell < ApplicationRecord
 
   validates_presence_of :flowcell_id, :position
 
-  with_options if: :work_order_present? do
-    validates_with MaximumFlowcellValidator
-  end
-
   def work_order_present?
     work_order.present?
   end
