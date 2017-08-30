@@ -57,6 +57,9 @@ gem 'bunny'
 
 gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
 
+# Exception Notification to send exception emails
+gem 'exception_notification'
+
 group :development, :test do
   gem 'sqlite3'
 
