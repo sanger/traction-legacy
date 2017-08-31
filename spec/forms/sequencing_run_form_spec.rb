@@ -85,7 +85,6 @@ RSpec.describe SequencingRunForm, type: :model do
         subject.submit(attributes)
       end
     end
-
   end
 
   context 'update' do
@@ -173,28 +172,5 @@ RSpec.describe SequencingRunForm, type: :model do
         subject.submit(attributes)
       end
     end
-
-  end
-
-  context 'work order exceeds maximum number of flowcells' do
-    let!(:work_order)       { create(:work_order_in_sequencing_run, number_of_flowcells: 2)}
-    let!(:flowcell_1)       { create(:flowcell_in_sequencing_run, work_order: work_order, position: 1) }
-    let!(:flowcell_5)       { create(:flowcell_in_sequencing_run, work_order: work_order, position: 5) }
-    let!(:sequencing_run)   { create(:sequencing_run, flowcells: [flowcell_1, flowcell_5]) }
-    let(:subject)              { SequencingRunForm.new() }
-
-    before(:each) do
-      subject.submit(flowcells_attributes: {3 => { flowcell_id: 123456, position: 3, work_order_id: work_order.id}})
-    end
-
-    it 'generates errors' do
-      expect(subject).to_not be_valid
-      expect(subject.errors).to_not be_empty
-    end
-
-    it 'does not save the flowcell' do
-      expect(sequencing_run.reload.flowcells.count).to eq(2)
-    end
-      
   end
 end
