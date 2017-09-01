@@ -12,6 +12,7 @@ class WorkOrderFlowcellAggregator
     @sequencing_run = sequencing_run
     @work_orders = create_work_orders
     @work_orders_by_flowcell = create_work_orders_by_flowcell
+    # binding.pry
   end
 
   private
@@ -24,18 +25,22 @@ class WorkOrderFlowcellAggregator
   end
 
   def create_work_orders_by_flowcell
+    group_work_orders_by_flowcell.transform_values { |v| v.flatten.uniq }
+  end
+
+  def group_work_orders_by_flowcell
     sequencing_run.flowcells.each_with_object({}) do |flowcell, result|
       id = flowcell.work_order_id
       result[id] ||= []
-      result[id] << assign_flowcells(flowcell)
+      result[id] << assign_flowcells(flowcell, id)
     end
   end
 
-  def assign_flowcells(flowcell)
+  def assign_flowcells(flowcell, id)
     [].tap do |flowcells|
       flowcells << flowcell
       flowcells << work_orders[id].flowcells.to_a
-    end.flatten.uniq
+    end
   end
 
   def check_flowcell_count
