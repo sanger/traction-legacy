@@ -9,10 +9,10 @@
 # as this would have an effect on charging.
 class MaximumFlowcellValidator < ActiveModel::Validator
   def validate(record)
-    work_order = record.work_order
-    return unless (work_order.flowcells.count + 1) > work_order.number_of_flowcells
-    record.errors.add(:work_order,
-                      "#{work_order.name} can only have "\
-                      " #{work_order.number_of_flowcells} flowcells")
+    aggregator = WorkOrderFlowcellAggregator.new(record)
+    return if aggregator.valid?
+    aggregator.errors.each do |key, value|
+      record.errors.add(key, value)
+    end
   end
 end

@@ -48,7 +48,7 @@ class SequencingRunsController < ApplicationController
   end
 
   def current_resource
-    @current_resource = SequencingRun.find(params[:id]) if params[:id].present?
+    @current_resource = SequencingRun.includes(:flowcells).find(params[:id]) if params[:id].present?
   end
 
   def sequencing_run_params

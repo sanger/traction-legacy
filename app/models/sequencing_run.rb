@@ -15,6 +15,7 @@ class SequencingRun < ApplicationRecord
   scope :by_date, (-> { order(created_at: :desc) })
 
   with_options if: :flowcells_present? do
+    validates_with MaximumFlowcellValidator
     validates_with WorkOrderLibraryValidator
   end
 
