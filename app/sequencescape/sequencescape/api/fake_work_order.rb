@@ -3,7 +3,7 @@
 module Sequencescape
   module Api
     # this class is used if sequencescape connection is disabled
-    # see config/initializers/sequencescape and config/sequencescape.yml
+    # see config/initializers/sequencescape_api.rb and config/sequencescape.yml
     class FakeWorkOrder
       def self.for_reception
         []
