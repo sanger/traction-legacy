@@ -50,10 +50,15 @@ gem 'json_api_client', '~> 1.1'
 
 gem 'select2-rails'
 
-gem 'aasm'
+gem "font-awesome-rails"
 
 # Bunny talks to RabbitMQ and is used to broadcast messages
 gem 'bunny'
+
+gem 'pmb-client', '0.1.0', github: 'sanger/pmb-client'
+
+# Exception Notification to send exception emails
+gem 'exception_notification'
 
 group :development, :test do
   gem 'sqlite3'

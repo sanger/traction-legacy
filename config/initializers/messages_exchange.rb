@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_dependency 'messages/exchange/logger'
-require_dependency 'messages/exchange'
+require 'messages/exchange/logger'
+require 'messages/exchange'
 
 module Messages
   # Build exchanges easily
@@ -33,7 +33,7 @@ module Messages
     end
 
     def bunny_channel
-      bunny = Bunny.new(@config.fetch('amqp_url'))
+      bunny = Bunny.new(@config.except('amqp_url', 'exchange', 'type').symbolize_keys)
       bunny.start
       bunny.create_channel
     end

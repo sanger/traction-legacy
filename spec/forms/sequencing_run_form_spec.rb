@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe SequencingRunForm, type: :model do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   context 'new' do
     subject { SequencingRunForm.new }
@@ -12,6 +12,10 @@ RSpec.describe SequencingRunForm, type: :model do
       flowcells = subject.flowcells_by_position
       expect(flowcells.count).to eq(SequencingRunForm::MAX_FLOWCELLS)
       expect(flowcells.all?(&:new_record?)).to be_truthy
+    end
+
+    it '#created? is true' do
+      expect(subject).to be_created
     end
 
     context 'valid' do
@@ -44,6 +48,13 @@ RSpec.describe SequencingRunForm, type: :model do
         expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(3).times
         subject.submit(attributes)
       end
+
+      # TODO: find a better way to test this.
+      it 'sends bunny messages' do
+        stub_updates
+        expect(Messages::Exchange.connection).to receive(:<<).exactly(3).times
+        subject.submit(attributes)
+      end
     end
 
     context 'invalid' do
@@ -68,12 +79,17 @@ RSpec.describe SequencingRunForm, type: :model do
         expect(Sequencescape::Api::WorkOrder).to_not receive(:update_state)
         subject.submit(attributes)
       end
+
+      it 'does not send bunny messages' do
+        expect(Messages::Exchange.connection).to_not receive(:<<)
+        subject.submit(attributes)
+      end
     end
   end
 
   context 'update' do
-    let!(:flowcell_1)       { create(:flowcell, position: 1) }
-    let!(:flowcell_5)       { create(:flowcell, position: 5) }
+    let!(:flowcell_1)       { create(:flowcell_in_sequencing_run, position: 1) }
+    let!(:flowcell_5)       { create(:flowcell_in_sequencing_run, position: 5) }
     let!(:sequencing_run)   { create(:sequencing_run, flowcells: [flowcell_1, flowcell_5]) }
 
     it '#flowcell_by_position will return the flowcells in the correct order' do
@@ -84,6 +100,17 @@ RSpec.describe SequencingRunForm, type: :model do
       expect(flowcells[2]).to be_new_record
       expect(flowcells[3]).to be_new_record
       expect(flowcells.last).to eq(flowcell_5)
+    end
+
+    it '#available work orders should include work orders already added to sequencing run' do
+      sequencing_run_form = SequencingRunForm.new(sequencing_run)
+      expect(sequencing_run_form.available_work_orders).to include(flowcell_1.work_order)
+      expect(sequencing_run_form.available_work_orders).to include(flowcell_5.work_order)
+    end
+
+    it '#created? is false' do
+      sequencing_run_form = SequencingRunForm.new(sequencing_run)
+      expect(sequencing_run_form).to_not be_created
     end
 
     context 'completed' do
@@ -105,6 +132,12 @@ RSpec.describe SequencingRunForm, type: :model do
 
       it 'updates state of all of the work orders in sequencscape' do
         expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(2).times
+        subject.submit(attributes)
+      end
+
+      it 'does not send bunny messages' do
+        stub_updates
+        expect(Messages::Exchange.connection).to_not receive(:<<)
         subject.submit(attributes)
       end
     end

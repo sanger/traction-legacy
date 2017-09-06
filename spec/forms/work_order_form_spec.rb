@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe WorkOrderForm, type: :model do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   context 'qc' do
     let!(:work_order) { create(:work_order) }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module WebmockHelpers
+module SequencescapeWebmockStubs
   def stub(thing)
     stub_request(:get, url(thing))
       .with(headers: headers)
@@ -13,7 +13,6 @@ module WebmockHelpers
 
   def response_body(thing)
     File.read(File.join('spec', 'data', 'sequencescape', "#{thing}.json"))
-    # File.open(Rails.root.join("spec/support/jsons_for_webmock/#{thing}.txt"), 'r', &:read)
   end
 
   def find_url(thing)

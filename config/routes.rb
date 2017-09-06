@@ -9,5 +9,10 @@ Rails.application.routes.draw do
   get 'reception', to: 'reception#index'
   post 'reception/upload', to: 'reception#upload'
 
+  resources :print_jobs, only: %i[create]
+
+  match 'test_exception_notifier', controller: 'application',
+                                   action: 'test_exception_notifier', via: :get
+
   root 'work_orders#index'
 end

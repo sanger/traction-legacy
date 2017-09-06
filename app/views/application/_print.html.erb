@@ -1,0 +1,5 @@
+<div class="float-sm-right py-2">
+  <%= label_tag :printer, 'Printer', class: 'h6' %>
+  <%= select_tag(:printer_name, options_for_select(Printer.names)) %>
+  <%= submit_tag "Print labels", class: "btn btn-primary pull-right ml-2", data: { disable_with: "Please wait..." }%>
+</div>

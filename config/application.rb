@@ -30,11 +30,16 @@ module Traction
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-     # Sequencescape api base
+    # Sequencescape api base
     config.sequencescape_api_base = config_for(:sequencescape)["api_base"]
 
     config.sequencescape_disabled = config_for(:sequencescape)["disabled"]
     # RabbitMQ config
     config.bunny = config_for(:bunny)
+    # Print my barcode api base
+    config.print_my_barcode = config_for(:print_my_barcode)
+
+    #mailer
+    config.mailer = config_for(:mailer)
   end
 end

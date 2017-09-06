@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe Sequencescape::Api::WorkOrder, type: :model do
-  include WebmockHelpers
+  include SequencescapeWebmockStubs
 
   it 'should request for pending work orders from Sequencescape' do
     stub_reception = stub :reception

@@ -9,15 +9,10 @@
 # as this would have an effect on charging.
 class MaximumFlowcellValidator < ActiveModel::Validator
   def validate(record)
-    record.work_orders
-          .each_with_object(Hash.new(0)) { |work_order, counts| counts[work_order] += 1 }
-          .each do |work_order, count|
-            total_flowcell_count = work_order.flowcells.count + count
-            next unless work_order.number_of_flowcells < total_flowcell_count
-            record.errors.add(:work_order,
-                              "#{work_order.name} has #{total_flowcell_count}
-                              flowcells which is more than was originally requested
-                              (#{work_order.number_of_flowcells})")
-          end
+    aggregator = WorkOrderFlowcellAggregator.new(record)
+    return if aggregator.valid?
+    aggregator.errors.each do |key, value|
+      record.errors.add(key, value)
+    end
   end
 end

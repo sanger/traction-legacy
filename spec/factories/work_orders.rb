@@ -25,6 +25,10 @@ FactoryGirl.define do
       aliquot { create(:aliquot_proceed) }
       library
       after(:create, &:library_preparation!)
+
+      factory :work_order_in_sequencing_run do
+        after(:create, &:sequencing!)
+      end
     end
   end
 end

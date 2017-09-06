@@ -40,7 +40,7 @@ class SequencingRunsController < ApplicationController
   protected
 
   def sequencing_runs
-    @sequencing_runs = SequencingRun.all
+    @sequencing_runs = SequencingRun.by_date
   end
 
   def set_sequencing_run
@@ -48,13 +48,13 @@ class SequencingRunsController < ApplicationController
   end
 
   def current_resource
-    @current_resource = SequencingRun.find(params[:id]) if params[:id].present?
+    @current_resource = SequencingRun.includes(:flowcells).find(params[:id]) if params[:id].present?
   end
 
   def sequencing_run_params
     params.require(:sequencing_run).permit(:instrument_name, :state,
                                            flowcells_attributes:
-                                           %i[flowcell_id position work_order_id])
+                                           %i[id flowcell_id position work_order_id])
   end
 
   helper_method :sequencing_runs, :sequencing_run

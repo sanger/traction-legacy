@@ -143,4 +143,18 @@ RSpec.describe WorkOrder, type: :model do
     work_order.qc!
     expect(work_order.next_state).to eq('library_preparation')
   end
+
+  # it 'does not tolerate more flowcells than requested' do
+  #   expect(build(:work_order, number_of_flowcells: 5,
+  #                             flowcells: build_list(:flowcell, 3))).to be_valid
+
+  #   expect(build(:work_order, number_of_flowcells: 5,
+  #                             flowcells: build_list(:flowcell, 5))).to be_valid
+
+  #   expect(build(:work_order, number_of_flowcells: 5,
+  #                             flowcells: build_list(:flowcell, 6))).to_not be_valid
+
+  #   expect(build(:work_order, number_of_flowcells: 5,
+  #                             flowcells: build_list(:flowcell, 10))).to_not be_valid
+  # end
 end
