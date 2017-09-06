@@ -16,7 +16,7 @@ class WorkOrder < ApplicationRecord
                         :data_type, :number_of_flowcells,
                         :study_uuid, :sample_uuid
 
-  validate :maximum_number_of_flowcells
+  # validate :maximum_number_of_flowcells
 
   accepts_nested_attributes_for :aliquot, :library
 
@@ -51,9 +51,9 @@ class WorkOrder < ApplicationRecord
     events.build(state_from: state_was, state_to: state) if state_changed?
   end
 
-  def maximum_number_of_flowcells
-    return unless number_of_flowcells.present?
-    return unless flowcells.length > number_of_flowcells
-    errors.add(:flowcells, "number must not exceed #{number_of_flowcells}")
-  end
+  # def maximum_number_of_flowcells
+  #   return unless number_of_flowcells.present?
+  #   return unless flowcells.length > number_of_flowcells
+  #   errors.add(:flowcells, "number must not exceed #{number_of_flowcells}")
+  # end
 end
