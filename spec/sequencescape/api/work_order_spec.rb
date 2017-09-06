@@ -5,13 +5,6 @@ require 'rails_helper'
 RSpec.describe Sequencescape::Api::WorkOrder, type: :model do
   include WebmockHelpers
 
-  it 'should not reach Sequencescape if the latter is disabled' do
-    Rails.configuration.sequencescape_disabled = true
-    expect(Sequencescape::Api::WorkOrder.for_reception).to eq []
-    expect(Sequencescape::Api::WorkOrder.find_by_ids(%w[1 2])).to eq []
-    expect(Sequencescape::Api::WorkOrder.update_state('test')).to eq true
-  end
-
   it 'should request for pending work orders from Sequencescape' do
     stub_reception = stub :reception
     Sequencescape::Api::WorkOrder.for_reception

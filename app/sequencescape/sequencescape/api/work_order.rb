@@ -9,14 +9,12 @@ module Sequencescape
       has_one :study
 
       def self.for_reception
-        return [] if Rails.configuration.sequencescape_disabled == true
         includes(:samples, :source_receptacle, :study)
           .where(order_type: 'traction_grid_ion', state: 'pending')
           .all
       end
 
       def self.find_by_ids(ids)
-        return [] if Rails.configuration.sequencescape_disabled == true
         includes(:samples, :source_receptacle, :study).where(id: ids.join(',')).all
       end
 
@@ -25,7 +23,6 @@ module Sequencescape
       end
 
       def self.update_state(work_order)
-        return true if Rails.configuration.sequencescape_disabled == true
         sequencescape_work_order = find_by_id(work_order.sequencescape_id)
         sequencescape_work_order.update_attributes(state: work_order.state)
       end
