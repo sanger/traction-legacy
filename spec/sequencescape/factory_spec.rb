@@ -8,7 +8,7 @@ RSpec.describe Sequencescape::Factory, type: :model do
   it 'if valid, should create correct traction objects and update sequencescape state' do
     stub :successful_upload
     stub_updates
-    sequencescape_work_orders = Sequencescape::Api::WorkOrder.find_by_ids(['6','7'])
+    sequencescape_work_orders = Sequencescape::Api::WorkOrder.find_by_ids(%w[6 7])
     Sequencescape::Factory.create!(sequencescape_work_orders)
     count = sequencescape_work_orders.count
     expect(WorkOrder.count).to eq count
