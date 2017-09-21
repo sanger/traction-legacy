@@ -10,8 +10,9 @@ module Sequencescape
 
       def self.for_reception
         includes(:source_receptacle)
-          .where(order_type: 'traction_grid_ion', state: 'pending')
           .all
+          .select { |work_order| work_order.state == 'pending' && work_order.order_type == 'traction_grid_ion' } #rubocop:disable all
+          .compact
       end
 
       def self.find_by_ids(ids)

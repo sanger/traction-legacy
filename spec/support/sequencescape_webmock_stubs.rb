@@ -16,8 +16,7 @@ module SequencescapeWebmockStubs
   end
 
   def find_url(thing)
-    reception_filter = 'filter[order_type]=traction_grid_ion&filter[state]=pending'
-    { reception: "/work_orders?#{reception_filter}&include=source_receptacle",
+    { reception: '/work_orders?include=source_receptacle',
       successful_upload: '/work_orders?filter[id]=6,7&include=samples,source_receptacle,study',
       find_by_id: '/work_orders?filter[id]={id}' }[thing]
   end
