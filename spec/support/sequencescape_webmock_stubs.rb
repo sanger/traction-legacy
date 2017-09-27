@@ -8,7 +8,7 @@ module SequencescapeWebmockStubs
   end
 
   def url(thing)
-    Addressable::Template.new(Rails.configuration.sequencescape_api_base + find_url(thing))
+    Addressable::Template.new(Rails.configuration.sequencescape[:api_base] + find_url(thing))
   end
 
   def response_body(thing)
