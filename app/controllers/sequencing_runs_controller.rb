@@ -54,7 +54,7 @@ class SequencingRunsController < ApplicationController
   def sequencing_run_params
     params.require(:sequencing_run).permit(:instrument_name, :state,
                                            flowcells_attributes:
-                                           %i[id flowcell_id position work_order_id])
+                                           %i[id flowcell_id position work_order_id _destroy])
   end
 
   helper_method :sequencing_runs, :sequencing_run

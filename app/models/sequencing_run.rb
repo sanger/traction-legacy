@@ -10,7 +10,8 @@ class SequencingRun < ApplicationRecord
   validates_presence_of :instrument_name
 
   accepts_nested_attributes_for :flowcells,
-                                reject_if: proc { |attributes| attributes['work_order_id'].blank? }
+                                reject_if: proc { |attributes| attributes['work_order_id'].blank? },
+                                allow_destroy: true
 
   scope :by_date, (-> { order(created_at: :desc) })
 

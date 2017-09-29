@@ -31,6 +31,7 @@ class SequencingRunForm
   def persist_sequencing_run
     ActiveRecord::Base.transaction do
       sequencing_run.save
+      sequencing_run.reload
       update_work_orders
     end
   end
@@ -92,4 +93,5 @@ class SequencingRunForm
       errors.add(key, value)
     end
   end
+
 end
