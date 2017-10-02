@@ -30,7 +30,7 @@ RSpec.describe SequencingRun, type: :model do
                                                         'work_order_id')
                             ))
     flowcell = sequencing_run.flowcells.first
-    params = {flowcells_attributes: [{ id: flowcell.id, _destroy: '1' }]}
+    params = { flowcells_attributes: [{ id: flowcell.id, _destroy: '1' }] }
     sequencing_run.assign_attributes(params)
     sequencing_run.save
     expect(sequencing_run.flowcells.count).to eq(2)
@@ -81,5 +81,4 @@ RSpec.describe SequencingRun, type: :model do
     sequencing_run.restart!
     expect(sequencing_run).to be_restart
   end
-
 end

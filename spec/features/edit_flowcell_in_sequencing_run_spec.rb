@@ -61,5 +61,6 @@ RSpec.feature 'SequencingRuns', type: :feature do
     new_work_orders = sequencing_run.work_orders
     expect(new_work_orders.count).to eq 1
     expect(new_work_orders.first.state).to eq 'sequencing'
+    expect(work_orders.first.reload.state).to eq 'library_preparation'
   end
 end
