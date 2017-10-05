@@ -2,7 +2,7 @@
 
 # SequencingRun
 class SequencingRun < ApplicationRecord
-  has_many :flowcells, inverse_of: :sequencing_run
+  has_many :flowcells, inverse_of: :sequencing_run, dependent: :destroy
   has_many :work_orders, through: :flowcells
 
   enum state: %i[pending completed user_terminated instrument_crashed restart]
@@ -31,4 +31,5 @@ class SequencingRun < ApplicationRecord
   def flowcells_present?
     flowcells.present?
   end
+
 end

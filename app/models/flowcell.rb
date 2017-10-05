@@ -11,7 +11,13 @@ class Flowcell < ApplicationRecord
 
   validates_presence_of :flowcell_id, :position
 
+  after_destroy :return_work_orders_to_previous_state
+
   def work_order_present?
     work_order.present?
+  end
+
+  def return_work_orders_to_previous_state
+    work_order.library_preparation! if work_order.flowcells.empty?
   end
 end
