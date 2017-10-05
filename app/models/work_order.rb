@@ -53,9 +53,7 @@ class WorkOrder < ApplicationRecord
   end
 
   def update_state
-    if sequencing? && flowcells.empty?
-      library_preparation!
-    end
+    library_preparation! if sequencing? && flowcells.empty?
   end
 
   # def maximum_number_of_flowcells

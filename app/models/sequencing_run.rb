@@ -31,5 +31,4 @@ class SequencingRun < ApplicationRecord
   def flowcells_present?
     flowcells.present?
   end
-
 end

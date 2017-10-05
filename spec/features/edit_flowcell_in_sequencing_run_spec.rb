@@ -14,8 +14,7 @@ RSpec.feature 'SequencingRuns', type: :feature do
   end
 
   scenario 'create and edit sequencing run' do
-
-    #create sequencing run with the same sample on two flowcells (sample-1)
+    # create sequencing run with the same sample on two flowcells (sample-1)
     visit new_sequencing_run_path
     fill_in 'Instrument name', with: sequencing_run.instrument_name
 
@@ -80,6 +79,5 @@ RSpec.feature 'SequencingRuns', type: :feature do
     expect(page).to have_content('Sequencing run successfully updated')
     expect(work_orders.first.reload.state).to eq 'sequencing'
     expect(work_orders.last.reload.state).to eq 'library_preparation'
-
   end
 end

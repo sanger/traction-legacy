@@ -39,7 +39,7 @@ class SequencingRunsController < ApplicationController
 
   def destroy
     current_resource.destroy
-    flash[:success] = "Sequencing run successfully deleted"
+    flash[:success] = 'Sequencing run successfully deleted'
     redirect_to sequencing_runs_path
   end
 

@@ -93,5 +93,4 @@ class SequencingRunForm
       errors.add(key, value)
     end
   end
-
 end
