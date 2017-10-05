@@ -6,7 +6,7 @@ class SequencingRunForm
 
   MAX_FLOWCELLS = 5
 
-  attr_reader :sequencing_run, :initial_work_orders
+  attr_reader :sequencing_run
 
   validate :check_sequencing_run
 
@@ -14,7 +14,6 @@ class SequencingRunForm
 
   def initialize(sequencing_run = nil)
     @sequencing_run = sequencing_run || SequencingRun.new
-    @initial_work_orders = @sequencing_run.work_orders
     @created = self.sequencing_run.new_record?
   end
 
@@ -74,9 +73,6 @@ class SequencingRunForm
   # TODO: code smell. State changes and their consequences should be managed centrally
   # within a workflow.
   def update_work_orders
-    initial_work_orders.uniq.each do |work_order|
-      update_work_order_state(work_order, :library_preparation) if work_order.flowcells.empty?
-    end
     sequencing_run.work_orders.each do |work_order|
       if sequencing_run.pending?
         update_work_order_state(work_order, :sequencing)

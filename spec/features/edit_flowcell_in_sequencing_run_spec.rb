@@ -13,7 +13,9 @@ RSpec.feature 'SequencingRuns', type: :feature do
     stub_updates
   end
 
-  scenario 'successful' do
+  scenario 'create and edit sequencing run' do
+
+    #create sequencing run with the same sample on two flowcells (sample-1)
     visit new_sequencing_run_path
     fill_in 'Instrument name', with: sequencing_run.instrument_name
 
@@ -32,6 +34,9 @@ RSpec.feature 'SequencingRuns', type: :feature do
     click_button 'Create Sequencing run'
     expect(page).to have_content('Sequencing run successfully created')
 
+    # edit sequencing run
+    # changed sample on the second flowcell
+    # now sample-1 is on the first flowcell and sample-2 is on the second flowcell
     sequencing_run = SequencingRun.last
     visit edit_sequencing_run_path(sequencing_run)
 
@@ -44,12 +49,13 @@ RSpec.feature 'SequencingRuns', type: :feature do
     click_button 'Update Sequencing run'
     expect(page).to have_content('Sequencing run successfully updated')
 
-    work_orders = sequencing_run.work_orders
-    expect(work_orders.count).to eq 2
-    work_orders.each do |work_order|
+    expect(sequencing_run.work_orders.count).to eq 2
+    sequencing_run.work_orders.each do |work_order|
       expect(work_order.state).to eq 'sequencing'
     end
 
+    # removed one flowcell from the sequencing run
+    # now flowcell 1 is empty, flowcell 2 has sample-2
     visit edit_sequencing_run_path(sequencing_run)
 
     within('#flowcell_1') do
@@ -58,9 +64,22 @@ RSpec.feature 'SequencingRuns', type: :feature do
 
     click_button 'Update Sequencing run'
     expect(page).to have_content('Sequencing run successfully updated')
-    new_work_orders = sequencing_run.work_orders
-    expect(new_work_orders.count).to eq 1
-    expect(new_work_orders.first.state).to eq 'sequencing'
+    expect(sequencing_run.work_orders.count).to eq 1
     expect(work_orders.first.reload.state).to eq 'library_preparation'
+    expect(work_orders.last.reload.state).to eq 'sequencing'
+
+    # now in flowcell 2, I change sample-2 to sample-1
+    # as a result work_order with sample 2 should go to 'library preparation state'
+    # work_order with sample-1 should go to 'sequencing' state
+    visit edit_sequencing_run_path(sequencing_run)
+    within('#flowcell_2') do
+      select work_orders.first.name,
+             from: :sequencing_run_flowcells_attributes_1_work_order_id
+    end
+    click_button 'Update Sequencing run'
+    expect(page).to have_content('Sequencing run successfully updated')
+    expect(work_orders.first.reload.state).to eq 'sequencing'
+    expect(work_orders.last.reload.state).to eq 'library_preparation'
+
   end
 end

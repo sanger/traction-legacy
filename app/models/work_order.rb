@@ -27,6 +27,7 @@ class WorkOrder < ApplicationRecord
   scope :by_date, (-> { order(created_at: :desc) })
 
   before_save :add_event
+  after_touch :update_state
 
   def next_state
     WorkOrder.states.key(WorkOrder.states[state] + 1)
@@ -49,6 +50,12 @@ class WorkOrder < ApplicationRecord
   def add_event
     events.build(state_from: 'none', state_to: state) if new_record?
     events.build(state_from: state_was, state_to: state) if state_changed?
+  end
+
+  def update_state
+    if sequencing? && flowcells.empty?
+      library_preparation!
+    end
   end
 
   # def maximum_number_of_flowcells
