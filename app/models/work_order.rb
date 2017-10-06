@@ -27,7 +27,7 @@ class WorkOrder < ApplicationRecord
   scope :by_date, (-> { order(created_at: :desc) })
 
   before_save :add_event
-  after_touch :update_state
+  after_touch :back_to_library_preparation, if: :removed_from_sequencing?
 
   def next_state
     WorkOrder.states.key(WorkOrder.states[state] + 1)
@@ -52,8 +52,13 @@ class WorkOrder < ApplicationRecord
     events.build(state_from: state_was, state_to: state) if state_changed?
   end
 
-  def update_state
-    library_preparation! if sequencing? && flowcells.empty?
+  def back_to_library_preparation
+    library_preparation!
+    Sequencescape::Api::WorkOrder.update_state(self)
+  end
+
+  def removed_from_sequencing?
+    sequencing? && flowcells.empty?
   end
 
   # def maximum_number_of_flowcells
