@@ -44,7 +44,7 @@ class WorkOrder < ApplicationRecord
   end
 
   def unique_name
-    "#{id.to_s}:#{name}"
+    "#{id}:#{name}"
   end
 
   private

@@ -146,6 +146,6 @@ RSpec.describe WorkOrder, type: :model do
 
   it 'has a unique name' do
     work_order = create(:work_order)
-    expect(work_order.unique_name).to eq "#{work_order.id.to_s}:#{work_order.name}"
+    expect(work_order.unique_name).to eq "#{work_order.id}:#{work_order.name}"
   end
 end
