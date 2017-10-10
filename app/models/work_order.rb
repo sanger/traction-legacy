@@ -16,8 +16,6 @@ class WorkOrder < ApplicationRecord
                         :data_type, :number_of_flowcells,
                         :study_uuid, :sample_uuid
 
-  # validate :maximum_number_of_flowcells
-
   accepts_nested_attributes_for :aliquot, :library
 
   delegate :name, :tube_barcode, :source_plate_barcode,
@@ -60,10 +58,4 @@ class WorkOrder < ApplicationRecord
   def removed_from_sequencing?
     sequencing? && flowcells.empty?
   end
-
-  # def maximum_number_of_flowcells
-  #   return unless number_of_flowcells.present?
-  #   return unless flowcells.length > number_of_flowcells
-  #   errors.add(:flowcells, "number must not exceed #{number_of_flowcells}")
-  # end
 end
