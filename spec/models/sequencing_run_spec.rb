@@ -7,9 +7,13 @@ RSpec.describe SequencingRun, type: :model do
     expect(build(:sequencing_run, instrument_name: nil)).to_not be_valid
   end
 
-  it '#experiment_name is the id' do
+  it '#experiment_name is the id by default, but can be changed' do
     sequencing_run = create(:sequencing_run)
     expect(sequencing_run.experiment_name).to eq(sequencing_run.id)
+    sequencing_run.experiment_name = 'new_name'
+    expect(sequencing_run.experiment_name).to eq('new_name')
+    sequencing_run.save
+    expect(sequencing_run.experiment_name).to eq('new_name')
   end
 
   it 'removes any flowcells which do not have a work order before validation' do

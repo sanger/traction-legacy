@@ -21,7 +21,7 @@ class SequencingRun < ApplicationRecord
   end
 
   def experiment_name
-    id
+    super || id
   end
 
   def work_orders_include_unsaved

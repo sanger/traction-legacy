@@ -78,9 +78,11 @@ RSpec.feature 'SequencingRuns', type: :feature do
       click_link 'Edit'
     end
     select SequencingRun.states.keys.first, from: 'State'
+    fill_in 'Experiment name', with: 'new_name'
     click_button 'Update Sequencing run'
     expect(page).to have_content('Sequencing run successfully updated')
     expect(sequencing_run.reload.state).to be_present
+    expect(sequencing_run.experiment_name).to eq 'new_name'
   end
 
   scenario 'editing includes existing flowcell work orders' do

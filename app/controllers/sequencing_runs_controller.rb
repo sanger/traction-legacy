@@ -57,7 +57,7 @@ class SequencingRunsController < ApplicationController
   end
 
   def sequencing_run_params
-    params.require(:sequencing_run).permit(:instrument_name, :state,
+    params.require(:sequencing_run).permit(:experiment_name, :instrument_name, :state,
                                            flowcells_attributes:
                                            %i[id flowcell_id position work_order_id _destroy])
   end

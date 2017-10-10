@@ -4,6 +4,12 @@
       Sequencing Run
     </legend>
     <%= render "error_messages", target: sequencing_run %>
+    <% if sequencing_run.experiment_name.present? %>
+      <div class="form-group" >
+        <%= f.label :experiment_name %>
+        <%= f.text_field :experiment_name, { class: 'form-control' } %>
+      </div>
+    <% end %>
     <div class="form-group" >
       <%= f.label :instrument_name %>
       <%= f.text_field :instrument_name, { class: 'form-control' } %>
