@@ -18,7 +18,7 @@
           <th>Sample</th>
         </thead>
         <tbody>
-          <% sequencing_run.flowcells.each do |flowcell| %>
+          <% sequencing_run.flowcells.order(:position).each do |flowcell| %>
             <tr>
               <td><%= flowcell.position %></td>
               <td><%= flowcell.flowcell_id %></td>

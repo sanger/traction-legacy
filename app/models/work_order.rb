@@ -16,8 +16,6 @@ class WorkOrder < ApplicationRecord
                         :data_type, :number_of_flowcells,
                         :study_uuid, :sample_uuid
 
-  # validate :maximum_number_of_flowcells
-
   accepts_nested_attributes_for :aliquot, :library
 
   delegate :name, :tube_barcode, :source_plate_barcode,
@@ -27,6 +25,7 @@ class WorkOrder < ApplicationRecord
   scope :by_date, (-> { order(created_at: :desc) })
 
   before_save :add_event
+  after_touch :back_to_library_preparation, if: :removed_from_sequencing?
 
   def next_state
     WorkOrder.states.key(WorkOrder.states[state] + 1)
@@ -51,9 +50,12 @@ class WorkOrder < ApplicationRecord
     events.build(state_from: state_was, state_to: state) if state_changed?
   end
 
-  # def maximum_number_of_flowcells
-  #   return unless number_of_flowcells.present?
-  #   return unless flowcells.length > number_of_flowcells
-  #   errors.add(:flowcells, "number must not exceed #{number_of_flowcells}")
-  # end
+  def back_to_library_preparation
+    library_preparation!
+    Sequencescape::Api::WorkOrder.update_state(self)
+  end
+
+  def removed_from_sequencing?
+    sequencing? && flowcells.empty?
+  end
 end

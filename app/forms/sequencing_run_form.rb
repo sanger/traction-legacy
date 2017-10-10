@@ -31,6 +31,7 @@ class SequencingRunForm
   def persist_sequencing_run
     ActiveRecord::Base.transaction do
       sequencing_run.save
+      sequencing_run.reload
       update_work_orders
     end
   end
@@ -52,7 +53,7 @@ class SequencingRunForm
   end
 
   def available_work_orders
-    work_orders = WorkOrder.by_state(:library_preparation)
+    work_orders = WorkOrder.includes(:aliquot).by_state(:library_preparation)
     return work_orders if sequencing_run.new_record?
     (work_orders.to_a << sequencing_run.work_orders).flatten.uniq
   end

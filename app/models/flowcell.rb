@@ -2,7 +2,7 @@
 
 # Flowcell
 class Flowcell < ApplicationRecord
-  belongs_to :work_order, inverse_of: :flowcells
+  belongs_to :work_order, inverse_of: :flowcells, touch: true
   belongs_to :sequencing_run, inverse_of: :flowcells
 
   delegate :study_uuid, :sample_uuid, to: :work_order

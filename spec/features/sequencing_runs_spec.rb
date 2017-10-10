@@ -92,4 +92,26 @@ RSpec.feature 'SequencingRuns', type: :feature do
       expect(page).to have_content(flowcell.work_order.name)
     end
   end
+
+  scenario 'can be deleted' do
+    flowcell = create(:flowcell_in_sequencing_run, position: 1)
+    sequencing_run = create(:sequencing_run, flowcells: [flowcell])
+    visit edit_sequencing_run_path(sequencing_run)
+
+    within('#flowcell_1') do
+      select work_orders.first.name,
+             from: :sequencing_run_flowcells_attributes_0_work_order_id
+    end
+    click_button 'Update Sequencing run'
+    expect(page).to have_content('Sequencing run successfully updated')
+
+    click_on 'Sequencing Runs'
+    within("#sequencing_run_#{sequencing_run.id}") do
+      click_on 'Delete'
+    end
+    expect(page).to have_content('Sequencing run successfully deleted')
+    expect(SequencingRun.find_by(id: sequencing_run.id)).to be nil
+    expect(Flowcell.find_by(id: flowcell.id)).to be nil
+    expect(work_orders.first.state).to eq 'library_preparation'
+  end
 end
