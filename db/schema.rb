@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824083043) do
+ActiveRecord::Schema.define(version: 20171010091413) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 20170824083043) do
     t.integer "state", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "experiment_name"
   end
 
   create_table "tubes", force: :cascade do |t|
