@@ -143,4 +143,9 @@ RSpec.describe WorkOrder, type: :model do
     work_order.qc!
     expect(work_order.next_state).to eq('library_preparation')
   end
+
+  it 'has a unique name' do
+    work_order = create(:work_order)
+    expect(work_order.unique_name).to eq "#{work_order.id}:#{work_order.name}"
+  end
 end

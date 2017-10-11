@@ -43,6 +43,10 @@ class WorkOrder < ApplicationRecord
     assign_attributes(state: WorkOrder.states[state.to_s])
   end
 
+  def unique_name
+    "#{id}:#{name}"
+  end
+
   private
 
   def add_event

@@ -5,6 +5,7 @@
       <table class="table table-striped">
         <thead>
           <th>Print Label</th>
+          <th>Id</th>
           <th>Sample Name</th>
           <th>State</th>
           <th>&nbsp;</th>
@@ -14,6 +15,7 @@
           <% work_orders.each do |work_order| %>
             <tr id="<%= dom_id(work_order) %>">
               <td><%= check_box_tag 'work_order_ids[]', work_order.id%></td>
+              <td><%= work_order.id %></td>
               <td><%= work_order.name %></td>
               <td><%= work_order.state %></td>
               <td><%= link_to 'Show', work_order_path(work_order) %></td>
