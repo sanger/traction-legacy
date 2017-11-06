@@ -11,3 +11,6 @@ development:
 
 test:
   type: logger
+
+production:
+  type: logger
