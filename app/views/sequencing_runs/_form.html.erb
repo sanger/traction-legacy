@@ -18,7 +18,7 @@
       <%= f.label :state %>
       <%= f.select :state, SequencingRun.states.keys, {}, { class: 'form-control' } %>
     </div>
-    <div class="row">
+     <div class="row">
       <div class="col-md-12">
         <table class="table">
         <thead>
@@ -27,9 +27,9 @@
           <th>Sample</th>
         </thead>
         <tbody>
-        <% sequencing_run.flowcells_by_position.each do |flowcell| %>
-          <%= f.fields_for :flowcells, flowcell do |fields_for_flowcell| %>
-            <tr id="flowcell_<%= flowcell.position %>">
+          <% sequencing_run.flowcells_by_position.each do |flowcell| %>
+            <%= f.fields_for :flowcells, flowcell do |fields_for_flowcell| %>
+               <tr id="flowcell_<%= flowcell.position %>">
               <td><%= flowcell.position %></td>
               <td>
                 <div class="form-group" ><%= fields_for_flowcell.text_field :flowcell_id %></div>
@@ -42,11 +42,11 @@
                   <%= fields_for_flowcell.check_box :_destroy %>
                   <%= fields_for_flowcell.label :delete %>
                 </div>
-              </td>>
+              </td>
             </div>
             <%= fields_for_flowcell.hidden_field(:position, value: flowcell.position) %>
+            <% end %>
           <% end %>
-        <% end %>
         </tbody>
         </table>
       </div>
