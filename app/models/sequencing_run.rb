@@ -2,7 +2,7 @@
 
 # SequencingRun
 class SequencingRun < ApplicationRecord
-  has_many :flowcells, inverse_of: :sequencing_run
+  has_many :flowcells, inverse_of: :sequencing_run, dependent: :destroy
   has_many :work_orders, through: :flowcells
 
   enum state: %i[pending completed user_terminated instrument_crashed restart]
@@ -10,7 +10,8 @@ class SequencingRun < ApplicationRecord
   validates_presence_of :instrument_name
 
   accepts_nested_attributes_for :flowcells,
-                                reject_if: proc { |attributes| attributes['work_order_id'].blank? }
+                                reject_if: proc { |attributes| attributes['work_order_id'].blank? },
+                                allow_destroy: true
 
   scope :by_date, (-> { order(created_at: :desc) })
 
@@ -20,7 +21,7 @@ class SequencingRun < ApplicationRecord
   end
 
   def experiment_name
-    id
+    super || id
   end
 
   def work_orders_include_unsaved

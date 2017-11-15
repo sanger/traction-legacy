@@ -12,7 +12,6 @@ class WorkOrderFlowcellAggregator
     @sequencing_run = sequencing_run
     @work_orders = create_work_orders
     @work_orders_by_flowcell = create_work_orders_by_flowcell
-    # binding.pry
   end
 
   private

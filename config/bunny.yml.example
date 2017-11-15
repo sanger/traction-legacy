@@ -12,5 +12,8 @@ development:
 test:
   type: logger
 
+staging:
+  type: logger
+
 production:
   type: logger

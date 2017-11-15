@@ -31,7 +31,8 @@ module Traction
     config.generators.system_tests = nil
 
     # Sequencescape api base
-    config.sequencescape_api_base = config_for(:sequencescape)["api_base"]
+    config.sequencescape = config_for(:sequencescape)
+
     # RabbitMQ config
     config.bunny = config_for(:bunny)
     # Print my barcode api base
