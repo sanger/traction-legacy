@@ -13,7 +13,7 @@ RSpec.feature 'SequencingRuns', type: :feature do
     stub_updates
   end
 
-  scenario 'create and edit sequencing run' do
+  xscenario 'create and edit sequencing run' do
     # create sequencing run with the same sample on two flowcells (sample-1)
     visit new_sequencing_run_path
     fill_in 'Instrument name', with: sequencing_run.instrument_name

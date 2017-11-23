@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010091413) do
+ActiveRecord::Schema.define(version: 20171123153011) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
@@ -41,18 +41,6 @@ ActiveRecord::Schema.define(version: 20171010091413) do
     t.datetime "updated_at", null: false
     t.index ["sequencing_run_id"], name: "index_flowcells_on_sequencing_run_id"
     t.index ["work_order_id"], name: "index_flowcells_on_work_order_id"
-  end
-
-  create_table "libraries", force: :cascade do |t|
-    t.string "kit_number"
-    t.string "ligase_batch_number"
-    t.decimal "volume", precision: 18, scale: 8
-    t.integer "work_order_id"
-    t.integer "tube_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["tube_id"], name: "index_libraries_on_tube_id"
-    t.index ["work_order_id"], name: "index_libraries_on_work_order_id"
   end
 
   create_table "printers", force: :cascade do |t|

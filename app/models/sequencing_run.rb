@@ -17,7 +17,6 @@ class SequencingRun < ApplicationRecord
 
   with_options if: :flowcells_present? do
     validates_with MaximumFlowcellValidator
-    validates_with WorkOrderLibraryValidator
   end
 
   def experiment_name

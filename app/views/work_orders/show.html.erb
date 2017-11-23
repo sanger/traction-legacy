@@ -32,19 +32,5 @@
       <strong>state: </strong><%= work_order.aliquot.qc_state %>
     </li>
   </ul>
-  <% unless work_order.library.nil? %>
-    <h4>Library</h4>
-    <ul>
-      <li>
-        <strong>volume: </strong><%= work_order.library.volume %>
-      </li>
-      <li>
-        <strong>kit number: </strong><%= work_order.library.kit_number %>
-      </li>
-      <li>
-        <strong>ligase batch number: </strong><%= work_order.library.ligase_batch_number %>
-      </li>
-    </ul>
-  <% end %>
 
 </section>
