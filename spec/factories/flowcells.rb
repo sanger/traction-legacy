@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :flowcell do
-    work_order { create(:work_order_for_sequencing) }
+    work_order { create(:work_order) }
     sequencing_run
 
     transient do
@@ -13,7 +13,7 @@ FactoryGirl.define do
     position { n }
 
     factory :flowcell_in_sequencing_run do
-      work_order { create(:work_order_in_sequencing_run) }
+      work_order { create(:work_order) }
     end
   end
 end

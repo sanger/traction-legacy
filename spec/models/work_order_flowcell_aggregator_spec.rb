@@ -18,14 +18,14 @@ RSpec.describe WorkOrderFlowcellAggregator, type: :model do
            number_of_flowcells: 3, flowcells: build_list(:flowcell, 2))
   end
 
-  it 'is valid if number of flowcells for each work order is within limit' do
+  xit 'is valid if number of flowcells for each work order is within limit' do
     flowcells_a = build_list(:flowcell, 2, work_order: work_orders_with_no_flowcells.first)
     flowcells_b = build_list(:flowcell, 2, work_order: work_orders_with_no_flowcells.last)
     sequencing_run = build(:sequencing_run, flowcells: [flowcells_a, flowcells_b].flatten)
     expect(WorkOrderFlowcellAggregator.new(sequencing_run)).to be_valid
   end
 
-  it 'is invalid if number of flowcells for any work order exceeds number requested' do
+  xit 'is invalid if number of flowcells for any work order exceeds number requested' do
     sequencing_run = build(:sequencing_run, flowcells: [
       build(:flowcell, work_order: work_order_with_some_flowcells_1),
       build_list(:flowcell, 2, work_order: work_order_with_some_flowcells_2)
@@ -39,7 +39,7 @@ RSpec.describe WorkOrderFlowcellAggregator, type: :model do
     )
   end
 
-  it 'with existing sequencing run must not count flowcells twice' do
+  xit 'with existing sequencing run must not count flowcells twice' do
     flowcells_a = build_list(:flowcell, 2, work_order: work_orders_with_no_flowcells.first)
     flowcells_b = build_list(:flowcell, 2, work_order: work_orders_with_no_flowcells.last)
     sequencing_run = create(:sequencing_run, flowcells: [flowcells_a, flowcells_b].flatten)

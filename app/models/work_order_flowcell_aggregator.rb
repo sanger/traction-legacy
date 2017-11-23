@@ -43,12 +43,13 @@ class WorkOrderFlowcellAggregator
   end
 
   def check_flowcell_count
-    work_orders.each do |_key, work_order|
-      these_flowcells = work_order.number_of_flowcells
-      them_flowcells = work_orders_by_flowcell[work_order.id].length
-      next unless these_flowcells < them_flowcells
-      errors.add(:work_order, "#{work_order.name} has more flowcells (#{them_flowcells}) "\
-        "than was originally requested (#{these_flowcells})")
-    end
+    # work_orders.each do |_key, work_order|
+    #   these_flowcells = work_order.number_of_flowcells
+    #   them_flowcells = work_orders_by_flowcell[work_order.id].length
+    #   next unless these_flowcells < them_flowcells
+    #   errors.add(:work_order, "#{work_order.name} has more flowcells (#{them_flowcells}) "\
+    #     "than was originally requested (#{these_flowcells})")
+    # end
+    true
   end
 end
