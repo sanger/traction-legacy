@@ -10,17 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123153011) do
+ActiveRecord::Schema.define(version: 20171123160151) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
-    t.integer "fragment_size"
-    t.decimal "concentration", precision: 18, scale: 8
-    t.integer "qc_state"
-    t.integer "tube_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tube_id"], name: "index_aliquots_on_tube_id"
   end
 
   create_table "events", force: :cascade do |t|

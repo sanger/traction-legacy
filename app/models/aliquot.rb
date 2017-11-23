@@ -2,16 +2,8 @@
 
 # Aliquot
 class Aliquot < ApplicationRecord
-  belongs_to :tube
   has_one :work_order
-
-  enum qc_state: %i[fail proceed_at_risk proceed]
-
   validates_presence_of :name
-
-  delegate :barcode, to: :tube, prefix: true
-
-  include TubeBuilder
 
   def self.find_by_work_orders_ids(work_orders_ids)
     joins(:work_order).where(work_orders: { id: work_orders_ids })

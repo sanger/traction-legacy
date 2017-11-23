@@ -17,7 +17,7 @@ class WorkOrder < ApplicationRecord
 
   accepts_nested_attributes_for :aliquot
 
-  delegate :name, :tube_barcode, :source_plate_barcode,
+  delegate :name, :source_plate_barcode,
            :source_well_position, :short_source_plate_barcode, to: :aliquot
 
   scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })

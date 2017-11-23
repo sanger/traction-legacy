@@ -12,17 +12,17 @@ FactoryGirl.define do
     sample_uuid { SecureRandom.uuid }
 
     factory :work_order_with_qc_fail do
-      aliquot { build(:aliquot_fail) }
+      aliquot { build(:aliquot) }
       after(:create, &:qc!)
     end
 
     factory :work_order_for_library_preparation do
-      aliquot { build(:aliquot_proceed) }
+      aliquot { build(:aliquot) }
       after(:create, &:qc!)
     end
 
     factory :work_order_for_sequencing do
-      aliquot { create(:aliquot_proceed) }
+      aliquot { create(:aliquot) }
       after(:create, &:library_preparation!)
 
       factory :work_order_in_sequencing_run do

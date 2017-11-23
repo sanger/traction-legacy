@@ -26,12 +26,12 @@ module LabelPrinter
     def main_label(work_order)
       {
         first_line: 'ONT',
-        second_line: work_order.source_plate_barcode,
-        third_line: work_order.source_well_position,
+        second_line: '', #work_order.source_plate_barcode
+        third_line: '', #work_order.source_well_position
         fourth_line: Date.today.to_s(:label),
-        round_label_top_line: work_order.source_well_position,
-        round_label_bottom_line: work_order.short_source_plate_barcode,
-        barcode: work_order.tube_barcode
+        round_label_top_line: '', #work_order.source_well_position
+        round_label_bottom_line: '', #work_order.short_source_plate_barcode
+        barcode: ''
       }
     end
   end

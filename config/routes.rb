@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   resources :work_orders, only: %i[index show]
-  resources :sequencing_runs, :qcs
+  resources :sequencing_runs
 
   get 'reception', to: 'reception#index'
   post 'reception/upload', to: 'reception#upload'

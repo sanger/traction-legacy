@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Sequencescape::Factory, type: :model do
   include SequencescapeWebmockStubs
 
-  it 'if valid, should create correct traction objects and update sequencescape state' do
+  xit 'if valid, should create correct traction objects and update sequencescape state' do
     stub :successful_upload
     stub_updates
     sequencescape_work_orders = Sequencescape::Api::WorkOrder.find_by_ids(%w[6 7])
