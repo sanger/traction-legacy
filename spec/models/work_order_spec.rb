@@ -35,21 +35,6 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.reload.sequencescape_id).to eq(sequencescape_id)
   end
 
-  it 'creates an event when saved' do
-    work_order = create(:work_order)
-    expect(work_order.events.count).to eq(1)
-    event = work_order.events.first
-    expect(event.state_from).to eq('none')
-    expect(event.state_to).to eq(work_order.state)
-
-    state = work_order.state
-    work_order.qc!
-    expect(work_order.events.count).to eq(2)
-    event = work_order.events.last
-    expect(event.state_from).to eq(state)
-    expect(event.state_to).to eq(work_order.state)
-  end
-
   it 'must have a number of flowcells' do
     expect(build(:work_order, number_of_flowcells: nil)).to_not be_valid
   end

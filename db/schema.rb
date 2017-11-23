@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171123160151) do
+ActiveRecord::Schema.define(version: 20171123162154) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
@@ -19,12 +19,8 @@ ActiveRecord::Schema.define(version: 20171123160151) do
   end
 
   create_table "events", force: :cascade do |t|
-    t.string "state_from"
-    t.string "state_to"
-    t.integer "work_order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["work_order_id"], name: "index_events_on_work_order_id"
   end
 
   create_table "flowcells", force: :cascade do |t|

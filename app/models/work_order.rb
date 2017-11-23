@@ -23,7 +23,6 @@ class WorkOrder < ApplicationRecord
   scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
   scope :by_date, (-> { order(created_at: :desc) })
 
-  before_save :add_event
   after_touch :back_to_library_preparation, if: :removed_from_sequencing?
 
   def next_state
@@ -43,11 +42,6 @@ class WorkOrder < ApplicationRecord
   end
 
   private
-
-  def add_event
-    events.build(state_from: 'none', state_to: state) if new_record?
-    events.build(state_from: state_was, state_to: state) if state_changed?
-  end
 
   def back_to_library_preparation
     library_preparation!
