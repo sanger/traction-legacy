@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# A Tube
-class Tube < ApplicationRecord
+# A Receptacle
+class Receptacle < ApplicationRecord
   after_create :generate_barcode
 
   private
