@@ -5,6 +5,7 @@ class WorkOrder < ApplicationRecord
   belongs_to :aliquot
 
   has_many :flowcells, inverse_of: :work_order
+  has_many :work_order_requirements
 
   enum state: %i[started completed failed]
 
