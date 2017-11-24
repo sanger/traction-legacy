@@ -2,5 +2,4 @@
 
 # Event
 class Event < ApplicationRecord
-
 end

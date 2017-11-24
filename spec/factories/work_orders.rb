@@ -7,6 +7,5 @@ FactoryGirl.define do
     sequence(:sequencescape_id)
     study_uuid { SecureRandom.uuid }
     sample_uuid { SecureRandom.uuid }
-
   end
 end
