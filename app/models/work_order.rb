@@ -13,7 +13,7 @@ class WorkOrder < ApplicationRecord
 
   validates_presence_of :sequencescape_id, :study_uuid, :sample_uuid
 
-  accepts_nested_attributes_for :aliquot
+  accepts_nested_attributes_for :aliquot, :work_order_requirements
 
   delegate :name, to: :aliquot
 

@@ -5,7 +5,7 @@ FactoryGirl.define do
     date '2017-11-24 11:26:28'
     receptacle
     aliquot
-    state 1
+    action 1
     process_step
   end
 end

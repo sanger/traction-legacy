@@ -19,7 +19,7 @@ AllCops:
     - Gemfile
     - vendor/**/*
     - node_modules/**/*
-    
+
 # The cop is meant to enforce conventions regarding variables containing numbers
 # However in 0.43.0 it is bugged. Both changed on master and disabled by default
 # The exclusions don't even get added to the rubocop_todo properly!
@@ -40,7 +40,10 @@ Metrics/BlockLength:
     - 'config/routes.rb'
 
 Metrics/LineLength:
-  Max: 100
+  Max: 110
+
+Metrics/MethodLength:
+  Max: 15
 
 Style/IndentArray:
   EnforcedStyle: consistent
