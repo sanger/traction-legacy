@@ -23,4 +23,21 @@ class Aliquot < ApplicationRecord
   def short_source_plate_barcode
     source_plate_barcode.split(//).last(4).join
   end
+
+  def last_lab_event_with_process_step
+    lab_events.last_with_process_step
+  end
+
+  def current_process_step_name
+    last_lab_event_with_process_step.try(:process_step_name) || 'not started'
+  end
+
+  def next_process_step
+    return unless last_lab_event_with_process_step.present?
+    last_lab_event_with_process_step.next_process
+  end
+
+  def next_process_step_name
+    next_process_step.try(:name)
+  end
 end

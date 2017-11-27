@@ -8,4 +8,9 @@ class Pipeline < ApplicationRecord
   def requirements_names
     requirements.map(&:name)
   end
+
+  def next_process(current_process)
+    return process_steps.first unless current_process.present?
+    process_steps[process_steps.index(current_process) + 1]
+  end
 end
