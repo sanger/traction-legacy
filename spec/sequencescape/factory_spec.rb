@@ -4,13 +4,11 @@ require 'rails_helper'
 
 RSpec.describe Sequencescape::Factory, type: :model do
   include SequencescapeWebmockStubs
+  include PipelineCreators
 
   context 'gridion' do
     it 'if valid, should create correct traction objects and update sequencescape state' do
-      pipeline = create :pipeline, name: 'traction_grid_ion'
-      create :requirement, name: 'number_of_flowcells', pipeline: pipeline
-      create :requirement, name: 'library_preparation_type', pipeline: pipeline
-      create :requirement, name: 'data_type', pipeline: pipeline
+      create_gridion_pipeline
       stub :successful_upload
       stub_updates
       sequencescape_work_orders = Sequencescape::Api::WorkOrder.find_by_ids(%w[6 7])

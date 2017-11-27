@@ -26,39 +26,6 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.reload.sequencescape_id).to eq(sequencescape_id)
   end
 
-  xit 'must have a number of flowcells' do
-    expect(build(:work_order, number_of_flowcells: nil)).to_not be_valid
-  end
-
-  xit 'number of flowcells cannot be updated' do
-    work_order = create(:work_order)
-    number_of_flowcells = work_order.number_of_flowcells
-    work_order.update_attributes(number_of_flowcells: 999)
-    expect(work_order.reload.number_of_flowcells).to eq(number_of_flowcells)
-  end
-
-  xit 'must have a library preparation type' do
-    expect(build(:work_order, library_preparation_type: nil)).to_not be_valid
-  end
-
-  xit 'library preparation type cannot be updated' do
-    work_order = create(:work_order)
-    library_preparation_type = work_order.library_preparation_type
-    work_order.update_attributes(library_preparation_type: 'any')
-    expect(work_order.reload.library_preparation_type).to eq(library_preparation_type)
-  end
-
-  xit 'must have a file type' do
-    expect(build(:work_order, data_type: nil)).to_not be_valid
-  end
-
-  xit 'file type cannot be updated' do
-    work_order = create(:work_order)
-    data_type = work_order.data_type
-    work_order.update_attributes(data_type: 'excel')
-    expect(work_order.reload.data_type).to eq(data_type)
-  end
-
   it '#by_state returns all work orders by requested state' do
     create_list(:work_order, 5)
     expect(WorkOrder.by_state(:started).count).to eq(5)
@@ -106,5 +73,28 @@ RSpec.describe WorkOrder, type: :model do
   it 'has a unique name' do
     work_order = create(:work_order)
     expect(work_order.unique_name).to eq "#{work_order.id}:#{work_order.name}"
+  end
+
+  context 'Grigion' do
+    let!(:work_order) do
+      create(:gridion_work_order, number_of_flowcells: 2,
+                                  library_preparation_type: 'rapid',
+                                  data_type: 'data_type')
+    end
+
+    it 'must have a number of flowcells' do
+      expect(work_order.details.number_of_flowcells).to eq '2'
+      expect(work_order.number_of_flowcells).to eq '2'
+    end
+
+    it 'must have a library preparation type' do
+      expect(work_order.details.library_preparation_type).to eq 'rapid'
+      expect(work_order.library_preparation_type).to eq 'rapid'
+    end
+
+    it 'must have a file type' do
+      expect(work_order.details.data_type).to eq 'data_type'
+      expect(work_order.data_type).to eq 'data_type'
+    end
   end
 end

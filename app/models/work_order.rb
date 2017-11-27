@@ -17,6 +17,8 @@ class WorkOrder < ApplicationRecord
 
   delegate :name, to: :aliquot
 
+  delegate :number_of_flowcells, :data_type, :library_preparation_type, to: :details
+
   scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
   scope :by_date, (-> { order(created_at: :desc) })
 
@@ -30,6 +32,17 @@ class WorkOrder < ApplicationRecord
 
   def unique_name
     "#{id}:#{name}"
+  end
+
+  def details=(details)
+    details.each do |requirement_name, value|
+      work_order_requirements.create!(requirement: Requirement.find_or_create_by(name: requirement_name),
+                                      value: value)
+    end
+  end
+
+  def details
+    @details ||= OpenStruct.new(work_order_requirements.collect(&:to_h).inject(:merge!))
   end
 
   private
