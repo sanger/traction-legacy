@@ -14,10 +14,10 @@ class Aliquot < ApplicationRecord
 
   def metadata
     @metadata ||= {}.tap do |result|
-                    lab_events.each_with_index do |lab_event, i|
-                      result["step#{i+1} #{lab_event.name}"] = lab_event.metadata
-                    end
-                  end
+      lab_events.each_with_index do |lab_event, i|
+        result["step#{i + 1} #{lab_event.name}"] = lab_event.metadata
+      end
+    end
   end
 
   def source_plate_barcode
@@ -43,5 +43,4 @@ class Aliquot < ApplicationRecord
   def next_process_step_name(pipeline)
     pipeline.next_process_step(current_process_step).try(:name)
   end
-
 end

@@ -48,23 +48,22 @@ RSpec.describe Aliquot, type: :model do
   end
 
   it 'knows its metadata' do
-    pipeline = Pipeline.find_by(name: 'traction_grid_ion')
     aliquot = create :aliquot
     qc = aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'qc'),
-                               receptacle: (create :receptacle))
+                                    receptacle: (create :receptacle))
     MetadataItem.create!(value: 'conc',
-                          metadata_field: MetadataField.find_by(name: 'concentration'),
-                          lab_event: qc)
+                         metadata_field: MetadataField.find_by(name: 'concentration'),
+                         lab_event: qc)
     MetadataItem.create!(value: 'size',
-                          metadata_field: MetadataField.find_by(name: 'fragment_size'),
-                          lab_event: qc)
+                         metadata_field: MetadataField.find_by(name: 'fragment_size'),
+                         lab_event: qc)
 
     aliquot.lab_events.create!(receptacle: (create :receptacle))
     aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'library_preparation'),
                                receptacle: (create :receptacle))
-    expect(aliquot.metadata).to eq({'step1 qc' => {'concentration' => 'conc',
-                                                    'fragment_size' => 'size'},
-                                    'step2 ' => {},
-                                    'step3 library_preparation' => {}})
+    expect(aliquot.metadata).to eq('step1 qc' => { 'concentration' => 'conc',
+                                                   'fragment_size' => 'size' },
+                                   'step2 ' => {},
+                                   'step3 library_preparation' => {})
   end
 end

@@ -17,11 +17,10 @@ class LabEvent < ApplicationRecord
   end
 
   def metadata
-    @metadata ||= (metadata_items.includes(:metadata_field).collect(&:to_h).inject(:merge!) || {})
+    @metadata ||= (metadata_items.with_metadata_fields.collect(&:to_h).inject(:merge!) || {})
   end
 
   def name
     process_step.name if process_step.present?
   end
-
 end
