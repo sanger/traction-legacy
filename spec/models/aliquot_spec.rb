@@ -40,11 +40,11 @@ RSpec.describe Aliquot, type: :model do
   it 'knows its next process name' do
     pipeline = Pipeline.find_by(name: 'traction_grid_ion')
     aliquot = create :aliquot
-    expect(aliquot.next_process_step_name(pipeline)).to eq 'qc'
-    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'qc'),
+    expect(aliquot.next_process_step_name(pipeline)).to eq 'initial'
+    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'initial'),
                                receptacle: (create :receptacle))
     aliquot.lab_events.create!(receptacle: (create :receptacle))
-    expect(aliquot.next_process_step_name(pipeline)).to eq 'library_preparation'
+    expect(aliquot.next_process_step_name(pipeline)).to eq 'qc'
   end
 
   it 'knows its metadata' do

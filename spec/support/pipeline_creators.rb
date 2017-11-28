@@ -8,7 +8,9 @@ module PipelineCreators
     create :requirement, name: 'library_preparation_type', pipeline: pipeline
     create :requirement, name: 'data_type', pipeline: pipeline
 
-    qc = create :process_step, name: 'qc',  pipeline: pipeline
+    create :process_step, name: 'initial',  pipeline: pipeline, position: 1
+
+    qc = create :process_step, name: 'qc',  pipeline: pipeline, position: 2
     create :metadata_field, name: 'concentration',
                             required: true,
                             process_step: qc,
@@ -22,7 +24,7 @@ module PipelineCreators
                             process_step: qc,
                             data_type: :options
 
-    library_preparation = create :process_step, name: 'library_preparation', pipeline: pipeline
+    library_preparation = create :process_step, name: 'library_preparation', pipeline: pipeline, position: 3
     create :metadata_field, name: 'volume',
                             required: true,
                             process_step: library_preparation,
@@ -35,5 +37,7 @@ module PipelineCreators
                             required: false,
                             process_step: library_preparation,
                             data_type: :string
+
+    create :process_step, name: 'ready for sequencing', pipeline: pipeline, position: 4
   end
 end
