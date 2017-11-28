@@ -9,8 +9,8 @@ RSpec.describe Pipeline, type: :model do
     process2 = create :process_step, name: 'process2', pipeline: pipeline
     process3 = create :process_step, name: 'process3', pipeline: pipeline
 
-    expect(pipeline.next_process(nil)).to eq process1
-    expect(pipeline.next_process(process1)).to eq process2
-    expect(pipeline.next_process(process3)).to eq nil
+    expect(pipeline.next_process_step(nil)).to eq process1
+    expect(pipeline.next_process_step(process1)).to eq process2
+    expect(pipeline.next_process_step(process3)).to eq nil
   end
 end

@@ -4,7 +4,7 @@ FactoryGirl.define do
   factory :metadata_field do
     name 'Field1'
     required false
-    type ''
+    data_type ''
     process_step
   end
 end

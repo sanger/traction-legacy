@@ -12,28 +12,28 @@ module PipelineCreators
     create :metadata_field, name: 'concentration',
                             required: true,
                             process_step: qc,
-                            type: :integer
+                            data_type: :integer
     create :metadata_field, name: 'fragment_size',
                             required: true,
                             process_step: qc,
-                            type: :integer
+                            data_type: :integer
     create :metadata_field, name: 'qc_state',
                             required: true,
                             process_step: qc,
-                            type: :options
+                            data_type: :options
 
     library_preparation = create :process_step, name: 'library_preparation', pipeline: pipeline
     create :metadata_field, name: 'volume',
                             required: true,
                             process_step: library_preparation,
-                            type: :integer
+                            data_type: :integer
     create :metadata_field, name: 'kit_number',
                             required: true,
                             process_step: library_preparation,
-                            type: :string
+                            data_type: :string
     create :metadata_field, name: 'ligase_batch_number',
                             required: false,
                             process_step: library_preparation,
-                            type: :string
+                            data_type: :string
   end
 end

@@ -12,6 +12,14 @@ class Aliquot < ApplicationRecord
     joins(:work_order).where(work_orders: { id: work_orders_ids })
   end
 
+  def metadata
+    @metadata ||= {}.tap do |result|
+                    lab_events.each_with_index do |lab_event, i|
+                      result["step#{i+1} #{lab_event.name}"] = lab_event.metadata
+                    end
+                  end
+  end
+
   def source_plate_barcode
     name.split(':').first
   end
@@ -24,20 +32,16 @@ class Aliquot < ApplicationRecord
     source_plate_barcode.split(//).last(4).join
   end
 
-  def last_lab_event_with_process_step
-    lab_events.last_with_process_step
+  def current_process_step
+    lab_events.last_process_step
   end
 
   def current_process_step_name
-    last_lab_event_with_process_step.try(:process_step_name) || 'not started'
+    current_process_step.try(:name) || 'not started'
   end
 
-  def next_process_step
-    return unless last_lab_event_with_process_step.present?
-    last_lab_event_with_process_step.next_process
+  def next_process_step_name(pipeline)
+    pipeline.next_process_step(current_process_step).try(:name)
   end
 
-  def next_process_step_name
-    next_process_step.try(:name)
-  end
 end

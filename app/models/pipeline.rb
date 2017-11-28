@@ -9,8 +9,8 @@ class Pipeline < ApplicationRecord
     requirements.map(&:name)
   end
 
-  def next_process(current_process)
-    return process_steps.first unless current_process.present?
-    process_steps[process_steps.index(current_process) + 1]
+  def next_process_step(current_process_step)
+    return process_steps.first unless current_process_step.present?
+    process_steps[process_steps.index(current_process_step) + 1]
   end
 end

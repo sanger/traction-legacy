@@ -11,18 +11,17 @@ class LabEvent < ApplicationRecord
 
   scope :with_process_steps, (-> { where.not(process_step_id: nil) })
 
-  delegate :name, to: :process_step, prefix: true
-  delegate :pipeline, to: :process_step
-
-  def self.last_with_process_step
-    with_process_steps.last
+  def self.last_process_step
+    lab_event = with_process_steps.last
+    lab_event.process_step if lab_event.present?
   end
 
   def metadata
     @metadata ||= (metadata_items.includes(:metadata_field).collect(&:to_h).inject(:merge!) || {})
   end
 
-  def next_process
-    pipeline.next_process(process_step)
+  def name
+    process_step.name if process_step.present?
   end
+
 end

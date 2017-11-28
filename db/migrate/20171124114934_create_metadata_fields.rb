@@ -3,7 +3,7 @@ class CreateMetadataFields < ActiveRecord::Migration[5.1]
     create_table :metadata_fields do |t|
       t.string :name
       t.boolean :required
-      t.string :type
+      t.string :data_type
       t.references :process_step, foreign_key: true
 
       t.timestamps

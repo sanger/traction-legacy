@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20171124123733) do
   create_table "metadata_fields", force: :cascade do |t|
     t.string "name"
     t.boolean "required"
-    t.string "type"
+    t.string "data_type"
     t.integer "process_step_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
