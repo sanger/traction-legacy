@@ -10,7 +10,7 @@ class Pipeline < ApplicationRecord
   end
 
   def next_process_step(current_process_step)
-    return process_steps.first unless current_process_step.present?
-    process_steps[process_steps.index(current_process_step) + 1]
+    return process_steps.find_by(position: 1) unless current_process_step.present?
+    process_steps.find_by(position: current_process_step.position + 1)
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe Sequencescape::Factory, type: :model do
       expect(WorkOrder.count).to eq count
       expect(Receptacle.count).to eq count
       expect(Aliquot.count).to eq count
-      expect(LabEvent.count).to eq count
+      expect(LabEvent.count).to eq count * 2
       expect(a_request(:patch, //)).to have_been_made.times(count)
     end
   end

@@ -21,10 +21,16 @@ module Sequencescape
         ActiveRecord::Base.transaction do
           aliquot = Aliquot.new(name: sequencescape_work_order.name)
           work_order = create_work_order(sequencescape_work_order, aliquot)
+          receptacle = Receptacle.new
           LabEvent.create!(aliquot: aliquot,
-                           receptacle: Receptacle.new,
+                           receptacle: receptacle,
                            date: DateTime.now,
-                           action: 'aliquot_transferred')
+                           state: 'transferred')
+          LabEvent.create!(aliquot: aliquot,
+                           receptacle: receptacle,
+                           date: DateTime.now,
+                           state: 'process_started',
+                           process_step: pipeline.next_process_step(nil))
           Sequencescape::Api::WorkOrder.update_state(work_order)
         end
       end
