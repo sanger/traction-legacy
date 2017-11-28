@@ -30,7 +30,7 @@ RSpec.describe Aliquot, type: :model do
 
   it 'knows its current process' do
     aliquot = create :aliquot
-    expect(aliquot.current_process_step_name).to eq 'not started'
+    expect(aliquot.current_process_step_name).to eq 'started'
     aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'qc'),
                                receptacle: (create :receptacle))
     aliquot.lab_events.create!(receptacle: (create :receptacle))

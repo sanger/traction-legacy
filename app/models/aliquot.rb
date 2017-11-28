@@ -37,7 +37,7 @@ class Aliquot < ApplicationRecord
   end
 
   def current_process_step_name
-    current_process_step.try(:name) || 'not started'
+    current_process_step.try(:name) || 'started'
   end
 
   def next_process_step_name(pipeline)
