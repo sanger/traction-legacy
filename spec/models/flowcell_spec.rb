@@ -45,11 +45,11 @@ RSpec.describe Flowcell, type: :model do
 
   describe '#library_preparation_type' do
     subject { flowcell.library_preparation_type }
-    xit { is_expected.to be_a String }
+    it { is_expected.to be_a String }
   end
 
   describe '#data_type' do
     subject { flowcell.data_type }
-    xit { is_expected.to be_a String }
+    it { is_expected.to be_a String }
   end
 end

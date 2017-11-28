@@ -27,7 +27,7 @@ RSpec.describe SequencingRunForm, type: :model do
         ))
       end
 
-      xit 'creates a sequencing run' do
+      it 'creates a sequencing run' do
         stub_updates
         subject.submit(attributes)
         sequencing_run = subject.sequencing_run
@@ -37,20 +37,20 @@ RSpec.describe SequencingRunForm, type: :model do
         expect(sequencing_run.flowcells.count).to eq(3)
       end
 
-      xit 'updates the state of all of the work orders' do
+      it 'updates the state of all of the work orders' do
         stub_updates
         subject.submit(attributes)
         sequencing_run = subject.sequencing_run
         expect(sequencing_run.work_orders.all?(&:sequencing?)).to be_truthy
       end
 
-      xit 'updates state of all of the work orders in sequencscape' do
+      it 'updates state of all of the work orders in sequencscape' do
         expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(3).times
         subject.submit(attributes)
       end
 
       # TODO: find a better way to test this.
-      xit 'sends bunny messages' do
+      it 'sends bunny messages' do
         stub_updates
         expect(Messages::Exchange.connection).to receive(:<<).exactly(3).times
         subject.submit(attributes)
