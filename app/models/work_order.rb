@@ -34,13 +34,6 @@ class WorkOrder < ApplicationRecord
     "#{id}:#{name}"
   end
 
-  def details=(details)
-    details.each do |requirement_name, value|
-      work_order_requirements.create!(requirement: Requirement.find_or_create_by(name: requirement_name),
-                                      value: value)
-    end
-  end
-
   def details
     @details ||= OpenStruct.new(work_order_requirements.collect(&:to_h).inject(:merge!))
   end
