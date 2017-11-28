@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.feature 'Reception', type: :feature do
   include SequencescapeWebmockStubs
 
-  xscenario 'new sequencescape workorders should be on the reception page' do
+  scenario 'new sequencescape workorders should be on the reception page' do
     stub :reception
     work_orders = Sequencescape::Api::WorkOrder.for_reception
     visit root_path
