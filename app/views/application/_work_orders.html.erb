@@ -17,13 +17,9 @@
               <td><%= check_box_tag 'work_order_ids[]', work_order.id%></td>
               <td><%= work_order.id %></td>
               <td><%= work_order.name %></td>
-              <td><%= work_order.state %></td>
-              <td><%= link_to 'Show', work_order_path(work_order) %></td>
-              <% if work_order.editable? %>
-                <td><%= link_to work_order.next_state.to_s.humanize.downcase, editable_work_order_path(work_order) %></td>
-              <% else %>
-                <td>&nbsp;</td>
-              <% end %>
+              <td><%= work_order.aliquot_state %></td>
+              <td><%= link_to 'Show', pipeline_work_order_path(pipeline, work_order) %></td>
+              <td><%= link_to work_order.aliquot_next_state(pipeline), new_pipeline_work_order_lab_process_path(pipeline, work_order, peocess_step_name: work_order.aliquot_next_state(pipeline)) %></td>
             </tr>
           <% end %>
         </tbody>

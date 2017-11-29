@@ -26,6 +26,6 @@ module Messages
         requested_data_type: flowcell.data_type
       }
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
   end
 end

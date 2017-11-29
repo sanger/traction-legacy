@@ -4,13 +4,20 @@ require 'rails_helper'
 
 RSpec.feature 'Reception', type: :feature do
   include SequencescapeWebmockStubs
+  include PipelineCreators
+
+  before(:all) do
+    create_gridion_pipeline
+  end
+
+  let!(:pipeline) { Pipeline.first }
 
   scenario 'new sequencescape workorders should be on the reception page' do
     stub :reception
     work_orders = Sequencescape::Api::WorkOrder.for_reception
-    visit root_path
+    visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
-    expect(page).to have_current_path(reception_path)
+    expect(page).to have_current_path(pipeline_reception_path(pipeline))
     expect(page).to have_selector('table tr', count: 5)
     page.find_all('table tr').each_with_index do |row, index|
       fields = row.find_all('td')
@@ -19,14 +26,14 @@ RSpec.feature 'Reception', type: :feature do
     end
   end
 
-  xscenario 'upload work orders successfully' do
+  scenario 'upload work orders successfully' do
     stub :reception
     stub :successful_upload
     stub_updates
     Sequencescape::Api::WorkOrder.for_reception
-    visit root_path
+    visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
-    expect(page).to have_current_path(reception_path)
+    expect(page).to have_current_path(pipeline_reception_path(pipeline))
     expect(page).to have_selector('table tr', count: 5)
     checkboxes = page.find_all('input')
     checkboxes[2].click

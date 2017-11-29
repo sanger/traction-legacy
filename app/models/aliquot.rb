@@ -44,6 +44,7 @@ class Aliquot < ApplicationRecord
   def next_process_step_name(pipeline)
     pipeline.next_process_step(current_process_step).try(:name)
   end
+  alias next_state next_process_step_name
 
   # aliquot or work_order should belong to pipeline, otherwise it is pain
   def pipeline

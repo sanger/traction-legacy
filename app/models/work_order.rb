@@ -14,7 +14,7 @@ class WorkOrder < ApplicationRecord
   accepts_nested_attributes_for :aliquot, :work_order_requirements
 
   delegate :name, to: :aliquot
-  delegate :state, to: :aliquot, prefix: true
+  delegate :state, :next_state, to: :aliquot, prefix: true
   delegate :number_of_flowcells, :data_type, :library_preparation_type, to: :details
 
   scope :by_date, (-> { order(created_at: :desc) })
