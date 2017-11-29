@@ -34,6 +34,10 @@ FactoryGirl.define do
                                         work_order: work_order,
                                         value: evaluator.data_type
       end
+
+      factory :gridion_work_order_ready_for_sequencing do
+        aliquot { create(:aliquot_after_library_preparation) }
+      end
     end
   end
 end

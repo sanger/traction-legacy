@@ -45,9 +45,18 @@ class Aliquot < ApplicationRecord
     pipeline.next_process_step(current_process_step).try(:name)
   end
 
+  # aliquot or work_order should belong to pipeline, otherwise it is pain
+  def pipeline
+    current_process_step.pipeline
+  end
+
   def create_sequencing_event(state = 'process_started')
     lab_events.create!(date: DateTime.now,
                        state: state,
-                       process_step: current_process_step.pipeline.find_process_step(:sequencing))
+                       process_step: pipeline.find_process_step(:sequencing))
+  end
+
+  def lab_event?(step_name)
+    lab_events.where(process_step: ProcessStep.where(name: step_name, pipeline: pipeline).first).present?
   end
 end

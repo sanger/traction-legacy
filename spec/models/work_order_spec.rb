@@ -53,6 +53,9 @@ RSpec.describe WorkOrder, type: :model do
   xit 'manages states with regard to sequencing run' do
   end
 
+  xit 'it knows if it went through particular step' do
+  end
+
   context 'Grigion' do
     let!(:work_order) do
       create(:gridion_work_order, number_of_flowcells: 2,

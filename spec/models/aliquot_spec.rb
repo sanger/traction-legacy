@@ -69,4 +69,7 @@ RSpec.describe Aliquot, type: :model do
 
   xit 'creates lab events related to sequencing when required' do
   end
+
+  xit 'it knows if it has particular lab event' do
+  end
 end

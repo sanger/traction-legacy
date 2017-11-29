@@ -40,6 +40,10 @@ class WorkOrder < ApplicationRecord
     Sequencescape::Api::WorkOrder.update_state(self, state)
   end
 
+  def went_through_step(step_name)
+    aliquot.lab_event?(step_name)
+  end
+
   private
 
   def removed_from_sequencing?

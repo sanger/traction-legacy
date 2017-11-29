@@ -7,7 +7,8 @@ FactoryGirl.define do
     factory :standard_pipeline do
       after(:create) do |pipeline|
         pipeline.process_steps.create!(name: 'started', position: 1)
-        pipeline.process_steps.create!(name: 'sequencing', position: 10)
+        pipeline.process_steps.create!(name: 'library_preparation', position: 2)
+        pipeline.process_steps.create!(name: 'sequencing', position: 3)
       end
     end
   end

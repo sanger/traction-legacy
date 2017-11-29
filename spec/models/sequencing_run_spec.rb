@@ -42,7 +42,7 @@ RSpec.describe SequencingRun, type: :model do
   end
 
   it 'ensures that the work order is not spread across more flowcells than have been requested' do
-    work_order = create(:gridion_work_order, number_of_flowcells: 3)
+    work_order = create(:gridion_work_order_ready_for_sequencing, number_of_flowcells: 3)
     sequencing_run = build(:sequencing_run, flowcells: build_list(
       :flowcell, 5, work_order: work_order
     ))
@@ -50,7 +50,7 @@ RSpec.describe SequencingRun, type: :model do
     expect(sequencing_run.save).to be_falsey
     expect(sequencing_run.errors).to_not be_empty
 
-    work_order = create(:gridion_work_order, number_of_flowcells: 3)
+    work_order = create(:gridion_work_order_ready_for_sequencing, number_of_flowcells: 3)
     create(:sequencing_run, flowcells: build_list(
       :flowcell, 2, work_order: work_order
     ))
@@ -62,11 +62,12 @@ RSpec.describe SequencingRun, type: :model do
     expect(sequencing_run.errors).to_not be_empty
   end
 
-  xit 'ensures that the work orders are in the right state' do
+  it 'ensures that the work orders are in the right state' do
     work_order = create(:gridion_work_order, number_of_flowcells: 3)
-    expect(build(:sequencing_run, flowcells: build_list(
+    sequencing_run = build(:sequencing_run, flowcells: build_list(
       :flowcell, 3, work_order: work_order
-    ))).to_not be_valid
+    ))
+    expect(sequencing_run).to_not be_valid
   end
 
   it 'can have state' do
