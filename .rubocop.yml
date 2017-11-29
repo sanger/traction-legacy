@@ -43,7 +43,7 @@ Metrics/LineLength:
   Max: 110
 
 Metrics/MethodLength:
-  Max: 15
+  Max: 20
 
 Style/IndentArray:
   EnforcedStyle: consistent

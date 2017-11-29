@@ -7,6 +7,7 @@ class WorkOrder < ApplicationRecord
   has_many :flowcells, inverse_of: :work_order
   has_many :work_order_requirements
 
+  # state is not used for now, we report to sequencescape based on aliquot state for now
   enum state: %i[started sequencing completed failed]
 
   attr_readonly :sequencescape_id, :study_uuid, :sample_uuid
@@ -15,15 +16,15 @@ class WorkOrder < ApplicationRecord
 
   accepts_nested_attributes_for :aliquot, :work_order_requirements
 
-  delegate :name, :current_process_step_name, to: :aliquot
-
+  delegate :name, to: :aliquot
+  delegate :state, to: :aliquot, prefix: true
   delegate :number_of_flowcells, :data_type, :library_preparation_type, to: :details
 
   scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
   scope :by_date, (-> { order(created_at: :desc) })
 
-  def self.by_current_process_step(current_process_step_name)
-    select { |work_order| work_order.current_process_step_name == current_process_step_name.to_s }
+  def self.by_aliquot_state(aliquot_state)
+    select { |work_order| work_order.aliquot_state == aliquot_state.to_s }
   end
 
   def assign_state(state)

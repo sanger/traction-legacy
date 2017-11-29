@@ -24,7 +24,7 @@ module Sequencescape
 
       def self.update_state(work_order)
         sequencescape_work_order = find_by_id(work_order.sequencescape_id)
-        sequencescape_work_order.update_attributes(state: work_order.state)
+        sequencescape_work_order.update_attributes(state: work_order.aliquot_state)
       end
 
       def name

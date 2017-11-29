@@ -53,7 +53,7 @@ class SequencingRunForm
   end
 
   def available_work_orders
-    work_orders = WorkOrder.includes(:aliquot).by_current_process_step(:library_preparation)
+    work_orders = WorkOrder.includes(:aliquot).by_aliquot_state(:library_preparation)
     return work_orders if sequencing_run.new_record?
     (work_orders.to_a << sequencing_run.work_orders).flatten.uniq
   end
@@ -75,15 +75,22 @@ class SequencingRunForm
   def update_work_orders
     sequencing_run.work_orders.each do |work_order|
       if sequencing_run.pending?
-        update_work_order_state(work_order, :sequencing)
+        update_work_order_state(work_order, :process_started)
       elsif sequencing_run.completed?
         update_work_order_state(work_order, :completed)
       end
     end
   end
 
+  # TODO: discuss how this one should work
+  # for sequencing we send the right state to Sequencescape
+  # but instead of 'completed' we send 'sequencing' again
   def update_work_order_state(work_order, state)
-    work_order.send("#{state}!")
+    pipeline = Pipeline.find_by(name: 'traction_grid_ion')
+    LabEvent.create!(aliquot: work_order.aliquot,
+                     date: DateTime.now,
+                     state: state,
+                     process_step: pipeline.find_process_step(:sequencing))
     Sequencescape::Api::WorkOrder.update_state(work_order)
   end
 

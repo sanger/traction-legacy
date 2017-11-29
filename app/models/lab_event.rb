@@ -2,12 +2,14 @@
 
 # Lab Event - anything that happens with aliquot in a lab
 class LabEvent < ApplicationRecord
-  belongs_to :receptacle
+  # we do not have receptacle for sequencing process step,
+  # we can make it flowcell, but for now I left it optional
+  belongs_to :receptacle, optional: true
   belongs_to :aliquot
   belongs_to :process_step, optional: true
   has_many :metadata_items
 
-  enum state: %i[process_started transferred]
+  enum state: %i[process_started transferred completed]
 
   scope :with_process_steps, (-> { where.not(process_step_id: nil) })
 
