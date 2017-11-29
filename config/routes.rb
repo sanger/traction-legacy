@@ -18,5 +18,5 @@ Rails.application.routes.draw do
                                    action: 'test_exception_notifier', via: :get
 
   # think about root
-  root 'pipelines#index'
+  root 'work_orders#index', pipeline_id: Pipeline.first.id
 end
