@@ -9,6 +9,8 @@ FactoryGirl.define do
     sample_uuid { SecureRandom.uuid }
 
     factory :gridion_work_order do
+      aliquot { create(:aliquot_started) }
+
       transient do
         number_of_flowcells 3
         library_preparation_type 'rapid'

@@ -9,7 +9,7 @@ class LabEvent < ApplicationRecord
   belongs_to :process_step, optional: true
   has_many :metadata_items
 
-  enum state: %i[process_started transferred completed]
+  enum state: %i[process_started transferred completed failed]
 
   scope :with_process_steps, (-> { where.not(process_step_id: nil) })
 

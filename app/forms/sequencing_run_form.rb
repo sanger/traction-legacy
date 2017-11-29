@@ -70,28 +70,13 @@ class SequencingRunForm
 
   private
 
-  # TODO: code smell. State changes and their consequences should be managed centrally
-  # within a workflow.
   def update_work_orders
+    # does not create lab event or update sequencescape if not completed
+    # I took it from tests, is it a requirement?
+    return unless sequencing_run.pending? || sequencing_run.completed?
     sequencing_run.work_orders.each do |work_order|
-      if sequencing_run.pending?
-        update_work_order_state(work_order, :process_started)
-      elsif sequencing_run.completed?
-        update_work_order_state(work_order, :completed)
-      end
+      work_order.manage_sequencing_state(sequencing_run)
     end
-  end
-
-  # TODO: discuss how this one should work
-  # for sequencing we send the right state to Sequencescape
-  # but instead of 'completed' we send 'sequencing' again
-  def update_work_order_state(work_order, state)
-    pipeline = Pipeline.find_by(name: 'traction_grid_ion')
-    LabEvent.create!(aliquot: work_order.aliquot,
-                     date: DateTime.now,
-                     state: state,
-                     process_step: pipeline.find_process_step(:sequencing))
-    Sequencescape::Api::WorkOrder.update_state(work_order)
   end
 
   def check_sequencing_run

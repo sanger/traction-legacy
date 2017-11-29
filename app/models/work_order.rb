@@ -31,6 +31,15 @@ class WorkOrder < ApplicationRecord
     @details ||= OpenStruct.new(work_order_requirements.collect(&:to_h).inject(:merge!))
   end
 
+  def manage_sequencing_state(sequencing_run)
+    aliquot.create_sequencing_event(sequencing_run.result)
+    update_state_in_sequencescape(sequencing_run.result)
+  end
+
+  def update_state_in_sequencescape(state = nil)
+    Sequencescape::Api::WorkOrder.update_state(self, state)
+  end
+
   private
 
   def removed_from_sequencing?

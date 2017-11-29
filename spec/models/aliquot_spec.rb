@@ -66,4 +66,7 @@ RSpec.describe Aliquot, type: :model do
                                    'step2 ' => {},
                                    'step3 library_preparation' => {})
   end
+
+  xit 'creates lab events related to sequencing when required' do
+  end
 end

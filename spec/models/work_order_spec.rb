@@ -50,6 +50,9 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.unique_name).to eq "#{work_order.id}:#{work_order.name}"
   end
 
+  xit 'manages states with regard to sequencing run' do
+  end
+
   context 'Grigion' do
     let!(:work_order) do
       create(:gridion_work_order, number_of_flowcells: 2,

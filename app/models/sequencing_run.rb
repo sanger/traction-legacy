@@ -30,4 +30,10 @@ class SequencingRun < ApplicationRecord
   def flowcells_present?
     flowcells.present?
   end
+
+  def result
+    return if pending?
+    return state if completed?
+    'failed'
+  end
 end

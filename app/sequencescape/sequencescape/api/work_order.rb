@@ -22,9 +22,9 @@ module Sequencescape
         where(id: id).all.try(:first)
       end
 
-      def self.update_state(work_order)
+      def self.update_state(work_order, state = nil)
         sequencescape_work_order = find_by_id(work_order.sequencescape_id)
-        sequencescape_work_order.update_attributes(state: work_order.aliquot_state)
+        sequencescape_work_order.update_attributes(state: (state || work_order.aliquot_state))
       end
 
       def name

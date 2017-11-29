@@ -42,7 +42,7 @@ RSpec.describe SequencingRunForm, type: :model do
         expect(sequencing_run.flowcells.count).to eq(3)
       end
 
-      it 'updates the state of all of the work orders' do
+      it 'updates the aliquot_state of all of the work orders' do
         stub_updates
         subject.submit(attributes)
         sequencing_run = subject.sequencing_run
@@ -129,10 +129,12 @@ RSpec.describe SequencingRunForm, type: :model do
         expect(subject.sequencing_run).to be_completed
       end
 
-      xit 'updates the state of all of the work orders' do
+      it 'updates the state of all of the work orders' do
         stub_updates
         subject.submit(attributes)
-        expect(subject.sequencing_run.work_orders.all?(&:completed?)).to be_truthy
+        expect(subject.sequencing_run.work_orders.all? do |work_order|
+          work_order.aliquot.lab_events.last.state == 'completed'
+        end).to be_truthy
       end
 
       it 'updates state of all of the work orders in sequencscape' do
@@ -167,9 +169,11 @@ RSpec.describe SequencingRunForm, type: :model do
         expect(subject.sequencing_run).to be_restart
       end
 
-      xit 'does not update the state of all of the work orders' do
+      it 'does not update the state of all of the work orders' do
         subject.submit(attributes)
-        expect(subject.sequencing_run.work_orders.none?(&:completed?)).to be_truthy
+        expect(subject.sequencing_run.work_orders.none? do |work_order|
+          work_order.aliquot.lab_events.last.state == 'completed'
+        end).to be_truthy
       end
 
       it 'does not update state of all of the work orders in sequencscape' do

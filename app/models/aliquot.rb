@@ -44,4 +44,10 @@ class Aliquot < ApplicationRecord
   def next_process_step_name(pipeline)
     pipeline.next_process_step(current_process_step).try(:name)
   end
+
+  def create_sequencing_event(state = 'process_started')
+    lab_events.create!(date: DateTime.now,
+                       state: state,
+                       process_step: current_process_step.pipeline.find_process_step(:sequencing))
+  end
 end

@@ -85,4 +85,7 @@ RSpec.describe SequencingRun, type: :model do
     sequencing_run.restart!
     expect(sequencing_run).to be_restart
   end
+
+  xit 'knows its result' do
+  end
 end
