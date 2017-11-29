@@ -2,8 +2,6 @@
 
 # reception for work orders from Sequencescape
 class ReceptionController < ApplicationController
-  attr_reader :pipeline
-  before_action :set_pipeline
 
   def index
     @work_orders = Sequencescape::Api::WorkOrder.for_reception
@@ -24,9 +22,4 @@ class ReceptionController < ApplicationController
   end
   # rubocop:enable Metrics/AbcSize
 
-  def set_pipeline
-    @pipeline ||= Pipeline.find(params[:pipeline_id]) if params[:pipeline_id].present?
-  end
-
-  helper_method :pipeline
 end

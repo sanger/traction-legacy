@@ -8,9 +8,8 @@ Rails.application.routes.draw do
     end
     get 'reception', to: 'reception#index'
     post 'reception/upload', to: 'reception#upload'
+    resources :sequencing_runs
   end
-
-  resources :sequencing_runs
 
   resources :print_jobs, only: %i[create]
 

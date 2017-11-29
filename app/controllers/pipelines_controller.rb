@@ -2,16 +2,11 @@
 
 # PipelinesController
 class PipelinesController < ApplicationController
-  attr_reader :pipeline, :pipelines
-  before_action :set_pipeline
+  attr_reader :pipelines
 
   def index
     @pipelines = Pipeline.all
   end
 
-  def set_pipeline
-    @pipeline ||= Pipeline.first
-  end
-
-  helper_method :pipeline, :pipelines
+  helper_method :pipelines
 end

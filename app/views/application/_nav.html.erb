@@ -5,7 +5,7 @@
       <li><%= link_to "Work Orders", pipeline_work_orders_path(pipeline) %></li>
       <li><%= link_to "QC", pipeline_work_orders_path(pipeline, process_step_name: 'qc') %></li>
       <li><%= link_to "Library Preparation", pipeline_work_orders_path(pipeline, process_step_name: 'library_preparation') %></li>
-      <li><%= link_to "Sequencing Runs", sequencing_runs_path %></li>
+      <li><%= link_to "Sequencing Runs", pipeline_sequencing_runs_path(pipeline) %></li>
     </ul>
   </div>
 </nav>
