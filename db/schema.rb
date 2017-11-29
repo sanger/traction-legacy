@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171124123733) do
+ActiveRecord::Schema.define(version: 20171129114820) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
@@ -126,7 +126,6 @@ ActiveRecord::Schema.define(version: 20171124123733) do
   end
 
   create_table "work_orders", force: :cascade do |t|
-    t.integer "state", default: 0
     t.string "sequencescape_id"
     t.string "study_uuid"
     t.string "sample_uuid"

@@ -30,18 +30,18 @@ RSpec.describe Aliquot, type: :model do
 
   it 'knows its current process' do
     aliquot = create :aliquot
-    expect(aliquot.current_process_step_name).to eq 'started'
-    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'qc'),
+    expect(aliquot.current_process_step_name).to eq nil
+    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'started'),
                                receptacle: (create :receptacle))
     aliquot.lab_events.create!(receptacle: (create :receptacle))
-    expect(aliquot.current_process_step_name).to eq 'qc'
+    expect(aliquot.current_process_step_name).to eq 'started'
   end
 
   it 'knows its next process name' do
     pipeline = Pipeline.find_by(name: 'traction_grid_ion')
     aliquot = create :aliquot
-    expect(aliquot.next_process_step_name(pipeline)).to eq 'initial'
-    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'initial'),
+    expect(aliquot.next_process_step_name(pipeline)).to eq 'started'
+    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'started'),
                                receptacle: (create :receptacle))
     aliquot.lab_events.create!(receptacle: (create :receptacle))
     expect(aliquot.next_process_step_name(pipeline)).to eq 'qc'

@@ -8,9 +8,7 @@ module PipelineCreators
     create :requirement, name: 'library_preparation_type', pipeline: pipeline
     create :requirement, name: 'data_type', pipeline: pipeline
 
-    # think about the name of the first process, maybe 'started' is better:
-    # (1) consistent with work order, (2) already in sequencescape
-    create :process_step, name: 'initial',  pipeline: pipeline, position: 1
+    create :process_step, name: 'started',  pipeline: pipeline, position: 1
 
     qc = create :process_step, name: 'qc',  pipeline: pipeline, position: 2
     create :metadata_field, name: 'concentration',
@@ -40,7 +38,6 @@ module PipelineCreators
                             process_step: library_preparation,
                             data_type: :string
 
-    create :process_step, name: 'ready for sequencing', pipeline: pipeline, position: 4
     create :process_step, name: 'sequencing', pipeline: pipeline, position: 5
   end
   # rubocop:enable all
