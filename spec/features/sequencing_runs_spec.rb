@@ -4,10 +4,9 @@ require 'rails_helper'
 
 RSpec.feature 'SequencingRuns', type: :feature do
   include SequencescapeWebmockStubs
-  include PipelineCreators
 
   before(:all) do
-    create_gridion_pipeline
+    create :gridion_pipeline
   end
 
   let!(:work_orders)    { create_list(:gridion_work_order_ready_for_sequencing, 2, number_of_flowcells: 3) }

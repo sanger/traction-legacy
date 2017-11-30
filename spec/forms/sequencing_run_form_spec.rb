@@ -4,10 +4,9 @@ require 'rails_helper'
 
 RSpec.describe SequencingRunForm, type: :model do
   include SequencescapeWebmockStubs
-  include PipelineCreators
 
   before(:all) do
-    create_gridion_pipeline
+    create :gridion_pipeline
   end
 
   context 'new' do

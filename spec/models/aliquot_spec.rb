@@ -3,10 +3,8 @@
 require 'rails_helper'
 
 RSpec.describe Aliquot, type: :model do
-  include PipelineCreators
-
   before(:all) do
-    create_gridion_pipeline
+    create :gridion_pipeline
   end
 
   it 'is not valid without a name' do
@@ -38,13 +36,12 @@ RSpec.describe Aliquot, type: :model do
   end
 
   it 'knows its next process name' do
-    pipeline = Pipeline.find_by(name: 'traction_grid_ion')
-    aliquot = create :aliquot
-    expect(aliquot.next_process_step_name(pipeline)).to eq 'started'
-    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'started'),
+    aliquot = create :gridion_aliquot_started
+    expect(aliquot.next_process_step_name).to eq 'qc'
+    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'qc'),
                                receptacle: (create :receptacle))
     aliquot.lab_events.create!(receptacle: (create :receptacle))
-    expect(aliquot.next_process_step_name(pipeline)).to eq 'qc'
+    expect(aliquot.next_process_step_name).to eq 'library_preparation'
   end
 
   it 'knows its metadata' do

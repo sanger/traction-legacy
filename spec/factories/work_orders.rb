@@ -9,7 +9,7 @@ FactoryGirl.define do
     sample_uuid { SecureRandom.uuid }
 
     factory :gridion_work_order do
-      aliquot { create(:aliquot_started) }
+      aliquot { create(:gridion_aliquot_started) }
 
       transient do
         number_of_flowcells 3
@@ -18,11 +18,11 @@ FactoryGirl.define do
       end
 
       after(:create) do |work_order, evaluator|
-        pipeline = create :pipeline, name: 'traction_grid_ion'
+        pipeline = work_order.aliquot.pipeline
 
-        number_of_flowcells = create :requirement, name: 'number_of_flowcells', pipeline: pipeline
-        library_preparation_type = create :requirement, name: 'library_preparation_type', pipeline: pipeline
-        data_type = create :requirement, name: 'data_type', pipeline: pipeline
+        number_of_flowcells = pipeline.requirements.find_by(name: 'number_of_flowcells')
+        library_preparation_type = pipeline.requirements.find_by(name: 'library_preparation_type')
+        data_type = pipeline.requirements.find_by(name: 'data_type')
 
         create :work_order_requirement, requirement: number_of_flowcells,
                                         work_order: work_order,
@@ -36,7 +36,7 @@ FactoryGirl.define do
       end
 
       factory :gridion_work_order_ready_for_sequencing do
-        aliquot { create(:aliquot_after_library_preparation) }
+        aliquot { create(:gridion_aliquot_after_library_preparation) }
       end
     end
   end
