@@ -8,7 +8,7 @@
           <th>Id</th>
           <th>Sample Name</th>
           <th>State</th>
-          <th>&nbsp;</th>
+          <th>Next Step</th>
           <th>&nbsp;</th>
         </thead>
         <tbody>
@@ -18,8 +18,8 @@
               <td><%= work_order.id %></td>
               <td><%= work_order.name %></td>
               <td><%= work_order.aliquot_state %></td>
+              <td><%= link_to work_order.aliquot_next_state(pipeline), new_pipeline_work_order_lab_event_path(pipeline, work_order, process_step_name: work_order.aliquot_next_state(pipeline)) %></td>
               <td><%= link_to 'Show', pipeline_work_order_path(pipeline, work_order) %></td>
-              <td><%= link_to work_order.aliquot_next_state(pipeline), new_pipeline_work_order_lab_process_path(pipeline, work_order, peocess_step_name: work_order.aliquot_next_state(pipeline)) %></td>
             </tr>
           <% end %>
         </tbody>

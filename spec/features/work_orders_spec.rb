@@ -4,27 +4,33 @@ require 'rails_helper'
 
 RSpec.feature 'WorkOrders', type: :feature do
   include SequencescapeWebmockStubs
+  include PipelineCreators
 
-  let!(:work_orders)  { create_list(:work_order, 5) }
+  before(:all) do
+    create_gridion_pipeline
+  end
+
+  let!(:pipeline) { Pipeline.first }
+  let!(:qc) { pipeline.find_process_step('qc') }
+  let!(:work_orders)  { create_list(:gridion_work_order, 5) }
   let!(:work_order)   { work_orders.first }
 
-  xscenario 'Successfully QC a work order' do
+  scenario 'Successfully QC a work order' do
     stub_updates
 
-    aliquot = build(:aliquot_proceed)
-
-    visit qcs_path
+    visit pipeline_work_orders_path(pipeline)
+    click_on 'QC'
 
     within("#work_order_#{work_order.id}") do
       click_link 'qc'
     end
 
-    fill_in 'Concentration', with: aliquot.concentration
-    fill_in 'Fragment size', with: aliquot.fragment_size
-    select aliquot.qc_state, from: 'QC state'
-    click_button 'Update Work order'
+    fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '2.0'
+    fill_in "metadata_items_attributes[#{qc.metadata_fields[1].id}]", with: '150'
+    select 'proceed', from: "metadata_items_attributes[#{qc.metadata_fields[2].id}]"
+    click_button 'Create lab event'
 
-    expect(page).to have_content('Work Order successfully updated')
+    expect(page).to have_content('Lab event was successfully recorded')
   end
 
   xscenario 'QC a work order with invalid attributes' do

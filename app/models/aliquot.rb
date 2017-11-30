@@ -60,4 +60,8 @@ class Aliquot < ApplicationRecord
   def lab_event?(step_name)
     lab_events.where(process_step: ProcessStep.where(name: step_name, pipeline: pipeline).first).present?
   end
+
+  def receptacle
+    lab_events.last.receptacle
+  end
 end
