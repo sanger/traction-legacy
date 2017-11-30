@@ -15,7 +15,7 @@ RSpec.feature 'Reception', type: :feature do
   scenario 'new sequencescape workorders should be on the reception page' do
     stub :reception
     work_orders = Sequencescape::Api::WorkOrder.for_reception
-    visit root_path
+    visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
     expect(page).to have_current_path(pipeline_reception_path(pipeline))
     expect(page).to have_selector('table tr', count: 5)
@@ -31,7 +31,7 @@ RSpec.feature 'Reception', type: :feature do
     stub :successful_upload
     stub_updates
     Sequencescape::Api::WorkOrder.for_reception
-    visit root_path
+    visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
     expect(page).to have_current_path(pipeline_reception_path(pipeline))
     expect(page).to have_selector('table tr', count: 5)
@@ -46,7 +46,7 @@ RSpec.feature 'Reception', type: :feature do
   scenario 'upload raises an error if there is an invalid work order' do
     allow(Sequencescape::Api::WorkOrder).to receive(:find_by_ids).and_raise(StandardError)
     stub :reception
-    visit root_path
+    visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
     checkboxes = page.find_all('input')
     checkboxes[2].click
@@ -56,7 +56,7 @@ RSpec.feature 'Reception', type: :feature do
 
   scenario 'does nothing if no work orders are selected' do
     stub :reception
-    visit root_path
+    visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
     click_on 'Upload'
     expect(page).to have_content('Reception')
