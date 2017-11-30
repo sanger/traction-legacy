@@ -23,9 +23,9 @@
           <td><%= sequencing_run.experiment_name %></td>
           <td><%= sequencing_run.instrument_name %></td>
           <td><%= sequencing_run.created_at.to_date.to_s(:default) %></td>
-          <td><%= link_to 'Show', sequencing_run_path(sequencing_run) %></td>
-          <td><%= link_to 'Edit', edit_sequencing_run_path(sequencing_run) %></td>
-          <td><%= link_to 'Delete', sequencing_run_path(sequencing_run), method: :delete%>
+          <td><%= link_to 'Show', pipeline_sequencing_run_path(pipeline, sequencing_run) %></td>
+          <td><%= link_to 'Edit', edit_pipeline_sequencing_run_path(pipeline, sequencing_run) %></td>
+          <td><%= link_to 'Delete', pipeline_sequencing_run_path(pipeline, sequencing_run), method: :delete%>
         </tr>
       <% end %>
     </tbody>

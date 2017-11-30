@@ -2,7 +2,6 @@
 
 # reception for work orders from Sequencescape
 class ReceptionController < ApplicationController
-
   def index
     @work_orders = Sequencescape::Api::WorkOrder.for_reception
   end
@@ -21,5 +20,4 @@ class ReceptionController < ApplicationController
     end
   end
   # rubocop:enable Metrics/AbcSize
-
 end

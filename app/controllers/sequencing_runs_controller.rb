@@ -16,7 +16,8 @@ class SequencingRunsController < ApplicationController
   def create
     @sequencing_run = SequencingRunForm.new
     if sequencing_run.submit(sequencing_run_params)
-      redirect_to sequencing_run_path(sequencing_run), notice: 'Sequencing run successfully created'
+      redirect_to pipeline_sequencing_run_path(pipeline, sequencing_run),
+                  notice: 'Sequencing run successfully created'
     else
       render :new
     end
@@ -29,7 +30,8 @@ class SequencingRunsController < ApplicationController
   def update
     @sequencing_run = SequencingRunForm.new(current_resource)
     if sequencing_run.submit(sequencing_run_params)
-      redirect_to sequencing_run_path(sequencing_run), notice: 'Sequencing run successfully updated'
+      redirect_to pipeline_sequencing_run_path(pipeline, sequencing_run),
+                  notice: 'Sequencing run successfully updated'
     else
       render :edit
     end
@@ -39,7 +41,8 @@ class SequencingRunsController < ApplicationController
 
   def destroy
     current_resource.destroy
-    redirect_to sequencing_runs_path, notice: 'Sequencing run successfully deleted'
+    redirect_to pipeline_sequencing_runs_path(pipeline),
+                notice: 'Sequencing run successfully deleted'
   end
 
   protected
