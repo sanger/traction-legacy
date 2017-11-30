@@ -4,5 +4,5 @@
 class ProcessStep < ApplicationRecord
   belongs_to :pipeline
   has_many :lab_events
-  has_many :matadata_fields
+  has_many :metadata_fields
 end

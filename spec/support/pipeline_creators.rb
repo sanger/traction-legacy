@@ -19,10 +19,13 @@ module PipelineCreators
                             required: true,
                             process_step: qc,
                             data_type: :integer
-    create :metadata_field, name: 'qc_state',
-                            required: true,
-                            process_step: qc,
-                            data_type: :options
+    qc_state = create :metadata_field, name: 'qc_state',
+                                        required: true,
+                                        process_step: qc,
+                                        data_type: :options
+    create :option, name: 'fail', metadata_field: qc_state
+    create :option, name: 'proceed_at_risk', metadata_field: qc_state
+    create :option, name: 'proceed', metadata_field: qc_state
 
     library_preparation = create :process_step, name: 'library_preparation', pipeline: pipeline, position: 3
     create :metadata_field, name: 'volume',

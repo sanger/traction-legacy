@@ -72,4 +72,7 @@ RSpec.describe Aliquot, type: :model do
 
   xit 'it knows if it has particular lab event' do
   end
+
+  xit 'knows its receptacle' do
+  end
 end

@@ -25,4 +25,15 @@ class LabEvent < ApplicationRecord
   def name
     process_step.name if process_step.present?
   end
+
+  def work_order_id=(work_order_id)
+    self.aliquot = WorkOrder.find(work_order_id).aliquot
+    self.receptacle = aliquot.receptacle
+  end
+
+  def metadata_items_attributes=(metadata_items_attributes)
+    metadata_items_attributes.each do |key, value|
+      metadata_items.build(metadata_field_id: key, value: value)
+    end
+  end
 end
