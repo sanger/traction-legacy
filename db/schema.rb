@@ -35,7 +35,7 @@ ActiveRecord::Schema.define(version: 20171129114820) do
     t.datetime "date"
     t.integer "receptacle_id"
     t.integer "aliquot_id"
-    t.integer "state"
+    t.integer "state", default: 0
     t.integer "process_step_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

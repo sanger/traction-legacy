@@ -11,6 +11,7 @@ class LabEventsController < ApplicationController
   def create
     @lab_event = LabEvent.new(lab_event_params.merge(date: DateTime.now))
     if @lab_event.valid?
+      @lab_event.save
       redirect_to pipeline_work_orders_path(pipeline),
                   notice: 'Lab event was successfully recorded'
     else

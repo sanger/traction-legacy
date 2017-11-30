@@ -18,7 +18,7 @@
               <td><%= work_order.id %></td>
               <td><%= work_order.name %></td>
               <td><%= work_order.aliquot_state %></td>
-              <td><%= link_to work_order.aliquot_next_state(pipeline), new_pipeline_work_order_lab_event_path(pipeline, work_order, process_step_name: work_order.aliquot_next_state(pipeline)) %></td>
+              <td><%= link_to work_order.aliquot_next_state, new_pipeline_work_order_lab_event_path(pipeline, work_order, process_step_name: work_order.aliquot_next_state) %></td>
               <td><%= link_to 'Show', pipeline_work_order_path(pipeline, work_order) %></td>
             </tr>
           <% end %>

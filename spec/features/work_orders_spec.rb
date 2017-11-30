@@ -4,16 +4,11 @@ require 'rails_helper'
 
 RSpec.feature 'WorkOrders', type: :feature do
   include SequencescapeWebmockStubs
-  include PipelineCreators
 
-  before(:all) do
-    create_gridion_pipeline
-  end
-
-  let!(:pipeline) { Pipeline.first }
-  let!(:qc) { pipeline.find_process_step('qc') }
   let!(:work_orders)  { create_list(:gridion_work_order, 5) }
   let!(:work_order)   { work_orders.first }
+  let!(:pipeline) { Pipeline.first }
+  let!(:qc) { pipeline.find_process_step('qc') }
 
   scenario 'Successfully QC a work order' do
     stub_updates

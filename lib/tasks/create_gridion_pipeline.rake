@@ -20,10 +20,13 @@ namespace :gridion do
                           required: true,
                           process_step: qc,
                           data_type: :integer)
-    MetadataField.create!(name: 'qc_state',
-                          required: true,
-                          process_step: qc,
-                          data_type: :options)
+    qc_state = MetadataField.create!(name: 'qc_state',
+                                    required: true,
+                                    process_step: qc,
+                                    data_type: :options)
+    Option.create!(name: 'fail', metadata_field: qc_state)
+    Option.create!(name: 'proceed_at_risk', metadata_field: qc_state)
+    Option.create!(name: 'proceed', metadata_field: qc_state)
 
     library_preparation = ProcessStep.create!(name: 'library_preparation', pipeline: pipeline, position: 3)
     MetadataField.create!(name: 'volume',

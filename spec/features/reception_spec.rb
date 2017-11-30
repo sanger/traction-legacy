@@ -4,10 +4,9 @@ require 'rails_helper'
 
 RSpec.feature 'Reception', type: :feature do
   include SequencescapeWebmockStubs
-  include PipelineCreators
 
   before(:all) do
-    create_gridion_pipeline
+    create :gridion_pipeline
   end
 
   let!(:pipeline) { Pipeline.first }

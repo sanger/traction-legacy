@@ -4,9 +4,9 @@ FactoryGirl.define do
   factory :aliquot do
     sequence(:name) { |n| "DN4914#{n}A:A#{n}" }
 
-    factory :aliquot_started do
+    factory :gridion_aliquot_started do
       transient do
-        pipeline { create(:standard_pipeline) }
+        pipeline { Pipeline.first || create(:gridion_pipeline) }
         receptacle { create(:receptacle) }
       end
 
@@ -20,12 +20,21 @@ FactoryGirl.define do
                                    process_step: evaluator.pipeline.process_steps.first)
       end
 
-      factory :aliquot_after_library_preparation do
+      factory :gridion_aliquot_after_qc do
         after(:create) do |aliquot, evaluator|
           aliquot.lab_events.create!(receptacle: evaluator.receptacle,
                                      date: DateTime.now,
                                      state: 'process_started',
-                                     process_step: evaluator.pipeline.find_process_step(:library_preparation))
+                                     process_step: evaluator.pipeline.find_process_step(:qc))
+        end
+
+        factory :gridion_aliquot_after_library_preparation do
+          after(:create) do |aliquot, evaluator|
+            aliquot.lab_events.create!(receptacle: evaluator.receptacle,
+                                       date: DateTime.now,
+                                       state: 'process_started',
+                                       process_step: evaluator.pipeline.find_process_step(:library_preparation)) #rubocop:disable all
+          end
         end
       end
     end

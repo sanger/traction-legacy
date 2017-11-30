@@ -41,7 +41,7 @@ class Aliquot < ApplicationRecord
   end
   alias state current_process_step_name
 
-  def next_process_step_name(pipeline)
+  def next_process_step_name
     pipeline.next_process_step(current_process_step).try(:name)
   end
   alias next_state next_process_step_name
