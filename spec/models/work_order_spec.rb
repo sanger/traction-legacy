@@ -56,6 +56,9 @@ RSpec.describe WorkOrder, type: :model do
   xit 'it knows if it went through particular step' do
   end
 
+  xit 'can be sorted by aliquot state / aliquot next state' do
+  end
+
   context 'Grigion' do
     let!(:work_order) do
       create(:gridion_work_order, number_of_flowcells: 2,

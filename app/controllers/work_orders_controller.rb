@@ -7,7 +7,9 @@ class WorkOrdersController < ApplicationController
   before_action :set_work_order, only: %i[show]
 
   def index
-    @work_orders = WorkOrder.by_date.includes(:aliquot)
+    @work_orders = WorkOrder.by_date
+                            .includes(aliquot: :lab_events)
+                            .by_aliquot_next_state(params[:process_step_name])
   end
 
   def show; end
