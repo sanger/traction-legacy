@@ -6,6 +6,7 @@ class PipelinesController < ApplicationController
 
   def index
     @pipelines = Pipeline.all
+    render layout: false
   end
 
   helper_method :pipelines
