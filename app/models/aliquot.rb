@@ -33,7 +33,7 @@ class Aliquot < ApplicationRecord
   end
 
   def current_process_step
-    lab_events.last_process_step
+    lab_events.includes(:process_step).last_process_step
   end
 
   def current_process_step_name
@@ -63,5 +63,9 @@ class Aliquot < ApplicationRecord
 
   def receptacle
     lab_events.last.receptacle
+  end
+
+  def receptacle_barcode
+    receptacle.barcode
   end
 end
