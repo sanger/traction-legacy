@@ -41,6 +41,11 @@ class Aliquot < ApplicationRecord
   end
   alias state current_process_step_name
 
+  # think how to refactor together with #current_process_step
+  def action
+    lab_events.collect { |lab_event| lab_event if lab_event.process_step.present? }.compact.last.state
+  end
+
   def next_process_step_name
     pipeline.next_process_step(current_process_step).try(:name)
   end
@@ -74,5 +79,4 @@ class Aliquot < ApplicationRecord
     sequencing_events = lab_events.where(process_step: pipeline.find_process_step(:sequencing))
     lab_events.destroy(sequencing_events)
   end
-
 end
