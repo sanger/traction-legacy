@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe WorkOrderFlowcellAggregator, type: :model do
   let!(:work_orders_with_no_flowcells) do
-    create_list(:gridion_work_order, 2,
+    create_list(:gridion_work_order_ready_for_sequencing, 2,
                 number_of_flowcells: 3)
   end
 
@@ -39,7 +39,7 @@ RSpec.describe WorkOrderFlowcellAggregator, type: :model do
     )
   end
 
-  xit 'with existing sequencing run must not count flowcells twice' do
+  it 'with existing sequencing run must not count flowcells twice' do
     flowcells_a = build_list(:flowcell, 2, work_order: work_orders_with_no_flowcells.first)
     flowcells_b = build_list(:flowcell, 2, work_order: work_orders_with_no_flowcells.last)
     sequencing_run = create(:sequencing_run, flowcells: [flowcells_a, flowcells_b].flatten)

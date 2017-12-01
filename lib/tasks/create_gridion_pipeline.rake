@@ -9,7 +9,7 @@ namespace :gridion do
     Requirement.create!(name: 'library_preparation_type', pipeline: pipeline)
     Requirement.create!(name: 'data_type', pipeline: pipeline)
 
-    ProcessStep.create!(name: 'started',  pipeline: pipeline, position: 1)
+    ProcessStep.create!(name: 'reception',  pipeline: pipeline, position: 1)
 
     qc = ProcessStep.create!(name: 'qc',  pipeline: pipeline, position: 2)
     MetadataField.create!(name: 'concentration',

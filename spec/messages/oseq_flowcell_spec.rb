@@ -39,7 +39,7 @@ RSpec.describe Messages::OseqFlowcell, type: :model do
       }
     end
 
-    xit { is_expected.to eq expected_payload }
+    it { is_expected.to eq expected_payload }
   end
 
   describe '#payload' do
@@ -62,6 +62,6 @@ RSpec.describe Messages::OseqFlowcell, type: :model do
        })
     end
 
-    xit { is_expected.to eq JSON.parse(expected_json) }
+    it { is_expected.to eq JSON.parse(expected_json) }
   end
 end

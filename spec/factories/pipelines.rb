@@ -6,7 +6,7 @@ FactoryGirl.define do
 
     factory :standard_pipeline do
       after(:create) do |pipeline|
-        pipeline.process_steps.create!(name: 'started', position: 1)
+        pipeline.process_steps.create!(name: 'reception', position: 1)
         pipeline.process_steps.create!(name: 'library_preparation', position: 2)
         pipeline.process_steps.create!(name: 'sequencing', position: 3)
       end
@@ -19,9 +19,9 @@ FactoryGirl.define do
         create :requirement, name: 'library_preparation_type', pipeline: pipeline
         create :requirement, name: 'data_type', pipeline: pipeline
 
-        create :process_step, name: 'started',  pipeline: pipeline, position: 1
+        create :process_step, name: 'reception',  pipeline: pipeline, position: 1
 
-        qc = create :process_step, name: 'qc',  pipeline: pipeline, position: 2
+        qc = create :process_step, name: 'qc', pipeline: pipeline, position: 2
         create :metadata_field, name: 'concentration',
                                 required: true,
                                 process_step: qc,

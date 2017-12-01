@@ -18,9 +18,9 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.reload.sequencescape_id).to eq(sequencescape_id)
   end
 
-  xit '#by_aliquot_state returns all work orders by requested state' do
+  it '#by_aliquot_state returns all work orders by requested state' do
     create_list(:gridion_work_order, 5)
-    expect(WorkOrder.by_state(:started).count).to eq(5)
+    expect(WorkOrder.by_aliquot_state(:reception).count).to eq(5)
   end
 
   it 'must have a sample uuid' do
@@ -56,7 +56,7 @@ RSpec.describe WorkOrder, type: :model do
   xit 'it knows if it went through particular step' do
   end
 
-  xit 'can be sorted by aliquot state / aliquot next state' do
+  xit 'can be sorted by aliquot next state' do
   end
 
   context 'Grigion' do

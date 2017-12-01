@@ -15,6 +15,8 @@ class SequencingRunForm
   def initialize(sequencing_run = nil)
     @sequencing_run = sequencing_run || SequencingRun.new
     @created = self.sequencing_run.new_record?
+    @old_state = @sequencing_run.state
+    @old_work_orders = @sequencing_run.work_orders.uniq
   end
 
   def submit(params)
@@ -68,13 +70,19 @@ class SequencingRunForm
     end
   end
 
+  def work_orders_to_be_updated
+    return sequencing_run.work_orders if @created
+    return sequencing_run.work_orders if state_changed?
+    new_work_orders
+  end
+
   private
 
   def update_work_orders
     # does not create lab event or update sequencescape if not completed
     # I took it from tests, is it a requirement?
     return unless sequencing_run.pending? || sequencing_run.completed?
-    sequencing_run.work_orders.each do |work_order|
+    work_orders_to_be_updated.each do |work_order|
       work_order.manage_sequencing_state(sequencing_run)
     end
   end
@@ -84,5 +92,13 @@ class SequencingRunForm
     sequencing_run.errors.each do |key, value|
       errors.add(key, value)
     end
+  end
+
+  def state_changed?
+    @old_state != sequencing_run.state
+  end
+
+  def new_work_orders
+    sequencing_run.work_orders.uniq - @old_work_orders
   end
 end

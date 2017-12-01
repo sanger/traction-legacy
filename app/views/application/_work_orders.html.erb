@@ -7,6 +7,7 @@
           <th>Print Label</th>
           <th>Id</th>
           <th>Sample Name</th>
+          <th>Action</th>
           <th>State</th>
           <th>Next Step</th>
           <th>&nbsp;</th>
@@ -17,6 +18,7 @@
               <td><%= check_box_tag 'work_order_ids[]', work_order.id%></td>
               <td><%= work_order.id %></td>
               <td><%= work_order.name %></td>
+              <td><%= work_order.action %></td>
               <td><%= work_order.aliquot_state %></td>
               <td>
                 <%if work_order.aliquot_next_state.present?%>

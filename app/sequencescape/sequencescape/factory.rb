@@ -20,7 +20,7 @@ module Sequencescape
       sequencescape_work_orders.each do |sequencescape_work_order|
         ActiveRecord::Base.transaction do
           aliquot = Aliquot.new(name: sequencescape_work_order.name)
-          work_order = create_work_order(sequencescape_work_order, aliquot)
+          create_work_order(sequencescape_work_order, aliquot)
           receptacle = Receptacle.new
           LabEvent.create!(aliquot: aliquot,
                            receptacle: receptacle,
@@ -31,7 +31,6 @@ module Sequencescape
                            date: DateTime.now,
                            state: 'process_started',
                            process_step: pipeline.next_process_step)
-          Sequencescape::Api::WorkOrder.update_state(work_order)
         end
       end
     end
