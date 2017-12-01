@@ -12,7 +12,7 @@
     </li>
     <% work_order.details.to_h.each do |key, value|%>
       <li>
-        <strong><%= key%> </strong><%= value %>
+        <strong><%= "#{key}: "%> </strong><%= value %>
       </li>
     <% end %>
   </ul>
@@ -22,7 +22,7 @@
     <ul>
       <%lab_event.metadata.each do |key, value|%>
         <li>
-          <strong><%= "#{key}:"%> </strong><%= value %>
+          <strong><%= "#{key}: "%> </strong><%= value %>
         </li>
       <%end%>
     </ul>
