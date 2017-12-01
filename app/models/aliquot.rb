@@ -51,12 +51,6 @@ class Aliquot < ApplicationRecord
     current_process_step.pipeline
   end
 
-  def create_sequencing_event(state = 'process_started')
-    lab_events.create!(date: DateTime.now,
-                       state: state,
-                       process_step: pipeline.find_process_step(:sequencing))
-  end
-
   def lab_event?(step_name)
     lab_events.where(process_step: ProcessStep.where(name: step_name, pipeline: pipeline).first).present?
   end
@@ -68,4 +62,17 @@ class Aliquot < ApplicationRecord
   def receptacle_barcode
     receptacle.barcode
   end
+
+  def create_sequencing_event(lab_event_state)
+    lab_events.create!(date: DateTime.now,
+                       state: lab_event_state || 'process_started',
+                       receptacle: receptacle,
+                       process_step: pipeline.find_process_step(:sequencing))
+  end
+
+  def destroy_sequencing_events
+    sequencing_events = lab_events.where(process_step: pipeline.find_process_step(:sequencing))
+    lab_events.destroy(sequencing_events)
+  end
+
 end

@@ -20,6 +20,8 @@ class WorkOrder < ApplicationRecord
 
   scope :by_date, (-> { order(created_at: :desc) })
 
+  after_touch :remove_from_sequencing, if: :removed_from_sequencing?
+
   def self.by_aliquot_state(aliquot_state)
     return all unless aliquot_state.present?
     select { |work_order| work_order.aliquot_state == aliquot_state.to_s }
@@ -38,22 +40,27 @@ class WorkOrder < ApplicationRecord
     @details ||= OpenStruct.new(work_order_requirements.collect(&:to_h).inject(:merge!))
   end
 
+  def went_through_step(step_name)
+    aliquot.lab_event?(step_name)
+  end
+
   def manage_sequencing_state(sequencing_run)
     aliquot.create_sequencing_event(sequencing_run.result)
     update_state_in_sequencescape(sequencing_run.result)
+  end
+
+  def remove_from_sequencing
+    aliquot.destroy_sequencing_events
+    update_state_in_sequencescape
   end
 
   def update_state_in_sequencescape(state = nil)
     Sequencescape::Api::WorkOrder.update_state(self, state)
   end
 
-  def went_through_step(step_name)
-    aliquot.lab_event?(step_name)
-  end
-
   private
 
   def removed_from_sequencing?
-    sequencing? && flowcells.empty?
+    (aliquot_state == 'sequencing') && flowcells.empty?
   end
 end

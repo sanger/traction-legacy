@@ -119,6 +119,6 @@ RSpec.feature 'SequencingRuns', type: :feature do
     expect(page).to have_content('Sequencing run successfully deleted')
     expect(SequencingRun.find_by(id: sequencing_run.id)).to be nil
     expect(Flowcell.find_by(id: flowcell.id)).to be nil
-    # expect(work_orders.first.aliquot_state).to eq 'library_preparation'
+    expect(work_orders.first.reload.aliquot_state).to eq 'library_preparation'
   end
 end

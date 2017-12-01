@@ -30,7 +30,7 @@ module Sequencescape
                            receptacle: receptacle,
                            date: DateTime.now,
                            state: 'process_started',
-                           process_step: pipeline.next_process_step(nil))
+                           process_step: pipeline.next_process_step)
           Sequencescape::Api::WorkOrder.update_state(work_order)
         end
       end
