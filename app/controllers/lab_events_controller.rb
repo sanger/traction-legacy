@@ -8,16 +8,19 @@ class LabEventsController < ApplicationController
     @work_order = work_order
   end
 
+  # rubocop:disable Metrics/AbcSize
   def create
     @lab_event = LabEvent.new(lab_event_params.merge(date: DateTime.now))
+    @process_step = ProcessStep.find(params[:process_step_id])
     if @lab_event.valid?
       @lab_event.save
       redirect_to pipeline_work_orders_path(pipeline),
                   notice: 'Lab event was successfully recorded'
     else
-      render :new
+      render :new, pipeline: pipeline, work_order: work_order
     end
   end
+  # rubocop:enable Metrics/AbcSize
 
   def lab_event_params
     metadata_items_attributes = params.require(:metadata_items_attributes).try(:permit!)
