@@ -79,4 +79,8 @@ class Aliquot < ApplicationRecord
     sequencing_events = lab_events.where(process_step: pipeline.find_process_step(:sequencing))
     lab_events.destroy(sequencing_events)
   end
+
+  def update_state_in_sequencescape
+    work_order.update_state_in_sequencescape if work_order.present?
+  end
 end

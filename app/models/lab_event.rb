@@ -13,6 +13,8 @@ class LabEvent < ApplicationRecord
 
   enum state: %i[process_started transferred completed failed]
 
+  after_create :update_sequencescape, if: :process_step_present?
+
   def metadata
     @metadata ||= (metadata_items.with_metadata_fields.collect(&:to_h).inject(:merge!) || {})
   end
@@ -36,5 +38,13 @@ class LabEvent < ApplicationRecord
     metadata_items.each do |item|
       errors.add(:base, item.errors.full_messages.join(', ')) unless item.valid?
     end
+  end
+
+  def update_sequencescape
+    aliquot.update_state_in_sequencescape
+  end
+
+  def process_step_present?
+    process_step.present?
   end
 end

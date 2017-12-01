@@ -15,10 +15,8 @@ class SequencingRunForm
   def initialize(sequencing_run = nil)
     @sequencing_run = sequencing_run || SequencingRun.new
     @created = self.sequencing_run.new_record?
-    unless @created
-      @old_state = sequencing_run.state
-      @old_work_orders = sequencing_run.work_orders.uniq
-    end
+    @old_state = @sequencing_run.state
+    @old_work_orders = @sequencing_run.work_orders.uniq
   end
 
   def submit(params)
@@ -73,8 +71,9 @@ class SequencingRunForm
   end
 
   def work_orders_to_be_updated
+    return sequencing_run.work_orders if @created
     return sequencing_run.work_orders if state_changed?
-    return new_work_orders
+    new_work_orders
   end
 
   private
@@ -100,7 +99,6 @@ class SequencingRunForm
   end
 
   def new_work_orders
-    binding.pry
     sequencing_run.work_orders.uniq - @old_work_orders
   end
 end
