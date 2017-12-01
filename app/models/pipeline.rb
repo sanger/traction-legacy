@@ -17,4 +17,8 @@ class Pipeline < ApplicationRecord
   def find_process_step(process_step_name)
     process_steps.find_by(name: process_step_name)
   end
+
+  def to_param
+    name
+  end
 end
