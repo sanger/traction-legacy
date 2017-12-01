@@ -33,7 +33,7 @@ class Aliquot < ApplicationRecord
   end
 
   def current_process_step
-    lab_events.includes(:process_step).last_process_step
+    lab_events.collect{|lab_event| lab_event.process_step if lab_event.process_step.present?}.compact.last
   end
 
   def current_process_step_name

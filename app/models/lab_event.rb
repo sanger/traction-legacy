@@ -13,13 +13,6 @@ class LabEvent < ApplicationRecord
 
   enum state: %i[process_started transferred completed failed]
 
-  scope :with_process_steps, (-> { where.not(process_step_id: nil) })
-
-  def self.last_process_step
-    lab_event = with_process_steps.last
-    lab_event.process_step if lab_event.present?
-  end
-
   def metadata
     @metadata ||= (metadata_items.with_metadata_fields.collect(&:to_h).inject(:merge!) || {})
   end
