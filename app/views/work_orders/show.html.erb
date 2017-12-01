@@ -5,32 +5,26 @@
       <strong>created at: </strong><%= work_order.created_at.to_s(:default) %>
     </li>
     <li>
-      <strong>state: </strong><%= work_order.state %>
+      <strong>state: </strong><%= work_order.aliquot_state %>
     </li>
     <li>
-      <strong>barcode: </strong><%= work_order.aliquot.tube.barcode %>
+      <strong>barcode: </strong><%= work_order.aliquot.receptacle_barcode %>
     </li>
-    <li>
-      <strong>library preparation type: </strong><%= work_order.library_preparation_type %>
-    </li>
-    <li>
-      <strong>data type: </strong><%= work_order.data_type %>
-    </li>
-    <li>
-      <strong>number of flowcells: </strong><%= work_order.number_of_flowcells %>
-    </li>
-  </ul>
-  <h4>QC</h4>
-  <ul>
-    <li>
-      <strong>concentration: </strong><%= work_order.aliquot.concentration %>
-    </li>
-    <li>
-      <strong>fragment size: </strong><%= work_order.aliquot.fragment_size %>
-    </li>
-    <li>
-      <strong>state: </strong><%= work_order.aliquot.qc_state %>
-    </li>
+    <% work_order.details.to_h.each do |key, value|%>
+      <li>
+        <strong><%= key%> </strong><%= value %>
+      </li>
+    <% end %>
   </ul>
 
+  <% work_order.lab_events.each do |lab_event|%>
+    <h4><%= "#{lab_event.state.capitalize.humanize}: #{lab_event.name || lab_event.receptacle.barcode}"%></h4>
+    <ul>
+      <%lab_event.metadata.each do |key, value|%>
+        <li>
+          <strong><%= "#{key}:"%> </strong><%= value %>
+        </li>
+      <%end%>
+    </ul>
+  <% end %>
 </section>

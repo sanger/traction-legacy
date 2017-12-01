@@ -14,7 +14,7 @@ class WorkOrder < ApplicationRecord
   accepts_nested_attributes_for :aliquot, :work_order_requirements
 
   delegate :name, :source_plate_barcode, :source_well_position,
-           :short_source_plate_barcode, :receptacle_barcode, to: :aliquot
+           :short_source_plate_barcode, :receptacle_barcode, :lab_events, to: :aliquot
   delegate :state, :next_state, to: :aliquot, prefix: true
   delegate :number_of_flowcells, :data_type, :library_preparation_type, to: :details
 
