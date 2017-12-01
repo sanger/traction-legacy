@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  resources :pipelines, only: [:index] do
+  resources :pipelines, param: :name, only: [:index] do
     resources :work_orders, only: %i[index show] do
       resources :lab_events
     end
