@@ -26,7 +26,7 @@ RSpec.describe Sequencescape::Api::WorkOrder, type: :model do
     assert_requested(stub_update_attributes)
   end
 
-  xit 'snows what state to use to update sequencescape' do
+  xit 'knows what state to use to update sequencescape' do
   end
 
   after do
