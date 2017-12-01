@@ -13,7 +13,7 @@ module Sequencescape
         []
       end
 
-      def self.update_state(_work_order)
+      def self.update_state(_work_order, state=nil)
         true
       end
     end

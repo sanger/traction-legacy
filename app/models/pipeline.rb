@@ -9,9 +9,9 @@ class Pipeline < ApplicationRecord
     requirements.map(&:name)
   end
 
-  def next_process_step(current_process_step)
-    return process_steps.find_by(position: 1) unless current_process_step.present?
-    process_steps.find_by(position: current_process_step.position + 1)
+  def next_process_step(current_process_step=nil)
+    return process_steps.detect { |step| step.position == 1 } unless current_process_step.present?
+    process_steps.detect { |step| step.position == (current_process_step.position + 1) }
   end
 
   def find_process_step(process_step_name)

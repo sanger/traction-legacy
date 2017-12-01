@@ -39,34 +39,43 @@ RSpec.feature 'WorkOrders', type: :feature do
     expect(page).to have_content('Lab event was successfully recorded')
   end
 
-  xscenario 'QC a work order with invalid attributes' do
-    aliquot = build(:aliquot_proceed)
-
-    visit work_orders_path
+  scenario 'QC a work order with invalid attributes' do
+    visit pipeline_work_orders_path(pipeline)
+    click_on 'QC'
 
     within("#work_order_#{work_order.id}") do
       click_link 'qc'
     end
 
-    fill_in 'Concentration', with: aliquot.concentration
-    select aliquot.qc_state, from: 'QC state'
-    click_button 'Update Work order'
-
+    fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '2.0' # conc
+    select 'proceed', from: "metadata_items_attributes[#{qc.metadata_fields[2].id}]" # state
+    click_button 'Create lab event'
     expect(page.text).to match('error prohibited this record from being saved')
   end
 
-  xscenario 'Invalid Library preparation' do
-    work_order.qc!
-    library = build(:library)
+  scenario 'Invalid Library preparation' do
+    stub_updates
 
-    visit work_orders_path
+    visit pipeline_work_orders_path(pipeline)
+    click_on 'QC'
 
     within("#work_order_#{work_order.id}") do
-      click_link 'library preparation'
+      click_link 'qc'
     end
 
-    fill_in 'Volume', with: library.volume
-    click_button 'Update Work order'
+    fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '2.0' # conc
+    fill_in "metadata_items_attributes[#{qc.metadata_fields[1].id}]", with: '150' # fragment_size
+    select 'proceed', from: "metadata_items_attributes[#{qc.metadata_fields[2].id}]" # state
+    click_button 'Create lab event'
+
+    expect(page).to have_content('Lab event was successfully recorded')
+
+    within("#work_order_#{work_order.id}") do
+      click_link 'library_preparation'
+    end
+
+    fill_in "metadata_items_attributes[#{library_preparation.metadata_fields[0].id}]", with: '10' # vol
+    click_button 'Create lab event'
 
     expect(page.text).to match('error prohibited this record from being saved')
   end

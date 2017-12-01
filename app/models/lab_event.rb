@@ -7,16 +7,11 @@ class LabEvent < ApplicationRecord
   belongs_to :receptacle, optional: true
   belongs_to :aliquot
   belongs_to :process_step, optional: true
-  has_many :metadata_items
+  has_many :metadata_items, validate: false
+
+  validate :metadata_items_valid?
 
   enum state: %i[process_started transferred completed failed]
-
-  scope :with_process_steps, (-> { where.not(process_step_id: nil) })
-
-  def self.last_process_step
-    lab_event = with_process_steps.last
-    lab_event.process_step if lab_event.present?
-  end
 
   def metadata
     @metadata ||= (metadata_items.with_metadata_fields.collect(&:to_h).inject(:merge!) || {})
@@ -34,6 +29,12 @@ class LabEvent < ApplicationRecord
   def metadata_items_attributes=(metadata_items_attributes)
     metadata_items_attributes.each do |key, value|
       metadata_items.build(metadata_field_id: key, value: value)
+    end
+  end
+
+  def metadata_items_valid?
+    metadata_items.each do |item|
+      errors.add(:base, item.errors.full_messages.join(', ')) unless item.valid?
     end
   end
 end

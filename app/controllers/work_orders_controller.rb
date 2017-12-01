@@ -8,7 +8,7 @@ class WorkOrdersController < ApplicationController
 
   def index
     @work_orders = WorkOrder.by_date
-                            .includes(aliquot: :lab_events)
+                            .includes(aliquot: { lab_events: { process_step: :pipeline } })
                             .by_aliquot_next_state(params[:process_step_name])
   end
 
