@@ -142,7 +142,7 @@ RSpec.describe SequencingRunForm, type: :model do
       end
 
       it 'updates state of all of the work orders in sequencscape' do
-        # it should receive it 3 times, not 6
+        # it should receive it 2 times, not 4
         # now work order updates sequencescape and then lab event does it
         expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(4).times
         subject.submit(attributes)

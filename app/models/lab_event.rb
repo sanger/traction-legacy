@@ -30,7 +30,8 @@ class LabEvent < ApplicationRecord
 
   def metadata_items_attributes=(metadata_items_attributes)
     metadata_items_attributes.each do |key, value|
-      metadata_items.build(metadata_field_id: key, value: value)
+      metadata_field = process_step.find_metadata_field(key)
+      metadata_items.build(metadata_field: metadata_field, value: value)
     end
   end
 
