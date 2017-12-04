@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_pipeline
-    @pipeline ||= Pipeline.find_by_name(params[:pipeline_name]) if params[:pipeline_name].present?
+    @pipeline ||= Pipeline.find_by(name: params[:pipeline_name]) if params[:pipeline_name].present?
   end
 
   helper_method :pipeline
