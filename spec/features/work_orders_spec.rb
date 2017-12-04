@@ -5,6 +5,10 @@ require 'rails_helper'
 RSpec.feature 'WorkOrders', type: :feature do
   include SequencescapeWebmockStubs
 
+  before(:all) do
+    create :gridion_pipeline
+  end
+
   let!(:work_orders)  { create_list(:gridion_work_order, 5) }
   let!(:work_order)   { work_orders.first }
   let!(:pipeline) { Pipeline.first }
@@ -24,9 +28,9 @@ RSpec.feature 'WorkOrders', type: :feature do
     fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '2.0' # conc
     fill_in "metadata_items_attributes[#{qc.metadata_fields[1].id}]", with: '150' # fragment_size
     select 'proceed', from: "metadata_items_attributes[#{qc.metadata_fields[2].id}]" # state
-    click_button 'Create lab event'
+    click_on 'Create Lab event'
 
-    expect(page).to have_content('Lab event was successfully recorded')
+    expect(page).to have_content('qc step was successfully recorded')
 
     within("#work_order_#{work_order.id}") do
       click_link 'library_preparation'
@@ -34,9 +38,9 @@ RSpec.feature 'WorkOrders', type: :feature do
 
     fill_in "metadata_items_attributes[#{library_preparation.metadata_fields[0].id}]", with: '10' # vol
     fill_in "metadata_items_attributes[#{library_preparation.metadata_fields[1].id}]", with: '123' # kit num
-    click_button 'Create lab event'
+    click_on 'Create Lab event'
 
-    expect(page).to have_content('Lab event was successfully recorded')
+    expect(page).to have_content('library_preparation step was successfully recorded')
   end
 
   scenario 'QC a work order with invalid attributes' do
@@ -49,7 +53,7 @@ RSpec.feature 'WorkOrders', type: :feature do
 
     fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '2.0' # conc
     select 'proceed', from: "metadata_items_attributes[#{qc.metadata_fields[2].id}]" # state
-    click_button 'Create lab event'
+    click_on 'Create Lab event'
     expect(page.text).to match('error prohibited this record from being saved')
   end
 
@@ -66,16 +70,16 @@ RSpec.feature 'WorkOrders', type: :feature do
     fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '2.0' # conc
     fill_in "metadata_items_attributes[#{qc.metadata_fields[1].id}]", with: '150' # fragment_size
     select 'proceed', from: "metadata_items_attributes[#{qc.metadata_fields[2].id}]" # state
-    click_button 'Create lab event'
+    click_on 'Create Lab event'
 
-    expect(page).to have_content('Lab event was successfully recorded')
+    expect(page).to have_content('qc step was successfully recorded')
 
     within("#work_order_#{work_order.id}") do
       click_link 'library_preparation'
     end
 
     fill_in "metadata_items_attributes[#{library_preparation.metadata_fields[0].id}]", with: '10' # vol
-    click_button 'Create lab event'
+    click_on 'Create Lab event'
 
     expect(page.text).to match('error prohibited this record from being saved')
   end
