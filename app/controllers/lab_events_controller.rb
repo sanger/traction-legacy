@@ -2,10 +2,12 @@
 
 # LabProcessesController
 class LabEventsController < ApplicationController
+  before_action :set_lab_event, only: %i[show edit update]
+  before_action :set_work_order
+
   def new
     @lab_event = LabEvent.new
     @process_step = pipeline.find_process_step(params[:process_step_name])
-    @work_order = work_order
   end
 
   # rubocop:disable Metrics/AbcSize
@@ -17,31 +19,32 @@ class LabEventsController < ApplicationController
       redirect_to pipeline_work_orders_path(pipeline),
                   notice: "#{@lab_event.name} step was successfully recorded"
     else
-      render :new, pipeline: pipeline, work_order: work_order
+      render :new, pipeline: pipeline, work_order: @work_order
     end
   end
   # rubocop:enable Metrics/AbcSize
 
-  def edit
-    @lab_event = LabEvent.find(params[:id])
-    @process_step = @lab_event.process_step
-    @work_order = work_order
+  def show
+    redirect_to edit_pipeline_work_order_lab_event_path(pipeline, @work_order, @lab_event)
   end
 
-  # rubocop:disable Metrics/AbcSize
+  def edit
+    @process_step = @lab_event.process_step
+  end
   def update
-    @lab_event = LabEvent.find(params[:id])
     @process_step = @lab_event.process_step
     @lab_event.assign_attributes(metadata_items_attributes: lab_event_params[:metadata_items_attributes])
     if @lab_event.valid?
       @lab_event.save
-      redirect_to pipeline_work_order_path(pipeline, work_order),
+      redirect_to pipeline_work_order_path(pipeline, @work_order),
                   notice: "#{@lab_event.name} step was successfully edited"
     else
-      render :edit, pipeline: pipeline, work_order: work_order, lab_event: @lab_event
+      render :edit, pipeline: pipeline, work_order: @work_order, lab_event: @lab_event
     end
   end
   # rubocop:enable Metrics/AbcSize
+
+  private
 
   def lab_event_params
     metadata_items_attributes = params.require(:metadata_items_attributes).try(:permit!)
@@ -49,7 +52,11 @@ class LabEventsController < ApplicationController
           .merge(metadata_items_attributes: metadata_items_attributes)
   end
 
-  def work_order
+  def set_work_order
     @work_order ||= WorkOrder.find(params[:work_order_id])
+  end
+
+  def set_lab_event
+    @lab_event ||= LabEvent.find(params[:id])
   end
 end
