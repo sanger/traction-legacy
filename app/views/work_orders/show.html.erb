@@ -20,11 +20,15 @@
   <% work_order.lab_events.each do |lab_event|%>
     <h4><%= "#{lab_event.state.capitalize.humanize}: #{lab_event.name || lab_event.receptacle.barcode}"%></h4>
     <ul>
-      <%lab_event.metadata.each do |key, value|%>
-        <li>
-          <strong><%= "#{key}: "%> </strong><%= value %>
-        </li>
-      <%end%>
+      <% unless lab_event.metadata.empty?%>
+        <%lab_event.metadata.each do |key, value|%>
+          <li>
+            <strong><%= "#{key}: "%> </strong><%= value %>
+          </li>
+        <% end %>
+        <br>
+        <%= link_to "Edit #{lab_event.name} step", edit_pipeline_work_order_lab_event_path(pipeline, work_order, lab_event), { class: 'btn btn-primary btn-large', role: 'button' }%>
+      <% end %>
     </ul>
   <% end %>
 </section>

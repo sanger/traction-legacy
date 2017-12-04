@@ -1,0 +1,18 @@
+<%= render "error_messages", target: @lab_event %>
+
+<%= form_for [pipeline, @work_order, @lab_event] do |f| %>
+  <%@process_step.metadata_fields.each do |field|%>
+    <div class="form-group" >
+      <%=label_tag field.name%>
+      <% unless field.data_type == 'options'%>
+        <%=text_field_tag "metadata_items_attributes[#{field.id}]", @lab_event.metadata[field.name], { class: 'form-control' } %>
+      <% else %>
+        <%= select_tag("metadata_items_attributes[#{field.id}]", options_from_collection_for_select(field.options, 'name', 'name', @lab_event.metadata[field.name])) %>
+      <% end%>
+    </div>
+  <% end %>
+  <%=hidden_field_tag :process_step_id, @process_step.id%>
+  <div class="form-group">
+    <%= f.submit class: 'btn btn-primary' %>
+  </div>
+<% end %>
