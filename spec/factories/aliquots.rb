@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative './../support/factory_girl_helpers'
+
 FactoryGirl.define do
   factory :aliquot do
     sequence(:name) { |n| "DN4914#{n}A:A#{n}" }

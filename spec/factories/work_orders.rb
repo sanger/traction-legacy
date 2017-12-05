@@ -35,6 +35,9 @@ FactoryGirl.define do
                                         value: evaluator.data_type
       end
 
+      factory :gridion_work_order_ready_for_library_preparation do
+        aliquot { create(:gridion_aliquot_after_qc) }
+      end
       factory :gridion_work_order_ready_for_sequencing do
         aliquot { create(:gridion_aliquot_after_library_preparation) }
       end
