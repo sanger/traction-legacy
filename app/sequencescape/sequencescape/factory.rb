@@ -7,13 +7,13 @@ module Sequencescape
 
     attr_reader :sequencescape_work_orders, :pipeline
 
-    def self.create!(sequencescape_work_orders)
-      new(sequencescape_work_orders).create!
+    def self.create!(sequencescape_work_orders, pipeline)
+      new(sequencescape_work_orders, pipeline).create!
     end
 
-    def initialize(sequencescape_work_orders)
+    def initialize(sequencescape_work_orders, pipeline)
       @sequencescape_work_orders = sequencescape_work_orders
-      @pipeline = Pipeline.find_by(name: sequencescape_work_orders.first.order_type)
+      @pipeline = pipeline
     end
 
     def create!

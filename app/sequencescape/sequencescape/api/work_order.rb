@@ -8,9 +8,9 @@ module Sequencescape
       has_one :source_receptacle
       has_one :study
 
-      def self.for_reception
+      def self.for_reception(pipeline)
         includes(:source_receptacle)
-          .where(order_type: 'traction_grid_ion', state: 'pending')
+          .where(order_type: "traction_#{pipeline.name}", state: 'pending')
           .all
       end
 
