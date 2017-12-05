@@ -13,7 +13,7 @@ FactoryGirl.define do
     end
 
     factory :gridion_pipeline do
-      name 'traction_grid_ion'
+      name 'grid_ion'
       after(:create) do |pipeline|
         create :requirement, name: 'number_of_flowcells', pipeline: pipeline
         create :requirement, name: 'library_preparation_type', pipeline: pipeline

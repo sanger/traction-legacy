@@ -13,7 +13,7 @@ RSpec.feature 'Reception', type: :feature do
 
   scenario 'new sequencescape workorders should be on the reception page' do
     stub :reception
-    work_orders = Sequencescape::Api::WorkOrder.for_reception
+    work_orders = Sequencescape::Api::WorkOrder.for_reception(pipeline)
     visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
     expect(page).to have_current_path(pipeline_reception_path(pipeline))
@@ -29,7 +29,7 @@ RSpec.feature 'Reception', type: :feature do
     stub :reception
     stub :successful_upload
     stub_updates
-    Sequencescape::Api::WorkOrder.for_reception
+    Sequencescape::Api::WorkOrder.for_reception(pipeline)
     visit pipeline_work_orders_path(pipeline)
     click_on 'Reception'
     expect(page).to have_current_path(pipeline_reception_path(pipeline))

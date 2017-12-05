@@ -4,7 +4,7 @@
 namespace :gridion do
   desc 'Create gridion pipeline'
   task create: :environment do
-    pipeline = Pipeline.create!(name: 'traction_grid_ion')
+    pipeline = Pipeline.create!(name: 'grid_ion')
     Requirement.create!(name: 'number_of_flowcells', pipeline: pipeline)
     Requirement.create!(name: 'library_preparation_type', pipeline: pipeline)
     Requirement.create!(name: 'data_type', pipeline: pipeline)

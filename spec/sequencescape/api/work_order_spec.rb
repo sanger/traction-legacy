@@ -6,8 +6,9 @@ RSpec.describe Sequencescape::Api::WorkOrder, type: :model do
   include SequencescapeWebmockStubs
 
   it 'should request for pending work orders from Sequencescape' do
+    create :gridion_pipeline
     stub_reception = stub :reception
-    Sequencescape::Api::WorkOrder.for_reception
+    Sequencescape::Api::WorkOrder.for_reception(Pipeline.first)
     assert_requested(stub_reception)
   end
 
