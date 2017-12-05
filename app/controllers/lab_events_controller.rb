@@ -31,6 +31,7 @@ class LabEventsController < ApplicationController
   def edit
     @process_step = @lab_event.process_step
   end
+
   def update
     @process_step = @lab_event.process_step
     @lab_event.assign_attributes(metadata_items_attributes: lab_event_params[:metadata_items_attributes])

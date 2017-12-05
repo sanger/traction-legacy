@@ -22,13 +22,13 @@ RSpec.feature 'WorkOrders', type: :feature do
 
     click_on 'Edit qc step'
 
-    fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '' # conc
-    fill_in "metadata_items_attributes[#{qc.metadata_fields[1].id}]", with: '150' # fragment_size
-    select 'proceed', from: "metadata_items_attributes[#{qc.metadata_fields[2].id}]" # state
+    fill_in 'metadata_items_attributes[concentration]', with: ''
+    fill_in 'metadata_items_attributes[fragment_size]', with: '150'
+    select 'proceed', from: 'metadata_items_attributes[qc_state]'
     click_on 'Update Lab event'
     expect(page.text).to match('error prohibited this record from being saved')
 
-    fill_in "metadata_items_attributes[#{qc.metadata_fields[0].id}]", with: '2.0' # conc
+    fill_in 'metadata_items_attributes[concentration]', with: '2.0'
     click_on 'Update Lab event'
     expect(page).to have_content('qc step was successfully edited')
   end

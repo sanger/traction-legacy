@@ -27,7 +27,7 @@ module FactoryGirlHelpers
   def build_metadata_attributes_for(process_step)
     {}.tap do |attributes|
       process_step.metadata_fields.each_with_index do |field, i|
-        attributes[field.id] = "Value_#{i}"
+        attributes[field.name] = "Value_#{i}"
       end
     end
   end
