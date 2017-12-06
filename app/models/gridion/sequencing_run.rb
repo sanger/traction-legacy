@@ -43,7 +43,7 @@ module Gridion
     end
 
     def destroy_flowcells_and_update_work_orders
-      work_orders.each(&:remove_from_sequencing)
+      work_orders.each(&:remove_sequencing_event)
       flowcells.destroy_all
     end
   end

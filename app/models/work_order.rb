@@ -40,17 +40,11 @@ class WorkOrder < ApplicationRecord
     aliquot.lab_event?(step_name)
   end
 
-  def manage_sequencing_state(sequencing_run)
-    aliquot.create_sequencing_event(sequencing_run.result)
-    update_state_in_sequencescape(sequencing_run.result)
+  def create_sequencing_event(state)
+    aliquot.create_sequencing_event(state)
   end
 
-  def remove_from_sequencing
+  def remove_sequencing_event
     aliquot.destroy_sequencing_events
-    update_state_in_sequencescape
-  end
-
-  def update_state_in_sequencescape(state = nil)
-    Sequencescape::Api::WorkOrder.update_state(self, state)
   end
 end

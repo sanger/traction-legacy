@@ -84,9 +84,9 @@ module Gridion
       # I took it from tests, is it a requirement?
       return unless sequencing_run.pending? || sequencing_run.completed?
       work_orders_to_be_updated.each do |work_order|
-        work_order.manage_sequencing_state(sequencing_run)
+        work_order.create_sequencing_event(sequencing_run.result)
       end
-      removed_work_orders.each(&:remove_from_sequencing)
+      removed_work_orders.each(&:remove_sequencing_event)
     end
 
     def check_sequencing_run

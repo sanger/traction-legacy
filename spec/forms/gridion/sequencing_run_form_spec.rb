@@ -49,9 +49,7 @@ RSpec.describe Gridion::SequencingRunForm, type: :model do
       end
 
       it 'updates state of all of the work orders in sequencscape' do
-        # it should receive it 3 times, not 6
-        # now work order updates sequencescape and then lab event does it
-        expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(6).times
+        expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(3).times
         subject.submit(attributes)
       end
 
@@ -142,9 +140,7 @@ RSpec.describe Gridion::SequencingRunForm, type: :model do
       end
 
       it 'updates state of all of the work orders in sequencscape' do
-        # it should receive it 2 times, not 4
-        # now work order updates sequencescape and then lab event does it
-        expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(4).times
+        expect(Sequencescape::Api::WorkOrder).to receive(:update_state).exactly(2).times
         subject.submit(attributes)
       end
 

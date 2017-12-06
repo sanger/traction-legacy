@@ -13,7 +13,7 @@ class LabEvent < ApplicationRecord
 
   enum state: %i[process_started transferred completed failed]
 
-  after_create :update_sequencescape, if: :process_step_present?
+  after_create :update_sequencescape, if: :sequencescape_update_required?
 
   def metadata
     @metadata ||= (metadata_items.with_metadata_fields.collect(&:to_h).inject(:merge!) || {})
@@ -42,10 +42,11 @@ class LabEvent < ApplicationRecord
   end
 
   def update_sequencescape
-    aliquot.update_state_in_sequencescape
+    current_state = state unless process_started?
+    Sequencescape::Api::WorkOrder.update_state(aliquot.work_order, current_state)
   end
 
-  def process_step_present?
-    process_step.present?
+  def sequencescape_update_required?
+    process_step.present? && aliquot.work_order.present?
   end
 end
