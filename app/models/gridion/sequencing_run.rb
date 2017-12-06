@@ -4,7 +4,6 @@ module Gridion
   # SequencingRun
   class SequencingRun < ApplicationRecord
     has_many :flowcells, inverse_of: :sequencing_run,
-                         dependent: :destroy,
                          foreign_key: :gridion_sequencing_run_id
     has_many :work_orders, through: :flowcells
 
@@ -23,6 +22,8 @@ module Gridion
       validates_with WorkOrderLibraryValidator
     end
 
+    before_destroy :destroy_flowcells_and_update_work_orders
+
     def experiment_name
       super || id
     end
@@ -39,6 +40,11 @@ module Gridion
       return if pending?
       return state if completed?
       'failed'
+    end
+
+    def destroy_flowcells_and_update_work_orders
+      work_orders.each(&:remove_from_sequencing)
+      flowcells.destroy_all
     end
   end
 end

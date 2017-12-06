@@ -86,6 +86,7 @@ module Gridion
       work_orders_to_be_updated.each do |work_order|
         work_order.manage_sequencing_state(sequencing_run)
       end
+      removed_work_orders.each(&:remove_from_sequencing)
     end
 
     def check_sequencing_run
@@ -101,6 +102,10 @@ module Gridion
 
     def new_work_orders
       sequencing_run.work_orders.uniq - @old_work_orders
+    end
+
+    def removed_work_orders
+      @old_work_orders - sequencing_run.work_orders.uniq
     end
   end
 end

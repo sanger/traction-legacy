@@ -9,13 +9,15 @@ RSpec.describe WorkOrderFlowcellAggregator, type: :model do
   end
 
   let!(:work_order_with_some_flowcells_1) do
-    create(:gridion_work_order,
-           number_of_flowcells: 3, flowcells: build_list(:flowcell, 2))
+    work_order = create(:gridion_work_order, number_of_flowcells: 3)
+    create_list(:flowcell, 2, work_order: work_order)
+    work_order
   end
 
   let!(:work_order_with_some_flowcells_2) do
-    create(:gridion_work_order,
-           number_of_flowcells: 3, flowcells: build_list(:flowcell, 2))
+    work_order = create(:gridion_work_order, number_of_flowcells: 3)
+    create_list(:flowcell, 2, work_order: work_order)
+    work_order
   end
 
   it 'is valid if number of flowcells for each work order is within limit' do

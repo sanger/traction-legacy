@@ -2,7 +2,7 @@
 
 # Flowcell
 class Flowcell < ApplicationRecord
-  belongs_to :work_order, inverse_of: :flowcells, touch: true
+  belongs_to :work_order
   belongs_to :sequencing_run, class_name: 'Gridion::SequencingRun',
                               inverse_of: :flowcells,
                               foreign_key: :gridion_sequencing_run_id

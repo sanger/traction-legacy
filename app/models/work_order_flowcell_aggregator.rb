@@ -38,7 +38,7 @@ class WorkOrderFlowcellAggregator
   def assign_flowcells(flowcell, id)
     [].tap do |flowcells|
       flowcells << flowcell
-      flowcells << work_orders[id].flowcells.to_a
+      flowcells << Flowcell.where(work_order: work_orders[id]).to_a
     end
   end
 
