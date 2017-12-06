@@ -80,13 +80,13 @@ module Gridion
     private
 
     def update_work_orders
+      removed_work_orders.each(&:remove_sequencing_event)
       # does not create lab event or update sequencescape if not completed
       # I took it from tests, is it a requirement?
       return unless sequencing_run.pending? || sequencing_run.completed?
       work_orders_to_be_updated.each do |work_order|
         work_order.create_sequencing_event(sequencing_run.result)
       end
-      removed_work_orders.each(&:remove_sequencing_event)
     end
 
     def check_sequencing_run
