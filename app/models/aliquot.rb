@@ -43,7 +43,7 @@ class Aliquot < ApplicationRecord
 
   # think how to refactor together with #current_process_step
   def action
-    lab_events.collect { |lab_event| lab_event if lab_event.process_step.present? }.compact.last.state
+    last_lab_event_with_process_step.state
   end
 
   def next_process_step_name
@@ -68,6 +68,10 @@ class Aliquot < ApplicationRecord
     receptacle.barcode
   end
 
+  def last_lab_event_with_process_step
+    lab_events.collect { |lab_event| lab_event if lab_event.process_step.present? }.compact.last
+  end
+
   def create_sequencing_event(lab_event_state)
     lab_events.create!(date: DateTime.now,
                        state: lab_event_state || 'process_started',
@@ -78,9 +82,6 @@ class Aliquot < ApplicationRecord
   def destroy_sequencing_events
     sequencing_events = lab_events.where(process_step: pipeline.find_process_step(:sequencing))
     lab_events.destroy(sequencing_events)
-  end
-
-  def update_state_in_sequencescape
-    work_order.update_state_in_sequencescape if work_order.present?
+    last_lab_event_with_process_step.update_sequencescape
   end
 end
