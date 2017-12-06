@@ -8,7 +8,9 @@ Rails.application.routes.draw do
     end
     get 'reception', to: 'reception#index'
     post 'reception/upload', to: 'reception#upload'
-    resources :sequencing_runs
+    scope module: 'gridion' do
+      resources :sequencing_runs
+    end
   end
 
   resources :print_jobs, only: %i[create]

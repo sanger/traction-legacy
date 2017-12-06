@@ -16,7 +16,6 @@ class WorkOrder < ApplicationRecord
   delegate :name, :source_plate_barcode, :source_well_position, :action,
            :short_source_plate_barcode, :receptacle_barcode, :lab_events, to: :aliquot
   delegate :state, :next_state, to: :aliquot, prefix: true
-  delegate :number_of_flowcells, :data_type, :library_preparation_type, to: :details
 
   scope :by_date, (-> { order(created_at: :desc) })
 
