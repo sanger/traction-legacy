@@ -19,7 +19,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     stub_updates
 
     visit pipeline_work_orders_path(pipeline)
-    click_on 'QC'
+    click_on 'Qc'
 
     within("#work_order_#{work_order.id}") do
       click_link 'qc'
@@ -45,7 +45,7 @@ RSpec.feature 'WorkOrders', type: :feature do
 
   scenario 'QC a work order with invalid attributes' do
     visit pipeline_work_orders_path(pipeline)
-    click_on 'QC'
+    click_on 'Qc'
 
     within("#work_order_#{work_order.id}") do
       click_link 'qc'
@@ -61,7 +61,7 @@ RSpec.feature 'WorkOrders', type: :feature do
     stub_updates
 
     visit pipeline_work_orders_path(pipeline)
-    click_on 'QC'
+    click_on 'Qc'
 
     within("#work_order_#{work_order.id}") do
       click_link 'qc'

@@ -40,6 +40,8 @@ class WorkOrder < ApplicationRecord
     aliquot.lab_event?(step_name)
   end
 
+  # TODO: create(destroy) lab events from one place
+
   def create_sequencing_event(state)
     aliquot.create_sequencing_event(state)
   end

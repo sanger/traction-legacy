@@ -79,10 +79,15 @@ module Gridion
 
     private
 
+    # TODO: create(destroy) lab events from one place
+
+    # work_orders that were removed from sequencing run go to
+    # previous step (because sequencing events will be removed)
+    # then if sequencing run is failed nothing happens (I took it from tests, is it a requirement?)
+    # if sequencing run is pending or completed,
+    # work_orders are updated (respective lab event is created and sequencescape is updated)
     def update_work_orders
       removed_work_orders.each(&:remove_sequencing_event)
-      # does not create lab event or update sequencescape if not completed
-      # I took it from tests, is it a requirement?
       return unless sequencing_run.pending? || sequencing_run.completed?
       work_orders_to_be_updated.each do |work_order|
         work_order.create_sequencing_event(sequencing_run.result)

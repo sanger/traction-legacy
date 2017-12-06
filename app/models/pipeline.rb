@@ -18,6 +18,10 @@ class Pipeline < ApplicationRecord
     process_steps.find_by(name: process_step_name)
   end
 
+  def visible_process_steps
+    process_steps.select(&:visible)
+  end
+
   def to_param
     name
   end

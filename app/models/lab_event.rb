@@ -6,7 +6,10 @@ class LabEvent < ApplicationRecord
   # we can make it flowcell, but for now I left it optional
   belongs_to :receptacle, optional: true
   belongs_to :aliquot
+  # optional, because we do not have process step for transfer events or storage events
   belongs_to :process_step, optional: true
+  # validate false is because we need better messages for validation
+  # validation is customized below
   has_many :metadata_items, validate: false
 
   validate :metadata_items_valid?
@@ -23,6 +26,9 @@ class LabEvent < ApplicationRecord
     process_step.name if process_step.present?
   end
 
+  # Now lab events are created using work_order (mostly because work order is passed to params)
+  # they should be created using aliquot (aliquot or aliquot id should be passed as an argument)
+  # TODO: pass aliquot to create lab_events
   def work_order_id=(work_order_id)
     self.aliquot = WorkOrder.find(work_order_id).aliquot
     self.receptacle = aliquot.receptacle
@@ -41,6 +47,7 @@ class LabEvent < ApplicationRecord
     end
   end
 
+  # sequencescape is now updated only from here
   def update_sequencescape
     current_state = state unless process_started?
     Sequencescape::Api::WorkOrder.update_state(aliquot.work_order, current_state)

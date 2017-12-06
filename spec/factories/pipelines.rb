@@ -19,7 +19,7 @@ FactoryGirl.define do
         create :requirement, name: 'library_preparation_type', pipeline: pipeline
         create :requirement, name: 'data_type', pipeline: pipeline
 
-        create :process_step, name: 'reception',  pipeline: pipeline, position: 1
+        create :process_step, name: 'reception',  pipeline: pipeline, position: 1, visible: false
 
         qc = create :process_step, name: 'qc', pipeline: pipeline, position: 2
         create :metadata_field, name: 'concentration',
@@ -53,7 +53,7 @@ FactoryGirl.define do
                                 process_step: library_preparation,
                                 data_type: :string
 
-        create :process_step, name: 'sequencing', pipeline: pipeline, position: 5
+        create :process_step, name: 'sequencing', pipeline: pipeline, position: 4, visible: false
       end
     end
   end

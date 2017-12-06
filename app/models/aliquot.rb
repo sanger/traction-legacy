@@ -41,7 +41,10 @@ class Aliquot < ApplicationRecord
   end
   alias state current_process_step_name
 
-  # think how to refactor together with #current_process_step
+  def last_lab_event_with_process_step
+    lab_events.collect { |lab_event| lab_event if lab_event.process_step.present? }.compact.last
+  end
+
   def action
     last_lab_event_with_process_step.state
   end
@@ -51,7 +54,7 @@ class Aliquot < ApplicationRecord
   end
   alias next_state next_process_step_name
 
-  # aliquot or work_order should belong to pipeline, otherwise it is pain
+  # TODO: connect work_order or aliquot with pipeline?
   def pipeline
     current_process_step.pipeline
   end
@@ -68,9 +71,7 @@ class Aliquot < ApplicationRecord
     receptacle.barcode
   end
 
-  def last_lab_event_with_process_step
-    lab_events.collect { |lab_event| lab_event if lab_event.process_step.present? }.compact.last
-  end
+  # TODO: create(destroy) lab events from one place
 
   def create_sequencing_event(lab_event_state)
     lab_events.create!(date: DateTime.now,

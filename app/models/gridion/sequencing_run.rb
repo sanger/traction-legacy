@@ -42,6 +42,8 @@ module Gridion
       'failed'
     end
 
+    # TODO: create(destroy) lab events from one place
+
     def destroy_flowcells_and_update_work_orders
       work_orders.each(&:remove_sequencing_event)
       flowcells.destroy_all

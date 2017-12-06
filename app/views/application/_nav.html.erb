@@ -3,8 +3,9 @@
     <ul class="float-sm-right">
       <li><%= link_to "Reception", pipeline_reception_path(pipeline) %></li>
       <li><%= link_to "Work Orders", pipeline_work_orders_path(pipeline) %></li>
-      <li><%= link_to "QC", pipeline_work_orders_path(pipeline, process_step_name: 'qc') %></li>
-      <li><%= link_to "Library Preparation", pipeline_work_orders_path(pipeline, process_step_name: 'library_preparation') %></li>
+      <% pipeline.visible_process_steps.each do |process_step|%>
+        <li><%= link_to process_step.name.humanize, pipeline_work_orders_path(pipeline, process_step_name: process_step.name) %></li>
+      <% end %>
       <li><%= link_to "Sequencing Runs", pipeline_sequencing_runs_path(pipeline) %></li>
     </ul>
   </div>

@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20171205141919) do
 
   create_table "pipelines", force: :cascade do |t|
     t.string "name"
+    t.boolean "flexible", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(version: 20171205141919) do
     t.string "name"
     t.integer "position"
     t.integer "pipeline_id"
+    t.boolean "visible", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pipeline_id"], name: "index_process_steps_on_pipeline_id"

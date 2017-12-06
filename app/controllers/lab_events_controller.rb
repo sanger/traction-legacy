@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# LabProcessesController
+# LabEventsController
 class LabEventsController < ApplicationController
   before_action :set_lab_event, only: %i[show edit update]
   before_action :set_work_order
@@ -43,7 +43,6 @@ class LabEventsController < ApplicationController
       render :edit, pipeline: pipeline, work_order: @work_order, lab_event: @lab_event
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   private
 

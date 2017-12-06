@@ -22,6 +22,7 @@ module Sequencescape
           aliquot = Aliquot.new(name: sequencescape_work_order.name)
           create_work_order(sequencescape_work_order, aliquot)
           receptacle = Receptacle.new
+          # TODO: create(destroy) lab events from one place
           LabEvent.create!(aliquot: aliquot,
                            receptacle: receptacle,
                            date: DateTime.now,

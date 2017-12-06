@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Flowcell
+# Gridion flowcell
 class Flowcell < ApplicationRecord
   belongs_to :work_order
   belongs_to :sequencing_run, class_name: 'Gridion::SequencingRun',

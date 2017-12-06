@@ -9,7 +9,7 @@ namespace :gridion do
     Requirement.create!(name: 'library_preparation_type', pipeline: pipeline)
     Requirement.create!(name: 'data_type', pipeline: pipeline)
 
-    ProcessStep.create!(name: 'reception',  pipeline: pipeline, position: 1)
+    ProcessStep.create!(name: 'reception',  pipeline: pipeline, position: 1, visible: false)
 
     qc = ProcessStep.create!(name: 'qc',  pipeline: pipeline, position: 2)
     MetadataField.create!(name: 'concentration',
@@ -42,7 +42,7 @@ namespace :gridion do
                           process_step: library_preparation,
                           data_type: :string)
 
-    ProcessStep.create!(name: 'sequencing', pipeline: pipeline, position: 4)
+    ProcessStep.create!(name: 'sequencing', pipeline: pipeline, position: 4, visible: false)
   end
 end
 # rubocop:enable all
