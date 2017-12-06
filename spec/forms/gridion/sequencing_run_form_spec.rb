@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SequencingRunForm, type: :model do
+RSpec.describe Gridion::SequencingRunForm, type: :model do
   include SequencescapeWebmockStubs
 
   before(:all) do
@@ -10,11 +10,11 @@ RSpec.describe SequencingRunForm, type: :model do
   end
 
   context 'new' do
-    subject { SequencingRunForm.new }
+    subject { Gridion::SequencingRunForm.new }
 
     it '#flowcells_by_position will return the flowcells in the correct order' do
       flowcells = subject.flowcells_by_position
-      expect(flowcells.count).to eq(SequencingRunForm::MAX_FLOWCELLS)
+      expect(flowcells.count).to eq(Gridion::SequencingRunForm::MAX_FLOWCELLS)
       expect(flowcells.all?(&:new_record?)).to be_truthy
     end
 
@@ -102,7 +102,7 @@ RSpec.describe SequencingRunForm, type: :model do
     let!(:sequencing_run)   { create(:sequencing_run, flowcells: [flowcell_1, flowcell_5]) }
 
     it '#flowcell_by_position will return the flowcells in the correct order' do
-      sequencing_run_form = SequencingRunForm.new(sequencing_run)
+      sequencing_run_form = Gridion::SequencingRunForm.new(sequencing_run)
       flowcells = sequencing_run_form.flowcells_by_position
       expect(flowcells.first).to eq(flowcell_1)
       expect(flowcells[1]).to be_new_record
@@ -112,19 +112,19 @@ RSpec.describe SequencingRunForm, type: :model do
     end
 
     it '#available work orders should include work orders already added to sequencing run' do
-      sequencing_run_form = SequencingRunForm.new(sequencing_run)
+      sequencing_run_form = Gridion::SequencingRunForm.new(sequencing_run)
       expect(sequencing_run_form.available_work_orders).to include(flowcell_1.work_order)
       expect(sequencing_run_form.available_work_orders).to include(flowcell_5.work_order)
     end
 
     it '#created? is false' do
-      sequencing_run_form = SequencingRunForm.new(sequencing_run)
+      sequencing_run_form = Gridion::SequencingRunForm.new(sequencing_run)
       expect(sequencing_run_form).to_not be_created
     end
 
     context 'completed' do
-      let(:attributes)        { { state: SequencingRun.states[:completed] } }
-      subject                 { SequencingRunForm.new(sequencing_run) }
+      let(:attributes)        { { state: Gridion::SequencingRun.states[:completed] } }
+      subject                 { Gridion::SequencingRunForm.new(sequencing_run) }
 
       it 'updates the sequencing run' do
         stub_updates
@@ -156,7 +156,7 @@ RSpec.describe SequencingRunForm, type: :model do
     end
 
     context 'invalid' do
-      subject { SequencingRunForm.new(sequencing_run) }
+      subject { Gridion::SequencingRunForm.new(sequencing_run) }
 
       it 'generates errors' do
         subject.submit(instrument_name: nil)
@@ -166,8 +166,8 @@ RSpec.describe SequencingRunForm, type: :model do
     end
 
     context 'not completed' do
-      let(:attributes)        { { state: SequencingRun.states[:restart] } }
-      subject                 { SequencingRunForm.new(sequencing_run) }
+      let(:attributes)        { { state: Gridion::SequencingRun.states[:restart] } }
+      subject                 { Gridion::SequencingRunForm.new(sequencing_run) }
 
       it 'updates the sequencing run' do
         subject.submit(attributes)

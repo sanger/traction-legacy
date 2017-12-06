@@ -68,17 +68,14 @@ RSpec.describe WorkOrder, type: :model do
 
     it 'must have a number of flowcells' do
       expect(work_order.details.number_of_flowcells).to eq '2'
-      expect(work_order.number_of_flowcells).to eq '2'
     end
 
     it 'must have a library preparation type' do
       expect(work_order.details.library_preparation_type).to eq 'rapid'
-      expect(work_order.library_preparation_type).to eq 'rapid'
     end
 
     it 'must have a file type' do
       expect(work_order.details.data_type).to eq 'data_type'
-      expect(work_order.data_type).to eq 'data_type'
     end
   end
 end

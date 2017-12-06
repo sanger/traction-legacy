@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 FactoryGirl.define do
-  factory :sequencing_run do
+  factory :sequencing_run, class: Gridion::SequencingRun do
     instrument_name 'clive'
 
     factory :sequencing_run_with_flowcells do

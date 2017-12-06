@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171129114820) do
+ActiveRecord::Schema.define(version: 20171205141919) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
@@ -23,12 +23,20 @@ ActiveRecord::Schema.define(version: 20171129114820) do
   create_table "flowcells", force: :cascade do |t|
     t.string "flowcell_id"
     t.integer "position"
-    t.integer "sequencing_run_id"
+    t.integer "gridion_sequencing_run_id"
     t.integer "work_order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sequencing_run_id"], name: "index_flowcells_on_sequencing_run_id"
+    t.index ["gridion_sequencing_run_id"], name: "index_flowcells_on_gridion_sequencing_run_id"
     t.index ["work_order_id"], name: "index_flowcells_on_work_order_id"
+  end
+
+  create_table "gridion_sequencing_runs", force: :cascade do |t|
+    t.string "instrument_name"
+    t.integer "state", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "experiment_name"
   end
 
   create_table "lab_events", force: :cascade do |t|
@@ -105,14 +113,6 @@ ActiveRecord::Schema.define(version: 20171129114820) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["pipeline_id"], name: "index_requirements_on_pipeline_id"
-  end
-
-  create_table "sequencing_runs", force: :cascade do |t|
-    t.string "instrument_name"
-    t.integer "state", default: 0
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "experiment_name"
   end
 
   create_table "work_order_requirements", force: :cascade do |t|

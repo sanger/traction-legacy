@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SequencingRun, type: :model do
+RSpec.describe Gridion::SequencingRun, type: :model do
   it 'must have an instrument name' do
     expect(build(:sequencing_run, instrument_name: nil)).to_not be_valid
   end

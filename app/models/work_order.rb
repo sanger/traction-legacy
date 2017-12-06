@@ -4,7 +4,6 @@
 class WorkOrder < ApplicationRecord
   belongs_to :aliquot
 
-  has_many :flowcells, inverse_of: :work_order
   has_many :work_order_requirements
 
   attr_readonly :sequencescape_id, :study_uuid, :sample_uuid
@@ -16,11 +15,8 @@ class WorkOrder < ApplicationRecord
   delegate :name, :source_plate_barcode, :source_well_position, :action,
            :short_source_plate_barcode, :receptacle_barcode, :lab_events, to: :aliquot
   delegate :state, :next_state, to: :aliquot, prefix: true
-  delegate :number_of_flowcells, :data_type, :library_preparation_type, to: :details
 
   scope :by_date, (-> { order(created_at: :desc) })
-
-  after_touch :remove_from_sequencing, if: :removed_from_sequencing?
 
   def self.by_aliquot_state(aliquot_state)
     return all unless aliquot_state.present?
@@ -56,11 +52,5 @@ class WorkOrder < ApplicationRecord
 
   def update_state_in_sequencescape(state = nil)
     Sequencescape::Api::WorkOrder.update_state(self, state)
-  end
-
-  private
-
-  def removed_from_sequencing?
-    (aliquot_state == 'sequencing') && flowcells.empty?
   end
 end
