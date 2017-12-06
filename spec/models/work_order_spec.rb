@@ -50,9 +50,6 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.unique_name).to eq "#{work_order.id}:#{work_order.name}"
   end
 
-  xit 'manages states with regard to sequencing run' do
-  end
-
   xit 'it knows if it went through particular step' do
   end
 

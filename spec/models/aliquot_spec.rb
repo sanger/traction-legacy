@@ -64,10 +64,13 @@ RSpec.describe Aliquot, type: :model do
                                    'step3 library_preparation' => {})
   end
 
-  xit 'creates lab events related to sequencing when required' do
+  xit 'creates/destroys lab events related to sequencing when required' do
   end
 
   xit 'it knows if it has particular lab event' do
+  end
+
+  xit 'it knows its last lab event with process step' do
   end
 
   xit 'knows its receptacle' do
