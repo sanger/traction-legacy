@@ -5,6 +5,7 @@ FactoryGirl.define do
     name 'Pipeline1'
 
     factory :standard_pipeline do
+      name 'standard'
       after(:create) do |pipeline|
         pipeline.process_steps.create!(name: 'reception', position: 1)
         pipeline.process_steps.create!(name: 'library_preparation', position: 2)

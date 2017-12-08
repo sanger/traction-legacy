@@ -18,6 +18,7 @@ module Gridion
       @created = self.sequencing_run.new_record?
       @old_state = @sequencing_run.state
       @old_work_orders = @sequencing_run.work_orders.uniq
+      @pipeline = Pipeline.find_by(name: 'grid_ion')
     end
 
     def submit(params)
@@ -56,7 +57,7 @@ module Gridion
     end
 
     def available_work_orders
-      work_orders = WorkOrder.includes(:aliquot).by_aliquot_state(:library_preparation)
+      work_orders = WorkOrder.includes(:aliquot).by_pipeline_and_aliquot_state(@pipeline, :library_preparation)
       return work_orders if sequencing_run.new_record?
       (work_orders.to_a << sequencing_run.work_orders).flatten.uniq
     end

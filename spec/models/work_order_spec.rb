@@ -19,8 +19,8 @@ RSpec.describe WorkOrder, type: :model do
   end
 
   it '#by_aliquot_state returns all work orders by requested state' do
-    create_list(:gridion_work_order, 5)
-    expect(WorkOrder.by_aliquot_state(:reception).count).to eq(5)
+    work_orders = create_list(:gridion_work_order, 5)
+    expect(WorkOrder.by_pipeline_and_aliquot_state(work_orders.first.pipeline, :reception).count).to eq(5)
   end
 
   it 'must have a sample uuid' do
@@ -54,6 +54,16 @@ RSpec.describe WorkOrder, type: :model do
   end
 
   xit 'can be sorted by aliquot next state' do
+  end
+
+  it 'can be sorted by pipeline and aliquot state' do
+    gridion_work_orders = create_list(:gridion_work_order, 5)
+    create_list(:gridion_work_order_ready_for_sequencing, 4)
+    gridion = gridion_work_orders.first.pipeline
+    other_work_orders = create_list(:work_order, 3)
+    expect(WorkOrder.by_pipeline_and_aliquot_state(gridion).count).to eq 9
+    expect(WorkOrder.by_pipeline_and_aliquot_state(other_work_orders.first.pipeline).count).to eq 3
+    expect(WorkOrder.by_pipeline_and_aliquot_next_state(gridion, :sequencing).count).to eq 4
   end
 
   context 'Grigion' do

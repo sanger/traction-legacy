@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :work_order do
-    aliquot
+    aliquot { create :aliquot_started }
 
     sequence(:sequencescape_id)
     study_uuid { SecureRandom.uuid }

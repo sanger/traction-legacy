@@ -12,20 +12,32 @@ class WorkOrder < ApplicationRecord
 
   accepts_nested_attributes_for :aliquot, :work_order_requirements
 
-  delegate :name, :source_plate_barcode, :source_well_position, :action,
+  delegate :name, :source_plate_barcode, :source_well_position, :action, :pipeline,
            :short_source_plate_barcode, :receptacle_barcode, :lab_events, to: :aliquot
   delegate :state, :next_state, to: :aliquot, prefix: true
 
   scope :by_date, (-> { order(created_at: :desc) })
 
-  def self.by_aliquot_state(aliquot_state)
-    return all unless aliquot_state.present?
-    select { |work_order| work_order.aliquot_state == aliquot_state.to_s }
+  def self.by_pipeline_and_aliquot_state(pipeline, aliquot_state = nil)
+    all_work_orders_in_pipeline = work_orders_in_pipeline(pipeline)
+    if aliquot_state.present?
+      all_work_orders_in_pipeline.select { |work_order| work_order.aliquot_state == aliquot_state.to_s }
+    else
+      all_work_orders_in_pipeline
+    end
   end
 
-  def self.by_aliquot_next_state(aliquot_next_state)
-    return all unless aliquot_next_state.present?
-    select { |work_order| work_order.aliquot_next_state == aliquot_next_state.to_s }
+  def self.by_pipeline_and_aliquot_next_state(pipeline, aliquot_next_state = nil)
+    all_work_orders_in_pipeline = work_orders_in_pipeline(pipeline)
+    if aliquot_next_state.present?
+      all_work_orders_in_pipeline.select { |work_order| work_order.aliquot_next_state == aliquot_next_state.to_s }
+    else
+      all_work_orders_in_pipeline
+    end
+  end
+
+  def self.work_orders_in_pipeline(pipeline)
+    select { |work_order| work_order.pipeline == pipeline }
   end
 
   def unique_name
