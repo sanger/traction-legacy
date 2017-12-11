@@ -66,7 +66,8 @@ module Gridion
     # returns an array of work_orders available for sequencing
     # they appear in select drop down for each flowcell
     def available_work_orders
-      work_orders = WorkOrder.includes(:aliquot).by_pipeline_and_aliquot_state(@pipeline, :library_preparation)
+      work_orders = WorkOrder.includes(aliquot: { lab_events: { process_step: :pipeline } })
+                             .by_pipeline_and_aliquot_state(@pipeline, :library_preparation)
       return work_orders if sequencing_run.new_record?
       (work_orders.to_a << sequencing_run.work_orders).flatten.uniq
     end
