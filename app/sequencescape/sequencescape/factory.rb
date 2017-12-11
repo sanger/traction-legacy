@@ -16,6 +16,8 @@ module Sequencescape
       @pipeline = pipeline
     end
 
+    # creates initial objects in Traction when work_orders are uploaded from reception
+    # on upload, aliquot goes through 2 lab events - initial transfer and 'reception'
     def create!
       sequencescape_work_orders.each do |sequencescape_work_order|
         ActiveRecord::Base.transaction do
@@ -44,6 +46,7 @@ module Sequencescape
       end
     end
 
+    # TODO: work order should not be valid if it does not have necessary requirements
     def create_work_order(work_order, aliquot)
       WorkOrder.create!(aliquot: aliquot,
                         sequencescape_id: work_order.id,
