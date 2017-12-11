@@ -25,7 +25,7 @@ module LabelPrinter
 
     def main_label(work_order)
       {
-        first_line: 'ONT',
+        first_line: work_order.pipeline.name,
         second_line: work_order.source_plate_barcode,
         third_line: work_order.source_well_position,
         fourth_line: Date.today.to_s(:label),

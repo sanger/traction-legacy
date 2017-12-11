@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Gridion
-  # SequencingRun
+  # Gridion SequencingRun
   class SequencingRun < ApplicationRecord
     has_many :flowcells, inverse_of: :sequencing_run,
                          foreign_key: :gridion_sequencing_run_id
@@ -36,6 +36,8 @@ module Gridion
       flowcells.present?
     end
 
+    # returns result of sequencing_run
+    # returns nil if sequencing_run is pending, 'completed' if completed, 'failed' otherwise
     def result
       return if pending?
       return state if completed?
@@ -44,8 +46,10 @@ module Gridion
 
     # TODO: create(destroy) lab events from one place
 
+    # before destroying sequencing run, it removes work_orders from sequencing state
+    # (by removing sequencing lab_events) then destroys flowcells
     def destroy_flowcells_and_update_work_orders
-      work_orders.each(&:remove_sequencing_event)
+      work_orders.each { |work_order| work_order.aliquot.destroy_sequencing_events }
       flowcells.destroy_all
     end
   end

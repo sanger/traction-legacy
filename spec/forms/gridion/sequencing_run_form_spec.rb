@@ -53,9 +53,6 @@ RSpec.describe Gridion::SequencingRunForm, type: :model do
         subject.submit(attributes)
       end
 
-      xit 'knows what work orders should be updated' do
-      end
-
       # TODO: find a better way to test this.
       it 'sends bunny messages' do
         stub_updates

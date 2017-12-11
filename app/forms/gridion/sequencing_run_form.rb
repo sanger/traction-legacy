@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module Gridion
-  # SequencingRunForm
+  # SequencingRunForm is a service object, it deals with gridion sequencing_run form:
+  # - it creates/updates gridion sequencing_run
+  # - it moves work_order/aliquot to/from sequencing state (#update_work_orders)
+  # - it sends bunny messages
   class SequencingRunForm
     include ActiveModel::Model
 
@@ -13,6 +16,10 @@ module Gridion
 
     delegate_missing_to :sequencing_run
 
+    # when initialized, it remembers the state and work_orders of sequencing_run
+    # before changes are made
+    # it is needed to find out what work orders were added to sequencing run (#new_work_orders)
+    # and what work orders were removed from sequencing run (#removed_work_orders)
     def initialize(sequencing_run = nil)
       @sequencing_run = sequencing_run || SequencingRun.new
       @created = self.sequencing_run.new_record?
@@ -56,6 +63,8 @@ module Gridion
       sequencing_run.id?
     end
 
+    # returns an array of work_orders available for sequencing
+    # they appear in select drop down for each flowcell
     def available_work_orders
       work_orders = WorkOrder.includes(:aliquot).by_pipeline_and_aliquot_state(@pipeline, :library_preparation)
       return work_orders if sequencing_run.new_record?
@@ -72,28 +81,7 @@ module Gridion
       end
     end
 
-    def work_orders_to_be_updated
-      return sequencing_run.work_orders.uniq if @created
-      return sequencing_run.work_orders.uniq if state_changed?
-      new_work_orders
-    end
-
     private
-
-    # TODO: create(destroy) lab events from one place
-
-    # work_orders that were removed from sequencing run go to
-    # previous step (because sequencing events will be removed)
-    # then if sequencing run is failed nothing happens (I took it from tests, is it a requirement?)
-    # if sequencing run is pending or completed,
-    # work_orders are updated (respective lab event is created and sequencescape is updated)
-    def update_work_orders
-      removed_work_orders.each(&:remove_sequencing_event)
-      return unless sequencing_run.pending? || sequencing_run.completed?
-      work_orders_to_be_updated.each do |work_order|
-        work_order.create_sequencing_event(sequencing_run.result)
-      end
-    end
 
     def check_sequencing_run
       return if sequencing_run.valid?
@@ -102,14 +90,41 @@ module Gridion
       end
     end
 
+    # TODO: create(destroy) lab events from one place
+
+    # work_orders that were removed from sequencing run go to
+    # previous step (sequencing events will be removed)
+    # then if sequencing run is failed nothing happens (I took it from tests, is it a requirement?)
+    # if sequencing run is pending or completed,
+    # work_orders are updated (respective lab event is created and sequencescape is updated)
+    def update_work_orders
+      removed_work_orders.each do |work_order|
+        work_order.aliquot.destroy_sequencing_events
+      end
+      return unless sequencing_run.pending? || sequencing_run.completed?
+      work_orders_to_be_updated.each do |work_order|
+        work_order.aliquot.create_sequencing_event(sequencing_run.result)
+      end
+    end
+
+    # returns a list of work_orders that should be updated
+    # (either moved to sequencing or sequencing state should be updated)
+    def work_orders_to_be_updated
+      return sequencing_run.work_orders.uniq if @created
+      return sequencing_run.work_orders.uniq if state_changed?
+      new_work_orders
+    end
+
     def state_changed?
       @old_state != sequencing_run.state
     end
 
+    # returns an array of work_orders that were added to sequencing_run
     def new_work_orders
       sequencing_run.work_orders.uniq - @old_work_orders
     end
 
+    # returns an array of work_orders that were removed from sequencing_run
     def removed_work_orders
       @old_work_orders - sequencing_run.work_orders.uniq
     end

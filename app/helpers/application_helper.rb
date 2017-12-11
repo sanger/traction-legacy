@@ -6,10 +6,8 @@ module ApplicationHelper
     @current_year ||= Date.today.year
   end
 
-  def editable_work_order_path(work_order)
-    send("edit_#{work_order.next_state}_path", work_order)
-  end
-
+  # returns link to the next lab_event
+  # or link to sequencing_run if the next lab_event is 'sequencing'
   def link_to_next_lab_event_creation(pipeline, work_order)
     next_state = work_order.aliquot_next_state
     return new_pipeline_work_order_lab_event_path(pipeline, work_order,

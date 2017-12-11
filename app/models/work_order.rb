@@ -18,6 +18,7 @@ class WorkOrder < ApplicationRecord
 
   scope :by_date, (-> { order(created_at: :desc) })
 
+  # returns an array of work_orders in particular state within pipeline
   def self.by_pipeline_and_aliquot_state(pipeline, aliquot_state = nil)
     all_work_orders_in_pipeline = work_orders_in_pipeline(pipeline)
     if aliquot_state.present?
@@ -27,6 +28,7 @@ class WorkOrder < ApplicationRecord
     end
   end
 
+  # returns an array of work_orders with particular next state within pipeline
   def self.by_pipeline_and_aliquot_next_state(pipeline, aliquot_next_state = nil)
     all_work_orders_in_pipeline = work_orders_in_pipeline(pipeline)
     if aliquot_next_state.present?
@@ -36,6 +38,7 @@ class WorkOrder < ApplicationRecord
     end
   end
 
+  # returns an array of all work_orders within pipeline
   def self.work_orders_in_pipeline(pipeline)
     select { |work_order| work_order.pipeline == pipeline }
   end
@@ -44,21 +47,16 @@ class WorkOrder < ApplicationRecord
     "#{id}:#{name}"
   end
 
+  # this is work_order requirements
+  # they are different for different pipelines
+  # OpenStruct is used to be able to call a method with requirement name
+  # example work_order.details.number_of_flowcells
+  # TODO think about refactoring it
   def details
     @details ||= OpenStruct.new(work_order_requirements.collect(&:to_h).inject(:merge!))
   end
 
   def went_through_step(step_name)
     aliquot.lab_event?(step_name)
-  end
-
-  # TODO: create(destroy) lab events from one place
-
-  def create_sequencing_event(state)
-    aliquot.create_sequencing_event(state)
-  end
-
-  def remove_sequencing_event
-    aliquot.destroy_sequencing_events
   end
 end
