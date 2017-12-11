@@ -6,5 +6,9 @@ FactoryGirl.define do
     required false
     data_type ''
     process_step
+
+    factory :required_metadata_field do
+      required true
+    end
   end
 end
