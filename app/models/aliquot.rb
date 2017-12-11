@@ -39,6 +39,7 @@ class Aliquot < ApplicationRecord
   end
 
   # returns state of the last lab event (i.e. 'process_started', 'completed', etc.)
+  # TODO rename
   def action
     last_lab_event_with_process_step.state
   end
@@ -56,7 +57,7 @@ class Aliquot < ApplicationRecord
 
   # checks if aliquot has a lab_event with particular process step
   def lab_event?(step_name)
-    lab_events.where(process_step: ProcessStep.where(name: step_name, pipeline: pipeline).first).present?
+    lab_events.detect { |lab_event| lab_event.name == step_name.to_s }.present?
   end
 
   def receptacle
@@ -69,7 +70,7 @@ class Aliquot < ApplicationRecord
 
   # TODO: create(destroy) lab events from one place
 
-  def create_sequencing_event(lab_event_state)
+  def create_sequencing_event(lab_event_state = nil)
     lab_events.create!(date: DateTime.now,
                        state: lab_event_state || 'process_started',
                        receptacle: receptacle,
@@ -77,7 +78,7 @@ class Aliquot < ApplicationRecord
   end
 
   def destroy_sequencing_events
-    sequencing_events = lab_events.where(process_step: pipeline.find_process_step(:sequencing))
+    sequencing_events = lab_events.select { |lab_event| lab_event.name == 'sequencing' }
     lab_events.destroy(sequencing_events)
     last_lab_event_with_process_step.update_sequencescape
   end
