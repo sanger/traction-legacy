@@ -50,19 +50,22 @@ RSpec.describe WorkOrder, type: :model do
     expect(work_order.unique_name).to eq "#{work_order.id}:#{work_order.name}"
   end
 
-  xit 'it knows if it went through particular step' do
+  it 'it knows if it went through particular step' do
+    work_order = create :gridion_work_order_ready_for_sequencing
+    expect(work_order.went_through_step(:qc)).to eq true
+    expect(work_order.went_through_step(:sequencing)).to eq false
   end
 
-  xit 'can be sorted by aliquot next state' do
-  end
-
-  it 'can be sorted by pipeline and aliquot state' do
+  it 'can be sorted by pipeline and aliquot state/next_state' do
     gridion_work_orders = create_list(:gridion_work_order, 5)
     create_list(:gridion_work_order_ready_for_sequencing, 4)
     gridion = gridion_work_orders.first.pipeline
     other_work_orders = create_list(:work_order, 3)
     expect(WorkOrder.by_pipeline_and_aliquot_state(gridion).count).to eq 9
+    expect(WorkOrder.by_pipeline_and_aliquot_state(gridion, :reception).count).to eq 5
     expect(WorkOrder.by_pipeline_and_aliquot_state(other_work_orders.first.pipeline).count).to eq 3
+
+    expect(WorkOrder.by_pipeline_and_aliquot_next_state(gridion).count).to eq 9
     expect(WorkOrder.by_pipeline_and_aliquot_next_state(gridion, :sequencing).count).to eq 4
   end
 
