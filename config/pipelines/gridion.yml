@@ -1,0 +1,44 @@
+name: :grid_ion
+full_name: 'Gridion'
+flexible: false
+requirements:
+  - :number_of_flowcells
+  - :library_preparation_type
+  - :data_type
+process_steps:
+  reception:
+    visible: false
+    position: 1
+  qc:
+    visible: true
+    position: 2
+    metadata_fields:
+      concentration:
+        type: :integer
+        required: true
+      fragment_size:
+        type: :integer
+        required: true
+      state:
+        type: :options
+        required: true
+        options:
+          - :fail
+          - :proceed_at_risk
+          - :proceed
+  library_preparation:
+    visible: true
+    position: 3
+    metadata_fields:
+      volume:
+        type: :integer
+        required: true
+      kit_number:
+        type: :string
+        required: true
+      ligase_batch_number:
+        type: :string
+        required: false
+  sequencing:
+    visible: false
+    position: 4
