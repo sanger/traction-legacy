@@ -10,49 +10,81 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010091413) do
+ActiveRecord::Schema.define(version: 20171205141919) do
 
   create_table "aliquots", force: :cascade do |t|
     t.string "name"
-    t.integer "fragment_size"
-    t.decimal "concentration", precision: 18, scale: 8
-    t.integer "qc_state"
-    t.integer "tube_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tube_id"], name: "index_aliquots_on_tube_id"
-  end
-
-  create_table "events", force: :cascade do |t|
-    t.string "state_from"
-    t.string "state_to"
-    t.integer "work_order_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["work_order_id"], name: "index_events_on_work_order_id"
+    t.integer "parent_id"
+    t.index ["parent_id"], name: "index_aliquots_on_parent_id"
   end
 
   create_table "flowcells", force: :cascade do |t|
     t.string "flowcell_id"
     t.integer "position"
-    t.integer "sequencing_run_id"
+    t.integer "gridion_sequencing_run_id"
     t.integer "work_order_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["sequencing_run_id"], name: "index_flowcells_on_sequencing_run_id"
+    t.index ["gridion_sequencing_run_id"], name: "index_flowcells_on_gridion_sequencing_run_id"
     t.index ["work_order_id"], name: "index_flowcells_on_work_order_id"
   end
 
-  create_table "libraries", force: :cascade do |t|
-    t.string "kit_number"
-    t.string "ligase_batch_number"
-    t.decimal "volume", precision: 18, scale: 8
-    t.integer "work_order_id"
-    t.integer "tube_id"
+  create_table "gridion_sequencing_runs", force: :cascade do |t|
+    t.string "instrument_name"
+    t.integer "state", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tube_id"], name: "index_libraries_on_tube_id"
-    t.index ["work_order_id"], name: "index_libraries_on_work_order_id"
+    t.string "experiment_name"
+  end
+
+  create_table "lab_events", force: :cascade do |t|
+    t.datetime "date"
+    t.integer "receptacle_id"
+    t.integer "aliquot_id"
+    t.integer "state", default: 0
+    t.integer "process_step_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aliquot_id"], name: "index_lab_events_on_aliquot_id"
+    t.index ["process_step_id"], name: "index_lab_events_on_process_step_id"
+    t.index ["receptacle_id"], name: "index_lab_events_on_receptacle_id"
+  end
+
+  create_table "metadata_fields", force: :cascade do |t|
+    t.string "name"
+    t.boolean "required"
+    t.string "data_type"
+    t.integer "process_step_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["process_step_id"], name: "index_metadata_fields_on_process_step_id"
+  end
+
+  create_table "metadata_items", force: :cascade do |t|
+    t.string "value"
+    t.integer "metadata_field_id"
+    t.integer "lab_event_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["lab_event_id"], name: "index_metadata_items_on_lab_event_id"
+    t.index ["metadata_field_id"], name: "index_metadata_items_on_metadata_field_id"
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.string "name"
+    t.integer "metadata_field_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["metadata_field_id"], name: "index_options_on_metadata_field_id"
+  end
+
+  create_table "pipelines", force: :cascade do |t|
+    t.string "name"
+    t.boolean "flexible", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "printers", force: :cascade do |t|
@@ -61,26 +93,42 @@ ActiveRecord::Schema.define(version: 20171010091413) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "sequencing_runs", force: :cascade do |t|
-    t.string "instrument_name"
-    t.integer "state", default: 0
+  create_table "process_steps", force: :cascade do |t|
+    t.string "name"
+    t.integer "position"
+    t.integer "pipeline_id"
+    t.boolean "visible", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "experiment_name"
+    t.index ["pipeline_id"], name: "index_process_steps_on_pipeline_id"
   end
 
-  create_table "tubes", force: :cascade do |t|
+  create_table "receptacles", force: :cascade do |t|
     t.string "barcode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
+  create_table "requirements", force: :cascade do |t|
+    t.string "name"
+    t.integer "pipeline_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pipeline_id"], name: "index_requirements_on_pipeline_id"
+  end
+
+  create_table "work_order_requirements", force: :cascade do |t|
+    t.string "value"
+    t.integer "requirement_id"
+    t.integer "work_order_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["requirement_id"], name: "index_work_order_requirements_on_requirement_id"
+    t.index ["work_order_id"], name: "index_work_order_requirements_on_work_order_id"
+  end
+
   create_table "work_orders", force: :cascade do |t|
-    t.integer "state", default: 0
     t.string "sequencescape_id"
-    t.integer "number_of_flowcells"
-    t.string "library_preparation_type"
-    t.string "data_type"
     t.string "study_uuid"
     t.string "sample_uuid"
     t.integer "aliquot_id"

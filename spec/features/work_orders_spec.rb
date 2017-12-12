@@ -5,75 +5,81 @@ require 'rails_helper'
 RSpec.feature 'WorkOrders', type: :feature do
   include SequencescapeWebmockStubs
 
-  let!(:work_orders)  { create_list(:work_order, 5) }
-  let!(:work_order)   { work_orders.first }
+  before(:all) do
+    create :gridion_pipeline
+  end
 
-  scenario 'Successfully QC a work order' do
+  let!(:work_orders)  { create_list(:gridion_work_order, 5) }
+  let!(:work_order)   { work_orders.first }
+  let!(:pipeline) { Pipeline.first }
+  let!(:qc) { pipeline.find_process_step('qc') }
+  let!(:library_preparation) { pipeline.find_process_step('library_preparation') }
+
+  scenario 'Successfully QC and lib prep a work order' do
     stub_updates
 
-    aliquot = build(:aliquot_proceed)
-
-    visit qcs_path
+    visit pipeline_work_orders_path(pipeline)
+    click_on 'Qc'
 
     within("#work_order_#{work_order.id}") do
       click_link 'qc'
     end
 
-    fill_in 'Concentration', with: aliquot.concentration
-    fill_in 'Fragment size', with: aliquot.fragment_size
-    select aliquot.qc_state, from: 'QC state'
-    click_button 'Update Work order'
+    fill_in 'metadata_items_attributes[concentration]', with: '2.0'
+    fill_in 'metadata_items_attributes[fragment_size]', with: '150'
+    select 'proceed', from: 'metadata_items_attributes[qc_state]'
+    click_on 'Create Lab event'
 
-    expect(page).to have_content('Work Order successfully updated')
+    expect(page).to have_content('qc step was successfully recorded')
+
+    within("#work_order_#{work_order.id}") do
+      click_link 'library_preparation'
+    end
+
+    fill_in 'metadata_items_attributes[volume]', with: '10'
+    fill_in 'metadata_items_attributes[kit_number]', with: '123'
+    click_on 'Create Lab event'
+
+    expect(page).to have_content('library_preparation step was successfully recorded')
   end
 
   scenario 'QC a work order with invalid attributes' do
-    aliquot = build(:aliquot_proceed)
-
-    visit work_orders_path
+    visit pipeline_work_orders_path(pipeline)
+    click_on 'Qc'
 
     within("#work_order_#{work_order.id}") do
       click_link 'qc'
     end
 
-    fill_in 'Concentration', with: aliquot.concentration
-    select aliquot.qc_state, from: 'QC state'
-    click_button 'Update Work order'
-
+    fill_in 'metadata_items_attributes[concentration]', with: '2.0'
+    select 'proceed', from: 'metadata_items_attributes[qc_state]'
+    click_on 'Create Lab event'
     expect(page.text).to match('error prohibited this record from being saved')
   end
 
-  scenario 'Successful Library preparation' do
+  scenario 'Invalid Library preparation' do
     stub_updates
 
-    work_order.qc!
-    library = build(:library)
-
-    visit library_preparations_path
+    visit pipeline_work_orders_path(pipeline)
+    click_on 'Qc'
 
     within("#work_order_#{work_order.id}") do
-      click_link 'library preparation'
+      click_link 'qc'
     end
 
-    fill_in 'Volume', with: library.volume
-    fill_in 'Kit number', with: library.kit_number
-    click_button 'Update Work order'
+    fill_in 'metadata_items_attributes[concentration]', with: '2.0'
+    fill_in 'metadata_items_attributes[fragment_size]', with: '150'
+    select 'proceed', from: 'metadata_items_attributes[qc_state]'
+    click_on 'Create Lab event'
 
-    expect(page).to have_content('Work Order successfully updated')
-  end
-
-  scenario 'Invalid Library preparation' do
-    work_order.qc!
-    library = build(:library)
-
-    visit work_orders_path
+    expect(page).to have_content('qc step was successfully recorded')
 
     within("#work_order_#{work_order.id}") do
-      click_link 'library preparation'
+      click_link 'library_preparation'
     end
 
-    fill_in 'Volume', with: library.volume
-    click_button 'Update Work order'
+    fill_in 'metadata_items_attributes[volume]', with: '10'
+    click_on 'Create Lab event'
 
     expect(page.text).to match('error prohibited this record from being saved')
   end

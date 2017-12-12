@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe LabelPrinter::PrintJob, type: :model do
-  let!(:work_orders)    { create_list(:work_order, 5) }
+  let!(:work_orders)    { create_list(:gridion_work_order, 5) }
   let(:work_order_ids)  { work_orders.collect(&:id) }
   let(:printer)         { build(:printer) }
   let(:attributes)      do

@@ -1,6 +1,6 @@
 development: &DEV
   api_base: http://localhost:3002/v1
-  labe_template_id: 112
+  label_template_id: 112
 
 staging:
   <<: *DEV

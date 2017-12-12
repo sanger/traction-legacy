@@ -8,7 +8,7 @@ module Messages
 
     alias flowcell resource
 
-    # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:disable Metrics/AbcSize
     # While we could look at a DSL to help DRY this out slightly
     # and solve Rubocop's issues, at this stage this feels like
     # an overall *increase* in complexity, especially as we
@@ -26,6 +26,6 @@ module Messages
         requested_data_type: flowcell.data_type
       }
     end
-    # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
+    # rubocop:enable Metrics/AbcSize
   end
 end

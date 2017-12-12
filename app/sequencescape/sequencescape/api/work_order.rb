@@ -8,9 +8,9 @@ module Sequencescape
       has_one :source_receptacle
       has_one :study
 
-      def self.for_reception
+      def self.for_reception(pipeline)
         includes(:source_receptacle)
-          .where(order_type: 'traction_grid_ion', state: 'pending')
+          .where(order_type: "traction_#{pipeline.name}", state: 'pending')
           .all
       end
 
@@ -22,9 +22,9 @@ module Sequencescape
         where(id: id).all.try(:first)
       end
 
-      def self.update_state(work_order)
+      def self.update_state(work_order, state = nil)
         sequencescape_work_order = find_by_id(work_order.sequencescape_id)
-        sequencescape_work_order.update_attributes(state: work_order.state)
+        sequencescape_work_order.update_attributes(state: (state || work_order.aliquot_state))
       end
 
       def name

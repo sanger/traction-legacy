@@ -5,46 +5,30 @@
       <strong>created at: </strong><%= work_order.created_at.to_s(:default) %>
     </li>
     <li>
-      <strong>state: </strong><%= work_order.state %>
+      <strong>state: </strong><%= work_order.aliquot_state %>
     </li>
     <li>
-      <strong>barcode: </strong><%= work_order.aliquot.tube.barcode %>
+      <strong>barcode: </strong><%= work_order.aliquot.receptacle_barcode %>
     </li>
-    <li>
-      <strong>library preparation type: </strong><%= work_order.library_preparation_type %>
-    </li>
-    <li>
-      <strong>data type: </strong><%= work_order.data_type %>
-    </li>
-    <li>
-      <strong>number of flowcells: </strong><%= work_order.number_of_flowcells %>
-    </li>
+    <% work_order.details.to_h.each do |key, value|%>
+      <li>
+        <strong><%= "#{key}: "%> </strong><%= value %>
+      </li>
+    <% end %>
   </ul>
-  <h4>QC</h4>
-  <ul>
-    <li>
-      <strong>concentration: </strong><%= work_order.aliquot.concentration %>
-    </li>
-    <li>
-      <strong>fragment size: </strong><%= work_order.aliquot.fragment_size %>
-    </li>
-    <li>
-      <strong>state: </strong><%= work_order.aliquot.qc_state %>
-    </li>
-  </ul>
-  <% unless work_order.library.nil? %>
-    <h4>Library</h4>
+
+  <% work_order.lab_events.each do |lab_event|%>
+    <h4><%= "#{lab_event.state.capitalize.humanize}: #{lab_event.name || lab_event.receptacle.barcode}"%></h4>
     <ul>
-      <li>
-        <strong>volume: </strong><%= work_order.library.volume %>
-      </li>
-      <li>
-        <strong>kit number: </strong><%= work_order.library.kit_number %>
-      </li>
-      <li>
-        <strong>ligase batch number: </strong><%= work_order.library.ligase_batch_number %>
-      </li>
+      <% unless lab_event.metadata.empty?%>
+        <%lab_event.metadata.each do |key, value|%>
+          <li>
+            <strong><%= "#{key}: "%> </strong><%= value %>
+          </li>
+        <% end %>
+        <br>
+        <%= link_to "Edit #{lab_event.name} step", edit_pipeline_work_order_lab_event_path(pipeline, work_order, lab_event), { class: 'btn btn-primary btn-large', role: 'button' }%>
+      <% end %>
     </ul>
   <% end %>
-
 </section>

@@ -3,63 +3,59 @@
 # WorkOrder
 class WorkOrder < ApplicationRecord
   belongs_to :aliquot
-  has_one :library
-  has_many :events
-  has_many :flowcells, inverse_of: :work_order
 
-  enum state: %i[started qc library_preparation sequencing completed]
+  has_many :work_order_requirements
 
-  attr_readonly :sequencescape_id, :library_preparation_type, :data_type,
-                :number_of_flowcells, :study_uuid, :sample_uuid
+  attr_readonly :sequencescape_id, :study_uuid, :sample_uuid
 
-  validates_presence_of :sequencescape_id, :library_preparation_type,
-                        :data_type, :number_of_flowcells,
-                        :study_uuid, :sample_uuid
+  validates_presence_of :sequencescape_id, :study_uuid, :sample_uuid
 
-  accepts_nested_attributes_for :aliquot, :library
+  accepts_nested_attributes_for :aliquot, :work_order_requirements
 
-  delegate :name, :tube_barcode, :source_plate_barcode,
-           :source_well_position, :short_source_plate_barcode, to: :aliquot
+  delegate_missing_to :aliquot
+  delegate :state, :next_state, to: :aliquot, prefix: true
 
-  scope :by_state, (->(state) { where(state: WorkOrder.states[state.to_s]) })
   scope :by_date, (-> { order(created_at: :desc) })
 
-  before_save :add_event
-  after_touch :back_to_library_preparation, if: :removed_from_sequencing?
-
-  def next_state
-    WorkOrder.states.key(WorkOrder.states[state] + 1)
+  # returns an array of work_orders in particular state within pipeline
+  def self.by_pipeline_and_aliquot_state(pipeline, aliquot_state = nil)
+    all_work_orders_in_pipeline = work_orders_in_pipeline(pipeline)
+    if aliquot_state.present?
+      all_work_orders_in_pipeline.select { |work_order| work_order.aliquot_state == aliquot_state.to_s }
+    else
+      all_work_orders_in_pipeline
+    end
   end
 
-  def library?
-    library.present?
+  # returns an array of work_orders with particular next state within pipeline
+  def self.by_pipeline_and_aliquot_next_state(pipeline, aliquot_next_state = nil)
+    all_work_orders_in_pipeline = work_orders_in_pipeline(pipeline)
+    if aliquot_next_state.present?
+      all_work_orders_in_pipeline.select { |work_order| work_order.aliquot_next_state == aliquot_next_state.to_s }
+    else
+      all_work_orders_in_pipeline
+    end
   end
 
-  def editable?
-    started? || qc?
-  end
-
-  def assign_state(state)
-    assign_attributes(state: WorkOrder.states[state.to_s])
+  # returns an array of all work_orders within pipeline
+  def self.work_orders_in_pipeline(pipeline)
+    select { |work_order| work_order.pipeline == pipeline }
   end
 
   def unique_name
     "#{id}:#{name}"
   end
 
-  private
-
-  def add_event
-    events.build(state_from: 'none', state_to: state) if new_record?
-    events.build(state_from: state_was, state_to: state) if state_changed?
+  # this is work_order requirements
+  # they are different for different pipelines
+  # OpenStruct is used to be able to call a method with requirement name
+  # example work_order.details.number_of_flowcells
+  # TODO think about refactoring it
+  def details
+    @details ||= OpenStruct.new(work_order_requirements.collect(&:to_h).inject(:merge!))
   end
 
-  def back_to_library_preparation
-    library_preparation!
-    Sequencescape::Api::WorkOrder.update_state(self)
-  end
-
-  def removed_from_sequencing?
-    sequencing? && flowcells.empty?
+  def went_through_step(step_name)
+    aliquot.lab_event?(step_name)
   end
 end

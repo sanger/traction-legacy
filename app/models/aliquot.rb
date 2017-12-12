@@ -1,21 +1,14 @@
 # frozen_string_literal: true
 
 # Aliquot
+# aliquot is a 'liquid' to be sequenced
+# it goes through various lab_events up to sequencing
 class Aliquot < ApplicationRecord
-  belongs_to :tube
   has_one :work_order
-
-  enum qc_state: %i[fail proceed_at_risk proceed]
+  has_many :lab_events
+  belongs_to :parent, class_name: 'Aliquot', optional: true
 
   validates_presence_of :name
-
-  delegate :barcode, to: :tube, prefix: true
-
-  include TubeBuilder
-
-  def self.find_by_work_orders_ids(work_orders_ids)
-    joins(:work_order).where(work_orders: { id: work_orders_ids })
-  end
 
   def source_plate_barcode
     name.split(':').first
@@ -27,5 +20,66 @@ class Aliquot < ApplicationRecord
 
   def short_source_plate_barcode
     source_plate_barcode.split(//).last(4).join
+  end
+
+  # returns current process_step (collects all process_steps and returns the last one)
+  def current_process_step
+    lab_events.collect { |lab_event| lab_event.process_step if lab_event.process_step.present? }.compact.last
+  end
+
+  # returns current process step name, which is also an aliquot current state
+  def current_process_step_name
+    current_process_step.try(:name)
+  end
+  alias state current_process_step_name
+
+  # returns the last lab_event with process step
+  def last_lab_event_with_process_step
+    lab_events.collect { |lab_event| lab_event if lab_event.process_step.present? }.compact.last
+  end
+
+  # returns state of the last lab event (i.e. 'process_started', 'completed', etc.)
+  # TODO rename
+  def action
+    last_lab_event_with_process_step.state
+  end
+
+  # returns next process_step name, which is also an aliquot next state
+  def next_process_step_name
+    pipeline.next_process_step(current_process_step).try(:name)
+  end
+  alias next_state next_process_step_name
+
+  # TODO: connect work_order or aliquot with pipeline?
+  def pipeline
+    current_process_step.pipeline
+  end
+
+  # checks if aliquot has a lab_event with particular process step
+  def lab_event?(step_name)
+    lab_events.detect { |lab_event| lab_event.name == step_name.to_s }.present?
+  end
+
+  def receptacle
+    lab_events.last.receptacle
+  end
+
+  def receptacle_barcode
+    receptacle.barcode
+  end
+
+  # TODO: create(destroy) lab events from one place
+
+  def create_sequencing_event(lab_event_state = nil)
+    lab_events.create!(date: DateTime.now,
+                       state: lab_event_state || 'process_started',
+                       receptacle: receptacle,
+                       process_step: pipeline.find_process_step(:sequencing))
+  end
+
+  def destroy_sequencing_events
+    sequencing_events = lab_events.select { |lab_event| lab_event.name == 'sequencing' }
+    lab_events.destroy(sequencing_events)
+    last_lab_event_with_process_step.update_sequencescape
   end
 end

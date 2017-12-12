@@ -4,18 +4,20 @@ require 'rails_helper'
 
 RSpec.describe WorkOrderFlowcellAggregator, type: :model do
   let!(:work_orders_with_no_flowcells) do
-    create_list(:work_order_for_sequencing, 2,
+    create_list(:gridion_work_order_ready_for_sequencing, 2,
                 number_of_flowcells: 3)
   end
 
   let!(:work_order_with_some_flowcells_1) do
-    create(:work_order_for_sequencing,
-           number_of_flowcells: 3, flowcells: build_list(:flowcell, 2))
+    work_order = create(:gridion_work_order, number_of_flowcells: 3)
+    create_list(:flowcell, 2, work_order: work_order)
+    work_order
   end
 
   let!(:work_order_with_some_flowcells_2) do
-    create(:work_order_for_sequencing,
-           number_of_flowcells: 3, flowcells: build_list(:flowcell, 2))
+    work_order = create(:gridion_work_order, number_of_flowcells: 3)
+    create_list(:flowcell, 2, work_order: work_order)
+    work_order
   end
 
   it 'is valid if number of flowcells for each work order is within limit' do

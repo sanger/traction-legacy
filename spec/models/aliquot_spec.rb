@@ -3,36 +3,9 @@
 require 'rails_helper'
 
 RSpec.describe Aliquot, type: :model do
-  it 'can have a concentration' do
-    expect(build(:aliquot, concentration: 0.003).concentration).to eq(0.003)
-  end
-
-  it 'can have a fragment size' do
-    expect(build(:aliquot, fragment_size: 300).fragment_size).to eq(300)
-  end
-
-  it 'can have a qc state' do
-    aliquot = build(:aliquot)
-    expect(aliquot.qc_state).to be_nil
-
-    aliquot.fail!
-    expect(aliquot.qc_state).to eq('fail')
-
-    aliquot.proceed_at_risk!
-    expect(aliquot.qc_state).to eq('proceed_at_risk')
-
-    aliquot.proceed!
-    expect(aliquot.qc_state).to eq('proceed')
-  end
-
-  it 'must have a tube' do
-    aliquot = create(:aliquot)
-    tube = aliquot.tube
-    expect(aliquot.tube).to be_present
-    expect(aliquot.tube.barcode).to be_present
-
-    found_aliquot = Aliquot.find(aliquot.id)
-    expect(found_aliquot.tube).to eq(tube)
+  include SequencescapeWebmockStubs
+  before(:all) do
+    create :gridion_pipeline
   end
 
   it 'is not valid without a name' do
@@ -52,5 +25,59 @@ RSpec.describe Aliquot, type: :model do
   it 'can have a short_source_plate_barcode' do
     aliquot = build(:aliquot, name: 'DN491410A:A1')
     expect(aliquot.short_source_plate_barcode).to eq('410A')
+  end
+
+  it 'knows its current process' do
+    aliquot = create :aliquot
+    expect(aliquot.current_process_step_name).to eq nil
+    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'reception'),
+                               receptacle: (create :receptacle))
+    aliquot.lab_events.create!(receptacle: (create :receptacle))
+    expect(aliquot.current_process_step_name).to eq 'reception'
+  end
+
+  it 'knows its next process name' do
+    aliquot = create :gridion_aliquot_started
+    expect(aliquot.next_process_step_name).to eq 'qc'
+    aliquot.lab_events.create!(process_step: ProcessStep.find_by(name: 'qc'),
+                               receptacle: (create :receptacle))
+    aliquot.lab_events.create!(receptacle: (create :receptacle))
+    expect(aliquot.next_process_step_name).to eq 'library_preparation'
+  end
+
+  it 'creates/destroys lab events related to sequencing when required' do
+    stub_updates
+    work_order = create :gridion_work_order_ready_for_sequencing
+    aliquot = work_order.aliquot
+    lab_events_count = aliquot.lab_events.count
+    aliquot.create_sequencing_event
+    expect(aliquot.lab_events.count).to eq lab_events_count + 1
+    expect(aliquot.state).to eq 'sequencing'
+    aliquot.create_sequencing_event(:completed)
+    expect(aliquot.lab_events.count).to eq lab_events_count + 2
+    expect(aliquot.state).to eq 'sequencing'
+    expect(aliquot.action).to eq 'completed'
+    aliquot.destroy_sequencing_events
+    expect(aliquot.lab_events.count).to eq lab_events_count
+    expect(aliquot.state).to eq 'library_preparation'
+  end
+
+  it 'it knows if it has particular lab event' do
+    aliquot = create :gridion_aliquot_after_library_preparation
+    expect(aliquot.lab_event?(:qc)).to eq true
+    expect(aliquot.lab_event?(:shearing)).to eq false
+  end
+
+  it 'it knows its last lab event with process step' do
+    aliquot = create :gridion_aliquot_after_library_preparation
+    lab_event = aliquot.lab_events.last
+    expect(aliquot.last_lab_event_with_process_step).to eq lab_event
+  end
+
+  it 'knows its receptacle' do
+    aliquot = create :gridion_aliquot_started
+    receptacle = create :receptacle
+    create :lab_event, receptacle: receptacle, aliquot: aliquot
+    expect(aliquot.receptacle).to eq receptacle
   end
 end

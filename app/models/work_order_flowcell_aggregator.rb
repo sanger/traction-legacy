@@ -38,13 +38,13 @@ class WorkOrderFlowcellAggregator
   def assign_flowcells(flowcell, id)
     [].tap do |flowcells|
       flowcells << flowcell
-      flowcells << work_orders[id].flowcells.to_a
+      flowcells << Flowcell.where(work_order: work_orders[id]).to_a
     end
   end
 
   def check_flowcell_count
     work_orders.each do |_key, work_order|
-      these_flowcells = work_order.number_of_flowcells
+      these_flowcells = work_order.details.number_of_flowcells.to_i
       them_flowcells = work_orders_by_flowcell[work_order.id].length
       next unless these_flowcells < them_flowcells
       errors.add(:work_order, "#{work_order.name} has more flowcells (#{them_flowcells}) "\

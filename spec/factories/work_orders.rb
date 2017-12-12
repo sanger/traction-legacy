@@ -2,32 +2,44 @@
 
 FactoryGirl.define do
   factory :work_order do
-    aliquot
+    aliquot { create :aliquot_started }
 
     sequence(:sequencescape_id)
-    library_preparation_type 'rapid'
-    data_type 'basecalls'
-    number_of_flowcells 3
     study_uuid { SecureRandom.uuid }
     sample_uuid { SecureRandom.uuid }
 
-    factory :work_order_with_qc_fail do
-      aliquot { build(:aliquot_fail) }
-      after(:create, &:qc!)
-    end
+    factory :gridion_work_order do
+      aliquot { create(:gridion_aliquot_started) }
 
-    factory :work_order_for_library_preparation do
-      aliquot { build(:aliquot_proceed) }
-      after(:create, &:qc!)
-    end
+      transient do
+        number_of_flowcells 3
+        library_preparation_type 'rapid'
+        data_type 'data_type'
+      end
 
-    factory :work_order_for_sequencing do
-      aliquot { create(:aliquot_proceed) }
-      library
-      after(:create, &:library_preparation!)
+      after(:create) do |work_order, evaluator|
+        pipeline = work_order.aliquot.pipeline
 
-      factory :work_order_in_sequencing_run do
-        after(:create, &:sequencing!)
+        number_of_flowcells = pipeline.requirements.find_by(name: 'number_of_flowcells')
+        library_preparation_type = pipeline.requirements.find_by(name: 'library_preparation_type')
+        data_type = pipeline.requirements.find_by(name: 'data_type')
+
+        create :work_order_requirement, requirement: number_of_flowcells,
+                                        work_order: work_order,
+                                        value: evaluator.number_of_flowcells
+        create :work_order_requirement, requirement: library_preparation_type,
+                                        work_order: work_order,
+                                        value: evaluator.library_preparation_type
+        create :work_order_requirement, requirement: data_type,
+                                        work_order: work_order,
+                                        value: evaluator.data_type
+      end
+
+      factory :gridion_work_order_ready_for_library_preparation do
+        aliquot { create(:gridion_aliquot_after_qc) }
+      end
+      factory :gridion_work_order_ready_for_sequencing do
+        aliquot { create(:gridion_aliquot_after_library_preparation) }
       end
     end
   end

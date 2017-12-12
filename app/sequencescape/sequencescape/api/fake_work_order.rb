@@ -5,7 +5,7 @@ module Sequencescape
     # this class is used if sequencescape connection is disabled
     # see config/initializers/sequencescape_api.rb and config/sequencescape.yml
     class FakeWorkOrder
-      def self.for_reception
+      def self.for_reception(_pipeline)
         []
       end
 
@@ -13,7 +13,7 @@ module Sequencescape
         []
       end
 
-      def self.update_state(_work_order)
+      def self.update_state(_work_order, _state = nil)
         true
       end
     end

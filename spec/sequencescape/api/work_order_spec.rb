@@ -6,8 +6,9 @@ RSpec.describe Sequencescape::Api::WorkOrder, type: :model do
   include SequencescapeWebmockStubs
 
   it 'should request for pending work orders from Sequencescape' do
+    create :gridion_pipeline
     stub_reception = stub :reception
-    Sequencescape::Api::WorkOrder.for_reception
+    Sequencescape::Api::WorkOrder.for_reception(Pipeline.first)
     assert_requested(stub_reception)
   end
 
@@ -24,6 +25,24 @@ RSpec.describe Sequencescape::Api::WorkOrder, type: :model do
     Sequencescape::Api::WorkOrder.update_state(work_order)
     assert_requested(stub_find_by_id)
     assert_requested(stub_update_attributes)
+  end
+
+  it 'knows what state to use to update sequencescape' do
+    work_order = create :work_order
+    stub :find_by_id
+    stub_updates
+    # id and url are from stub (spec/data/sequencescape/find_by_id.json),
+    # work_order id is always 6
+    # the important bit is "attributes":{"state":"reception"}
+    Sequencescape::Api::WorkOrder.update_state(work_order)
+    assert_requested(:patch, 'http://localhost:3000/api/v2/work_orders/6',
+                     body: '{"data":{"id":"6","type":"work_orders","attributes":{"state":"reception"}}}',
+                     times: 1)
+    Sequencescape::Api::WorkOrder.update_state(work_order, 'completed')
+    # the important bit is "attributes":{"state":"completed"}
+    assert_requested(:patch, 'http://localhost:3000/api/v2/work_orders/6',
+                     body: '{"data":{"id":"6","type":"work_orders","attributes":{"state":"completed"}}}',
+                     times: 1)
   end
 
   after do
