@@ -1,6 +1,7 @@
 <%= render "error_messages", target: @lab_event %>
 
 <%= form_for [pipeline, @work_order, @lab_event] do |f| %>
+  <h2>Work Order - <%= @work_order.name %></h2>
   <%@process_step.metadata_fields.each do |field|%>
     <div class="form-group" >
       <%=label_tag field.name%>

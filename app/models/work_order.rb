@@ -12,8 +12,7 @@ class WorkOrder < ApplicationRecord
 
   accepts_nested_attributes_for :aliquot, :work_order_requirements
 
-  delegate :name, :source_plate_barcode, :source_well_position, :action, :pipeline,
-           :short_source_plate_barcode, :receptacle_barcode, :lab_events, to: :aliquot
+  delegate_missing_to :aliquot
   delegate :state, :next_state, to: :aliquot, prefix: true
 
   scope :by_date, (-> { order(created_at: :desc) })
