@@ -1,8 +1,16 @@
-ont_gridion:
+grid_ion:
   name: 'Gridion'
-  process_templates:
+  flexible: false
+  requirements:
+    - :number_of_flowcells
+    - :library_preparation_type
+    - :data_type
+  process_steps:
+    reception:
+      visible: false
     qc:
-      metadatum_fields:
+      visible: true
+      metadata_fields:
         concentration:
           type: :integer
           required: true
@@ -17,7 +25,7 @@ ont_gridion:
             - :proceed_at_risk
             - :proceed
     library_preparation:
-      metadatum_fields:
+      metadata_fields:
         volume:
           type: :integer
           required: true
@@ -27,81 +35,5 @@ ont_gridion:
         ligase_batch_number:
           type: :string
           required: false
-pacbio_sequel:
-  name: 'Pacbio Sequel'
-  process_templates:
-    qc:
-      metadatum_fields:
-        state:
-          type: :options
-          options:
-            - :fail
-            - :proceed
-        concentration:
-          type: :integer
-    shearing:
-      metadatum_fields:
-        needle_shear_passes:
-          type: :integer
-    sheared_dna_qc:
-      metadatum_fields:
-        state:
-          type: :options
-          options:
-            - :fail
-            - :proceed
-        concentration:
-          type: :integer
-    sheared_dna_clean_up:
-      new_tube: true
-    clean_dna_qc:
-      metadatum_fields:
-        state:
-          type: :options
-          options:
-            - :fail
-            - :proceed
-        concentration:
-          type: :integer
-      store_excess: true
-    library_creation:
-      new_tube: true
-    smrt_bell_qc:
-      metadatum_fields:
-        state:
-          type: :options
-          options:
-            - :fail
-            - :proceed
-        concentration:
-          type: :integer
-    blue_pippin_size_selection:
-      metadatum_fields:
-        fragment_size:
-          type: :integer
-    ss_smrt_bells_clean_up:
-      new_tube: true
-    damage_repair:
-    ss_smrt_bells_qc:
-      metadatum_fields:
-        state:
-          type: :options
-          options:
-            - :fail
-            - :proceed
-        concentration:
-          type: :integer
-    clean_dna_qc:
-      metadatum_fields:
-        state:
-          type: :options
-          options:
-            - :fail
-            - :proceed
-        concentration:
-          type: :integer
-    anneal_bind_mag_bead:
-      new_tube: true
-    complex_clean_up:
-      new_tube: true
-
+    sequencing:
+      visible: false
